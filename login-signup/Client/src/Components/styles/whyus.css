@@ -1,0 +1,131 @@
+/* App.css */
+.why-us-section {
+    padding: 40px;
+}
+
+.why-us-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.top-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 60px;
+}
+
+.why-us-title {
+    color: #4c6ef5;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+h1.heading{
+    font-size: 36px;
+}
+
+p.sub-heading{
+    color: rgb(83, 83, 83);
+}
+
+.learn-more-button {
+    background-color: #01073be1;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.learn-more-button:hover{
+    background-color: #4c6ef5;
+}
+
+.bottom-content {
+    display: flex;
+    gap: 40px;
+}
+
+.rating-card {
+    background-color: #01073be1;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+}
+
+.rating {
+    display: flex;
+    flex-direction: column; /* Change to column */
+    align-items: center; /* Center horizontally */
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.rating h1 {
+    font-size: 3em;
+    margin-right: 0; /* Remove right margin */
+    margin-bottom: 5px; /* Add bottom margin for spacing */
+}
+
+.out-of {
+    font-size: 1em;
+    vertical-align: sub;
+}
+
+.stars {
+    color: gold;
+    font-size: 1.2em;
+}
+
+.user-info img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.features-list {
+    flex: 1; /* Take remaining space */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.feature-item {
+    background-color: #f0f0f0;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.feature-item:hover { 
+    background-color: #1d299be1;
+    color: white;
+}
+
+.feature-number {
+    background-color: #4c6ef5;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+.arrow-icon{
+    color: #4c6ef5;
+}
+
+p.sub-header{
+    color: grey;
+}
+
+.feature-item.active .arrow-icon{
+    color: white;
+}

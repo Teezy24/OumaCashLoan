@@ -1,0 +1,112 @@
+/* App.css */
+.footer {
+    background-color: #01073be1; /* Dark blue background */
+    color: white;
+    padding: 40px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 20px;
+}
+
+.footer-section {
+    text-align: left;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section li {
+    margin-bottom: 5px;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+}
+.contact p{
+    margin-bottom: 5px;
+}
+
+.newsletter-form {
+    display: flex;
+}
+
+.newsletter-form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px; /* Rounded left corners */
+    flex-grow: 1; /* Allow input to take up space */
+}
+
+.newsletter-form button {
+    background-color: #01073be1;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 0 5px 5px 0; /* Rounded right corners */
+    cursor: pointer;
+}
+
+.newsletter-form button:hover{
+    background-color: #4c6ef5;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 1.5em;
+}
+
+.social-icons a {
+    color: white;
+}
+
+.copyright{
+    margin-top: 20px;
+}
+
+hr.under-border-1{
+    border: 1px solid #ccc;
+    margin-top: 8%;
+}
+
+hr.under-border-2{
+    border: 1px solid #ccc;
+    margin-top: 9.1%;
+}
+
+hr.under-border-3{
+    border: 1px solid #ccc;
+    margin-top: 3%;
+}
+
+hr.under-border-4{
+    border: 1px solid #ccc;
+    margin-top: 15.5%;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr; /* 1 column on small screens */
+    }
+}

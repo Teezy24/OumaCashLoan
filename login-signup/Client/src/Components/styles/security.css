@@ -1,0 +1,68 @@
+/* App.css */
+.security-privacy {
+    background-color: #01073be1; /* Dark blue background */
+    color: white;
+    padding: 40px;
+}
+
+.security-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.top-section {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+p.section-title {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.left-side {
+    flex: 1;
+    text-align: left;
+}
+
+h1.heading{
+    font-size: 24px;
+}
+
+.arrow-icon{
+    margin-bottom: 10px; /* Add margin below the icon */
+    color: #4c6ef5;
+    font-size: 2em;
+}
+
+.video-placeholder {
+    background-color: #f0f0f0; /* Light gray placeholder */
+    height: 400px; /* Adjust height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+    font-size: 2em;
+}
+.video-icon{
+    padding: 20px;
+    font-size: 2em;
+}
+@media (max-width: 768px){
+    .main-content{
+        flex-direction: column;
+    }
+    .right-side{
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+}

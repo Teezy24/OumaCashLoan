@@ -1,0 +1,96 @@
+/* App.css */
+.our-services-section {
+    padding: 40px;
+    background-color: #c6b8fa; /* Light background color */
+}
+
+.our-services-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left; /* Align text to the left */
+}
+
+.our-services-header {
+    margin-bottom: 40px;
+}
+
+.our-services-header p {
+    color: #4c6ef5; /* Blue text color for "OUR SERVICES" */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.our-services-header h1 {
+    font-size: 2em;
+    line-height: 1.2; /* Adjust line height */
+    margin-bottom: 20px;
+}
+
+p.sub-header {
+    color: #5a5a5a; /* Grayish text color */
+    margin-bottom: 30px;
+}
+
+.see-all-services {
+    background-color: #01073be1; /* Dark background color for the button */
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.see-all-services:hover{
+    background-color: #4c6ef5;
+}
+
+.service-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 20px;
+}
+
+.service-card {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 220px; /* Set a fixed height */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+}
+
+.service-card:hover{
+    background-color: #6e31cf;
+    color: white;
+}
+
+.right-side{
+    padding-left: 80%;
+}
+
+.service-card h3:hover {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.card-icon{
+    color: #af79ec;
+}
+
+.service-card p {
+    flex-grow: 1; /* Allow the paragraph to take up available space */
+    line-height: 1.4;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .service-cards {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .service-cards {
+        grid-template-columns: 1fr; /* 1 column on small screens */
+    }
+}

@@ -1,0 +1,123 @@
+/* App.css */
+.app {
+    font-family: sans-serif; /* Choose your font */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the app takes up full viewport height */
+  }
+  
+  .header {
+    background-color: white;
+    padding: 20px;
+    border-bottom: 1px solid #eee; /* Light border */
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Set a max width for larger screens */
+    margin: 0 auto;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo img {
+    height: 50px; /* Adjust as needed */
+    margin-bottom: 2.5%;
+  }
+  
+  .nav {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  .nav a:hover{
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  .get-started-btn {
+    background-color: #01073be1; /* Example blue color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .get-started-btn:hover{
+    background-color: #4c6ef5;
+  }
+
+  .get-started-btn-main:hover{
+    background-color: #4c6ef5;
+  }
+
+  .main {
+    background-color: #004085; /* Darker blue background */
+    flex-grow: 1; /* Allow main to take up available space */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center;
+    color: white; /* White text color */
+  }
+  
+  .main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px; /* Add padding */
+    padding-right: 30%;
+  }
+  
+  .welcome-text {
+    text-align: left;
+    padding-left: 0%;
+    margin-right: 15px;
+  }
+  .welcome-text img{
+      height: 30px;
+      margin-bottom: 20px;
+  }
+  
+  .welcome-text h1 {
+    margin: 0;
+    font-size: 3em;
+    line-height: 1.2;
+  }
+  .get-started-btn-main{
+      background-color: #01073be1;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 50%;
+  }
+  
+  .building-icon {
+      width: 200px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      padding: 8%;
+      position: absolute;
+      top: 200;
+      left: 50;
+      padding-left: 35%;
+  }
+  
+  

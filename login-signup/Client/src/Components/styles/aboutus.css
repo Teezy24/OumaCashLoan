@@ -1,0 +1,140 @@
+/* App.css */
+.about-us {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: row; /* Changed to row */
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Spacing between left and right containers */
+}
+
+.left-container {
+    background-color: white;
+    flex: 1; /* Takes up available space */
+}
+
+.right-container {
+    background-color: white;
+    flex: 1; /* Takes up available space */
+}
+
+/* ... rest of your CSS (text-blocks, powered-by, etc.) */
+
+.text-blocks p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.powered-by {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.igig-logo img {
+    width: 100px;
+    height: auto;
+}
+
+.currency-image img{
+    width: 100px;
+    height: auto;
+}
+
+/* Styles for the new features container */
+.features-container {
+    width: 100%; /* Take full width */
+    text-align: center; /* Center the heading */
+}
+
+.features-heading {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-features {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Reduced gap between icon and text */
+    text-align: center; /* Align text to the left */
+    width: 100%; /* Make features take full width */
+    justify-content: center; /* Center content within feature *//* No selection provided, adding a new class to improve the existing code */
+
+.improved-feature {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Add this class to the .feature class to improve its appearance */
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Reduced gap between icon and text */
+    text-align: left; /* Align text to the left */
+    width: 100%; /* Make features take full width */
+    justify-content: center; /* Center content within feature */
+    background-color: #f7f7f7; /* Add a light background color */
+    
+}
+
+/* You can also add the improved-feature class to the HTML element to apply the styles */
+}
+
+.feature-icon {
+    margin-right: 5px; 
+    display: flex; 
+    align-items: center; 
+}
+
+.feature h5{
+    margin: 0;
+    text-align: center;
+    font-size: 1em; /* Adjust font size if needed */
+}
+
+.bottom-section {
+    margin-top: 20px;
+}
+
+.bottom-text{
+    text-align: center;
+}
+
+.check-rate-button {
+    background-color: #01073be1;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-left: 20%;
+}
+
+.check-rate-button:hover{
+    background-color: #4c6ef5;
+}
+
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column; /* Stack vertically on smaller screens */
+    }
+
+    .about-features {
+        flex-direction: column;
+    }
+}
