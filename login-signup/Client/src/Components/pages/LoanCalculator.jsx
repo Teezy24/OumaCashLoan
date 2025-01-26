@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-export const loanCalculator = () => {
+export const LoanCalculator = () => {
   return (
-    <div>loanCalculator</div>
-  )
+    <div>Loan Calculator</div>
+  );
 }
 
-export default loanCalculator
+export default LoanCalculator;

@@ -1,0 +1,129 @@
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px; /* Adjust width as needed */
+    background-color: #f0f0f0; /* Adjust background color */
+    z-index: 1; /* Set a base z-index for the sidebar */
+  }
+  
+  /* Calculator component styles */
+  .client-loan-calculator {
+    position: relative;
+    margin-left: 250px; /* Adjust margin based on sidebar width */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 2; /* Set a higher z-index for the calculator */
+  }
+
+.calContainer{
+    position: absolute;
+    left:  500px;
+    top: 100px;
+    width: 1300px;
+    height: 770px;
+    background-color: rgb(145, 32, 250);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+   
+}
+ 
+.calContainer p {
+    position:  absolute;
+    left: 250px;
+    top: 80px;
+}
+ 
+.calBox{
+    position: absolute;
+    top:150px;
+    left: 70px;
+    width: 500px;
+    height: 560px;
+    border-radius: 20px 0 0 20px;
+    background-color: #ffff;
+    padding: 20px;
+ 
+   
+ 
+}
+ 
+.calBox .calAmount1 {
+    position: absolute;
+    top:80px;
+    left: 40px;
+    width: 370px;
+    height: 46px;
+    padding: 10px;
+}
+.calBox .label-amount{
+    position:  absolute;
+    color: black;
+    top: 40px;
+    left: 40px;
+    font-size: larger;
+ 
+}
+ 
+.calBox .calAmount2{
+    position: absolute;
+    top:250px;
+    left: 40px;
+    width: 370px;
+    height: 46px;
+    padding: 10px;
+}
+.calBox .label-monthly{
+    position:  absolute;
+    color: black;
+   
+    top: 210px;
+    left: 40px;
+    font-size: larger;
+}
+.calBox button{
+    position: absolute;
+    border-radius: 30px;
+    border-color: blueviolet;
+    color: rgb(145, 32, 250);
+    border-color: rgb(145, 32, 250);
+    font-size: 17px;
+    background: transparent;
+    top: 330px;
+    left: 160px;
+    width: 150px;
+    height: 40px;
+ 
+}
+.calBox .solutionContainer {
+    position: absolute;
+    background-color: rgb(190, 190, 190);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    top: 400px;
+    left: 110px;
+    min-height: 120px;
+    min-width: 50%;
+    border-radius: 10px;
+    color: black; /* Optional, if text isn't visible */
+}
+ 
+.calBox .solutionContainer p{
+    position: relative;
+    font-size: 20px;
+    left:0;
+    top:0;
+}
+ 
+.calBox .solutionContainer span{
+    font-size: 25px;
+    color:aqua
+}
+ 

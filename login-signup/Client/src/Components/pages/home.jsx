@@ -430,5 +430,7 @@ function Footer() {
           </div>
       </footer>
   );
+  //ADD SIGNUP PAGE
 }
 export default Home;
+

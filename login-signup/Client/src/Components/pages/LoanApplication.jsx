@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-export const loanApplication = () => {
+export const LoanApplication = () => {
   return (
-    <div>loanApplication</div>
-  )
+    <div>Loan Application</div>
+  );
 }
 
-export default loanApplication
+export default LoanApplication;
