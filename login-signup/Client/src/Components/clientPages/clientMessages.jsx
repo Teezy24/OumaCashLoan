@@ -1,6 +1,6 @@
 import React from 'react'
 import '../sidebar.css';
-import "./clientStyling/clientLoanMessages.css";
+import "./clientStyling/clientMessages.css";
 
 export const clientMessages = () => {
   return (
