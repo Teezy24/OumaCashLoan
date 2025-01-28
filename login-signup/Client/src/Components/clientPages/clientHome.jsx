@@ -35,33 +35,33 @@ const ProfilePanel = ({ onClose }) => {
             <div className="profile-panel__row">
               <div className="profile-panel__field">
                 <label>First Name</label>
-                <input type="text" defaultValue="James" />
+                <input type="text" placeholder="" />
               </div>
               <div className="profile-panel__field">
                 <label>Last Name</label>
-                <input type="text" defaultValue="Bond" />
+                <input type="text" placeholder="Bond" />
               </div>
             </div>
 
             <div className="profile-panel__row">
               <div className="profile-panel__field">
                 <label>Email</label>
-                <input type="email" defaultValue="spymail@gmail.com" />
+                <input type="email" placeholder="spymail@gmail.com" />
               </div>
               <div className="profile-panel__field">
                 <label>Phone Number</label>
-                <input type="tel" defaultValue="+264 81 243 7745" />
+                <input type="tel" placeholder="+264 81 243 7745" />
               </div>
             </div>
 
             <div className="profile-panel__row">
               <div className="profile-panel__field">
                 <label>National Identification Number</label>
-                <input type="text" defaultValue="2011FE33007" />
+                <input type="text" placeholder="2011FE33007" />
               </div>
               <div className="profile-panel__field">
                 <label>Postal Address</label>
-                <input type="text" defaultValue="P.O. Box 007 Windhoek" />
+                <input type="text" placeholder="P.O. Box 007 Windhoek" />
               </div>
             </div>
 
@@ -69,18 +69,18 @@ const ProfilePanel = ({ onClose }) => {
               <label>Residential Address</label>
               <input 
                 type="text" 
-                defaultValue="House No. 45, Wambo Street Klein Kuppe Windhoek, Namibia 9000" 
+                placeholder="House No. 45, Wambo Street Klein Kuppe Windhoek, Namibia 9000" 
               />
             </div>
 
             <div className="profile-panel__row">
               <div className="profile-panel__field">
                 <label>Bank Name</label>
-                <input type="text" defaultValue="Bank Windhoek" />
+                <input type="text" placeholder="Bank Windhoek" />
               </div>
               <div className="profile-panel__field">
                 <label>Bank Account Number</label>
-                <input type="text" defaultValue="8152094531" />
+                <input type="text" placeholder="8152094531" />
               </div>
             </div>
 
