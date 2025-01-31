@@ -12,6 +12,7 @@ body {
   min-height: 100vh;
   background-color: #e8eaf6;
   padding: 20px;
+  margin-left: 380px;
 }
 
 .application-container {

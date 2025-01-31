@@ -21,13 +21,25 @@ p.section-title {
     margin-bottom: 10px;
 }
 
-.main-content {
+.h-main {
+    background-color: #004085; /* Darker blue background */
+    flex-grow: 1; /* Allow main to take up available space */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center;
+    color: white; /* White text color */
+    width: 100%;
+    
+  }
+.h-main-content {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 40px;
     gap: 20px;
+
 }
+
 
 .left-side {
     flex: 1;

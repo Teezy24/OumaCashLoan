@@ -1,9 +1,10 @@
-.App {
+.h-app {
   text-align: center;
   background-color: #fefefe;
   height: 100%;
   width: 100%;
 }
+
 
 .App-logo {
   height: 40vmin;
@@ -46,5 +47,5 @@
 }
 
 .content.with-sidebar { 
-  margin-left: 220px; 
+  margin-left: 25px; 
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import "../styles/home.css";
-import "../styles/aboutus.css";
-import "../styles/explore.css";
-import "../styles/footer.css";
-import "../styles/security.css";
-import "../styles/services.css";
-import "../styles/testimonials.css";
-import "../styles/whyus.css";
+import "./styles/home.css";
+import "./styles/aboutus.css";
+import "./styles/explore.css";
+import "./styles/footer.css";
+import "./styles/security.css";
+import "./styles/services.css";
+import "./styles/testimonials.css";
+import "./styles/whyus.css";
 import { FaWallet, FaCreditCard, FaChartLine, FaFileArchive,
    FaCheckCircle, FaBriefcase, FaGlobe, FaHandHoldingUsd, FaClipboardList, 
    FaCloudsmith,FaArrowRight,FaStar,FaArrowAltCircleRight,  
@@ -20,7 +20,7 @@ import Bank from '../Assets/Bank.png';
 
 function Home() {
     return (
-        <div className="app">
+        <div className="h-app">
             <header className="header">
                 <div className="header-content">
                     <div className="logo">
@@ -37,8 +37,8 @@ function Home() {
                 </div>
             </header>
 
-            <main className="main">
-                <div className="main-content">
+            <main className="h-main">
+                <div className="h-main-content">
                     <div className="welcome-text">
                         <img src="../assets/1.png" alt="Ouma Cash Loans" /> 
                         <h1>Seamless</h1>

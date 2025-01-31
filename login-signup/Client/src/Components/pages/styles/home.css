@@ -4,8 +4,13 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Ensure the app takes up full viewport height */
+    width: 100%;
   }
   
+  .app-container{
+    position:absolute;
+    left:0;
+  }
   .header {
     background-color: white;
     padding: 20px;
@@ -85,7 +90,7 @@
   .welcome-text {
     text-align: left;
     padding-left: 0%;
-    margin-right: 15px;
+    margin-right: 0px;
   }
   .welcome-text img{
       height: 30px;
@@ -108,16 +113,6 @@
       margin-bottom: 50%;
   }
   
-  .building-icon {
-      width: 200px;
-      height: 150px;
-      display: flex;
-      align-items: center;
-      padding: 8%;
-      position: absolute;
-      top: 200;
-      left: 50;
-      padding-left: 35%;
-  }
+ 
   
   
