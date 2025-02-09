@@ -14,7 +14,7 @@ function ClientSidebar() {
         </NavLink>
       </div>
         
-        <ul className="sidebar-menu">
+        <ul className="c-sidebar-menu">
           <li>
             <NavLink to="/client-home" activeClassName="active">
               <Home size={20} /> Home

@@ -3,6 +3,37 @@ import '../sidebar.css';
 import "./clientStyling/clientLoanHistory.css";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
+const activityData = [
+  {
+    date: "Feb 12",
+    description: "Namibia Bank Loan Funding",
+    status: "pending",
+    type: "Bank Transfer",
+    amount: "N$200,000"
+  },
+  {
+    date: "Feb 5",
+    description: "One Home Loan Repayment",
+    status: "success",
+    type: "Bank Transfer",
+    amount: "N$52,000"
+  },
+  {
+    date: "Jan 27",
+    description: "Millennium Loan Funding",
+    status: "failed",
+    type: "Bank Transfer",
+    amount: "N$50,000"
+  },
+  {
+    date: "Jan 25",
+    description: "The Big Plan Loan Funding",
+    status: "pending",
+    type: "Bank Transfer",
+    amount: "N$10,000"
+  },
+  
+];
 
 const ClientLoanHistory = () => {
   return (
@@ -23,58 +54,41 @@ const ClientLoanHistory = () => {
           </div>
 
           {/* Account Activity Table */}
-          <div className="client-loan-history__account-activity">
-            <h3>Account Activity</h3>
-            <table>
+          <div className="c-history-card ch-card-wide">
+          <div className="c-history-card-header">
+            <h2 className="c-history-card-title">Account Activity</h2>
+            <button className="c-history-card-action">Filter</button>
+          </div>
+          <div className="c-history-table-wrapper">
+            <table className="c-history-table">
               <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Method</th>
-                  <th>Amount</th>
+                <tr className="c-history-table-header">
+                  <th className="c-history-table-th">Date</th>
+                  <th className="c-history-table-th">Description</th>
+                  <th className="c-history-table-th">Status</th>
+                  <th className="c-history-table-th">Method</th>
+                  <th className="c-history-table-th">Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Feb 13</td>
-                  <td>Horizon Auto Loan Funding</td>
-                  <td>Pending</td>
-                  <td>Bank Transfer</td>
-                  <td>N$350,000</td>
-                </tr>
-                <tr>
-                  <td>Feb 5</td>
-                  <td>Cruz Home Loan Repayment</td>
-                  <td>Success</td>
-                  <td>Bank Transfer</td>
-                  <td>N$50,000</td>
-                </tr>
-                <tr>
-                  <td>Jan 27</td>
-                  <td>Millennium Loan Funding</td>
-                  <td>Failed</td>
-                  <td>Bank Transfer</td>
-                  <td>N$550,000</td>
-                </tr>
-                <tr>
-                  <td>Jan 25</td>
-                  <td>The Big Plan Loan Funding</td>
-                  <td>Ongoing</td>
-                  <td>Bank Transfer</td>
-                  <td>N$10,000</td>
-                </tr>
-                <tr>
-                  <td>Jan 25</td>
-                  <td>Johnson Loan Funding</td>
-                  <td>Cancelled</td>
-                  <td>Bank Transfer</td>
-                  <td>N$30,000</td>
-                </tr>
+                {activityData.map((item, index) => (
+                  <tr key={index} className="c-history-table-row">
+                    <td className="c-history-table-cell">{item.date}</td>
+                    <td className="c-history-table-cell">{item.description}</td>
+                    <td className="c-history-table-cell">
+                      <span className={`c-history-status c-history-status-${item.status}`}>
+                        {item.status}
+                      </span>
+                    </td>
+                    <td className="c-history-table-cell">{item.type}</td>
+                    <td className="c-history-table-cell ch-amount">{item.amount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
+      </div>
 
         {/* Right Section: Loan Status */}
         <div className="client-loan-history__right">

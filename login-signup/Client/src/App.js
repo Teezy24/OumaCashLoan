@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Navbar from './Components/LoginSignup/Navbar.jsx';
 import LoginSignup from './Components/pages/LoginSignup.jsx';
 import LoanApplication from './Components/pages/LoanApplication.jsx';
 import LoanCalculator from './Components/pages/LoanCalculator.jsx';

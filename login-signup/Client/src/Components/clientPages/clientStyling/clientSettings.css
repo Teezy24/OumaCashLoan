@@ -1,0 +1,390 @@
+/* ClientSettings.css */
+.c-settings {
+    display: flex;
+    background-color: #f8f9ff;
+    min-height: 100vh;
+    margin-left: 350px;
+  }
+  
+  .c-settings__content {
+    flex: 1;
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    background-color: white;
+    margin: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Navigation Styles */
+  .c-settings__nav {
+    width: 280px;
+    border-right: 1px solid #eee;
+    padding-right: 2rem;
+  }
+  
+  .c-settings__nav-item {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .c-settings__nav-item--active {
+    background-color: #EEF2FF;
+    color: #4F46E5;
+  }
+  
+  .c-settings__nav-icon {
+    padding: 0.5rem;
+    background-color: #EEF2FF;
+    border-radius: 0.5rem;
+    color: #4F46E5;
+  }
+  
+  .c-settings__nav-text {
+    flex: 1;
+  }
+  
+  .c-settings__nav-text span {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .c-settings__nav-text p {
+    font-size: 0.875rem;
+    color: #6B7280;
+  }
+  
+  .c-settings__nav-arrow {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: #6B7280;
+  }
+  
+  /* Detail Area Styles */
+  .c-settings__detail {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  /* Notifications Styles */
+  .c-settings__checkbox-group {
+    margin: 1.5rem 0;
+  }
+  
+  .c-settings__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+  
+  .c-settings__toggle-group {
+    margin-top: 2rem;
+  }
+  
+  .c-settings__toggle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .c-settings__toggle-item h3 {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .c-settings__toggle-item p {
+    color: #6B7280;
+    font-size: 0.875rem;
+  }
+  
+  /* Toggle Switch Styles */
+  .c-settings__toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+  }
+  
+  .c-settings__toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .c-settings__toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E5E7EB;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+  
+  .c-settings__toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  .c-settings__toggle input:checked + .c-settings__toggle-slider {
+    background-color: #4F46E5;
+  }
+  
+  .c-settings__toggle input:checked + .c-settings__toggle-slider:before {
+    transform: translateX(24px);
+  }
+  
+  /* Security Styles */
+  .c-settings__security-section {
+    margin-bottom: 2rem;
+  }
+  
+  .c-settings__security-section h2 {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .c-settings__security-section p {
+    color: #6B7280;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+  
+  .c-settings__password-field {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .c-settings__password-input {
+    position: relative;
+    flex: 1;
+  }
+  
+  .c-settings__password-input input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.5rem;
+  }
+  
+  .c-settings__password-input button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6B7280;
+    cursor: pointer;
+  }
+  
+  .c-settings__strength-indicator {
+    color: #10B981;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .c-settings__change-btn,
+  .c-settings__remove-btn {
+    background-color: #1E1B4B;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  /* Devices Table Styles */
+  .c-settings__devices-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+  }
+  
+  .c-settings__devices-table th {
+    background-color: #F9FAFB;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+    color: #6B7280;
+  }
+  
+  .c-settings__devices-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #F3F4F6;
+  }
+  
+  .c-settings__device-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6B7280;
+  }
+  
+  .c-settings__status {
+    color: #6B7280;
+  }
+  
+ 
+.c-settings__status--active {
+    color: #10B981;
+  }
+  
+  /* 2FA Styles */
+  .c-settings__2fa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .c-settings__2fa-select {
+    padding: 0.5rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: #374151;
+    min-width: 200px;
+  }
+  
+  /* Checkbox Styles */
+  .c-settings__checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #E5E7EB;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  
+  /* Section Headers */
+  .c-settings h2 {
+    color: #111827;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Description Text */
+  .c-settings__security-section p,
+  .c-settings__toggle-item p {
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  /* Button Hover States */
+  .c-settings__change-btn:hover,
+  .c-settings__remove-btn:hover {
+    background-color: #2e2a5e;
+  }
+  
+  /* Focus States */
+  .c-settings__nav-item:focus,
+  .c-settings__2fa-select:focus,
+  .c-settings__password-input input:focus {
+    outline: 2px solid rgba(79, 70, 229, 0.2);
+    outline-offset: 2px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .c-settings__content {
+      flex-direction: column;
+      padding: 1rem;
+    }
+  
+    .c-settings__nav {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #eee;
+      padding-right: 0;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+  
+    .c-settings__password-field {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .c-settings__strength-indicator {
+      margin: 0.5rem 0;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .c-settings__toggle-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  
+    .c-settings__devices-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .c-settings__2fa {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .c-settings__toggle-slider,
+    .c-settings__toggle-slider:before {
+      transition: none;
+    }
+  }
+  
+  /* Print Styles */
+  @media print {
+    .c-settings {
+      background-color: white;
+    }
+  
+    .c-settings__nav {
+      display: none;
+    }
+  
+    .c-settings__toggle,
+    .c-settings__change-btn,
+    .c-settings__remove-btn {
+      display: none;
+    }
+  }

@@ -36,7 +36,7 @@ const ProfilePanel = ({ isOpen, togglePanel }) => {
               <label>First Name</label>
               <input type="text" placeholder="James" className="ch-form-input" />
             </div>
-            <div className="ch-form-group">
+            <div className="ch-form-group-left">
               <label>Last Name</label>
               <input type="text" placeholder="Bond" className="ch-form-input" />
             </div>
@@ -134,15 +134,8 @@ const ClientHome = () => {
       status: "pending",
       type: "Bank Transfer",
       amount: "N$10,000"
-    },
-    {
-      date: "Jan 25",
-      description: "Johnson Loan Funding",
-      status: "success",
-      type: "Bank Transfer",
-      amount: "N$30,000"
-    }
-  ];
+    },    
+];
 
   return (
     <div className="ch-dashboard">

@@ -143,7 +143,7 @@ function AboutUs() {
                 </div>
                 <div className="right-container"> {/* Right Container */}
                     <div className="features-container">
-                    <img src={woman} alt="Person" />
+                    <img src={woman} className="h-female-img" alt="Person" />
                         <div className="features-heading">
                             <h2>Simple Loans, Big Possibilities</h2>
                         </div>

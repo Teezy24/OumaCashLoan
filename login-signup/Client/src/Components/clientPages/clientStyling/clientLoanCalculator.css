@@ -1,19 +1,21 @@
 .loan-calculator-container {
-    margin-left: 250px;
+    margin-left: 400px;
     padding: 30px;
-    min-height: 100vh;
-    background-color: #f8f9fe;
+    background-color: #6765EA;
+    border-radius: 20px;
+    height: 600px;
   }
   
   .calculator-card {
     background-color: #e5e1ff;
     border-radius: 20px;
-    padding: 40px;
+    padding: 20px;
   }
   
   .calculator-content {
     display: flex;
-    margin-top: 30px;
+    margin-top: 10px;
+    height: 450px
   }
   
   .calculator-form {
@@ -23,8 +25,8 @@
     border-radius: 15px;
   }
   
-  .input-group {
-    margin-bottom: 25px;
+  .cc-input-group {
+    margin-bottom: 20px;
   }
   
   .input-group label {
@@ -62,10 +64,12 @@
     margin-top: 20px;
   }
   
-  .graph-section {
+  .cc-graph-section {
     flex: 1;
     background: #1a1a2e;
     border-radius: 15px;
     padding: 30px;
     color: white;
   }
+
+  

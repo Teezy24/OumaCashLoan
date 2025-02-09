@@ -32,7 +32,7 @@ function ClientLoanCalculator() {
         <div className="calculator-content">
           <div className="calculator-form">
             <form onSubmit={calculateLoan}>
-              <div className="input-group">
+              <div className="cc-input-group">
                 <label>How much do you need?</label>
                 <input
                   type="number"
@@ -69,14 +69,14 @@ function ClientLoanCalculator() {
             </form>
           </div>
 
-          <div className="graph-section">
+          <div className="cc-graph-section">
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <h3>In Total</h3>
               <h2>$33,000</h2>
             </div>
             
             {/* Hardcoded graph for now */}
-            <div style={{ width: '100%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <svg viewBox="0 0 200 200" width="200" height="200">
                 <circle cx="100" cy="100" r="80" fill="none" stroke="#7c3aed" strokeWidth="30" strokeDasharray="377 502" />
                 <circle cx="100" cy="100" r="80" fill="none" stroke="#60a5fa" strokeWidth="30" strokeDasharray="126 502" />

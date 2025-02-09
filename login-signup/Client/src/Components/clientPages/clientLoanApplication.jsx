@@ -16,7 +16,7 @@ const ClientLoanApplication = () => {
   };
 
   return (
-    <div className="main-container">
+    <div className="ch-la-dashboard">
       <div className="application-container">
         <h1 className="application-title">Apply for a loan</h1>
         <p className="application-subtitle">

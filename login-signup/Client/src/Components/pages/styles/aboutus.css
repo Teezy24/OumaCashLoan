@@ -23,6 +23,9 @@
 }
 
 /* ... rest of your CSS (text-blocks, powered-by, etc.) */
+.h-female-image{
+    width: 20px;
+}
 
 .text-blocks p {
     margin-bottom: 10px;
@@ -48,7 +51,7 @@
 
 /* Styles for the new features container */
 .features-container {
-    width: 100%; /* Take full width */
+    width: 80px; /* Take full width */
     text-align: center; /* Center the heading */
 }
 
