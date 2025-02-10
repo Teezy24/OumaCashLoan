@@ -3,7 +3,6 @@ import { Bell, HelpCircle, Search, ArrowLeft, Camera } from "lucide-react";
 import Calendar from 'react-calendar';
 import '../sidebar.css';
 import "./clientStyling/clientHome.css";
-import "./clientStyling/clientCalendar.css";
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 
 const ProfilePanel = ({ isOpen, togglePanel }) => {
@@ -137,6 +136,8 @@ const ClientHome = () => {
     },    
 ];
 
+
+
   return (
     <div className="ch-dashboard">
       <div className="ch-topbar">
@@ -165,24 +166,51 @@ const ClientHome = () => {
             <h2 className="ch-card-title">Overview</h2>
             <span className="ch-card-date">{date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
           </div>
-          <div className="ch-calendar-container">
-            <Calendar
-              onChange={setDate}  // Now correctly uses setDate
-              value={date}        // Now correctly uses date
-              className="ch-calendar"
-              tileClassName={({ date, view }) => {
-                if (view === 'month' && (date.getDay() === 0 || date.getDay() === 6)) {
-                  return 'weekend';
-                }
-              }}
-            />
-            <div className="ch-calendar-details">
-              <p>Selected Date: {date.toLocaleDateString()}</p>
-              {/* Add more details as needed */}
-            </div>
-          </div>
-        </div>
 
+        {/* Calendar card */}
+        <div className="ch-calendar-overview">
+        <div className="ch-stats-container">
+          {[
+            { value: "29", label: "Transaction" },
+            { value: "18", label: "Income" },
+            { value: "11", label: "Outcome" }
+          ].map((stat, index, array) => (
+            <div key={index} className="ch-stat-block">
+              <div className="ch-stat-value">{stat.value}</div>
+              <div className="ch-stat-label">{stat.label}</div>
+              {index < array.length - 1 && <div className="ch-stat-divider"></div>}
+            </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Calendar Header */}
+  <div className="ch-calendar-header">
+    <span className="ch-calendar-month">
+      {date.toLocaleString('default', { month: 'long', year: 'numeric' })}
+    </span>
+    <button className="ch-calendar-add">+</button>
+  </div>
+
+  {/* Calendar Component */}
+  <div className="ch-calendar-container">
+  <Calendar 
+    onChange={setDate} 
+    value={date} 
+    className="ch-calendar"
+    showNavigation={false}
+    tileClassName={({ date, view }) => {
+      if (view === 'month') {
+        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+        return isWeekend ? 'ch-calendar-weekend' : 'ch-calendar-day';
+      }
+    }}
+    formatShortWeekday={(locale, date) => 
+      ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()]
+    }
+  />
+</div>
+</div>
         {/* Balance Card */}
         <div className="ch-card">
           <div className="ch-card-header">
