@@ -243,11 +243,6 @@
   height: 50px;
 }
 
-.ch-card-title {
-  font-size: 1.5em;
-  color: #4c4cff;
-}
-
 .ch-card-date {
   font-size: 0.9em;
   color: #666;
@@ -272,23 +267,178 @@
 }
 
 /* Calendar Styles */
+
+
+
+.ch-stats-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.ch-stat-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.ch-stat-value {
+  font-size: 2px;
+  font-weight: 600;
+  color: #161675;
+}
+
+.ch-stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.ch-stat-divider {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 70%;
+  background-color: #E5E7EB;
+}
+
+/* Calendar Header */
+.ch-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 10px 0;
+  margin: 0;
+}
+
+.ch-calendar-month {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.ch-calendar-add {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #F0F7FF;
+  color: #2563EB;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Calendar Component */
 .ch-calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
+  width: 100%;
+  border: none;
+  font-family: inherit;
+}
+
+.react-calendar__tile {
+  padding: 8px 6px;
+  font-size: 12px;
+  border: none;
+  color: #161675;
+}
+
+.react-calendar__month-view__weekdays {
+  font-size: 12px;
+  color: #666;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  padding: 8px 0;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+}
+
+.react-calendar__tile--now {
+  background: #4C4CFF !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.react-calendar__tile:hover {
+  background: #F3F4FF;
+  border-radius: 8px;
+}
+
+.react-calendar__navigation {
+  display: none;
+}
+
+.react-calendar__tile--active {
+  background: #4C4CFF !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.ch-calendar-weekend {
+  color: #666;
 }
 
 .ch-calendar-day {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  color: #161675;
 }
 
-.ch-calendar-day-active {
-  background-color: #4c4cff;
-  color: white;
+/* Card Headers */
+.ch-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
+
+.ch-card-title {
+  font-size: 18px;
+  color: #161675;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Balance Card Specific */
+.ch-balance {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ch-balance-amount {
+  font-size: 28px;
+  font-weight: 600;
+  color: #161675;
+}
+
+.ch-balance-change {
+  font-size: 14px;
+  color: #10B981;
+}
+
+.ch-currency-select {
+  padding: 8px 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  color: #666;
+  background: white;
+  font-size: 14px;
+}
+
+/* Quick Actions Card */
+
 
 /* Balance Card Styles */
 .ch-balance {
