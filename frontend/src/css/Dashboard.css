@@ -1,0 +1,366 @@
+.dashboard-container {
+  margin-left: 250px; /* Adjust if using a sidebar */
+  padding: 20px;
+  background: transparent;
+  height: 99vh;
+  width: 150vh;
+  min-height: 100%;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 20px;
+  background-color: rgb(179, 178, 243);
+}
+  
+.dashboard-container .dashboard-header {
+    background-color: rgb(7, 1, 49);
+    position: fixed;
+    top: 0.3rem;
+    left: 24.5rem;
+    width: 150vh;
+    height: 80px;
+    color: white;
+    padding: 15px;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: 20px;
+  }
+
+  .dashboardCard-container{
+    background-color: #027c06;
+
+  }
+  .dashboard-header h1 {
+    margin: 0;
+    position: absolute;
+    right: 80px;
+    width: 150px;
+    font-size: 15px;
+
+    
+  }
+
+  .dashboard-header p{
+    width: 150px;
+    right: 80px;
+    position: absolute;
+    top: 40px;
+  }
+
+  .dashboard-header .profile-picture{
+    position: absolute;
+    right: 260px;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+
+  }
+  .dashboard-header .notif-button{
+    position: absolute;
+    right: 400px;
+    height: 50px;
+    width: 50px;
+    justify-content: center;
+    justify-items: center;
+    padding: 5px;
+    background: transparent;
+    border: none;
+    font-size: 40px;
+    color: #f2f2f2;
+    border-radius: 25px;
+  }
+  .dashboard-header .help-button{
+    position: absolute;
+    right: 335px;
+    height: 50px;
+    width: 50px;
+    justify-content: center;
+    justify-items: center;
+    padding: 5px;
+    background: transparent;
+    border: none;
+    font-size: 40px;
+    color: #f2f2f2;
+    border-radius: 25px;
+  }
+  .dashboard-header .search-input{
+    position: absolute;
+    height: 40px;
+    left: 80px;
+    top: 18px;
+    width: 300px;
+    border-radius: 25px 0 0 25px;
+    padding: 20px;
+  }
+  .dashboard-header .search-button{
+    position: absolute;
+    height: 40px;
+    left: 380px;
+    top: 20px;
+    width: 70px;
+    border-radius: 0 25px 25px 0;
+    padding: 10px;
+    font-size: 20px;
+    color: #f2f2f2;
+    background-color: rgb(176, 180, 244);
+    border: none;
+
+  }
+
+  .dashboard-header .notif-button:hover{
+    background-color: #45a049;
+  }
+  .dashboard-header .help-button:hover{
+    background-color: #45a049;
+  }
+  
+  .loan-summary {
+    position: fixed;
+    background-color: rgb(255, 255, 255);
+    top: 550px;
+    padding: 15px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 860px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loan-summary table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .loan-summary table th,
+  .loan-summary table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .loan-summary table th {
+    background-color: #f2f2f2;
+  }
+  
+  .quick-actions {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .calendarCard{
+    background-color: white;
+    position: fixed;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    top: 7rem;
+
+  }
+  .balanceCard{
+    background-color: white;
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    left:845px;
+    top: 7rem;
+    border-radius: 10px;
+
+  }
+  .balanceCard .balanceCard-header{
+    height: 70px;
+    border-radius: 10px 10px 0 0;
+    padding: 15px;
+    display: flex;
+    font-weight: 700;
+    flex-direction: row;
+    gap: 110px;
+    
+
+  }
+  .balanceCard .balanceCard-header .balance-conversion{
+    height: 40px;
+    border-radius: 15px;
+     
+  }
+  .balanceCard .balanceCard-body{
+    padding: 10px;
+  }
+  .balanceCard .balanceCard-body .SignLabel{
+    background-color: rgb(27, 247, 137);
+    position: absolute;
+    right: 20px;
+    top: 110px;
+    width: 50px;
+    height: 45px;
+    padding: 5px;
+    padding-left: 10px;
+    font-size: 30px;
+    color: #027c06;
+
+  }
+  .balanceCard .balanceCard-body h1{
+    margin-bottom: 35px;
+
+  }
+  .balanceCard .balanceCard-body img{
+    background-color: #21da09;
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    left: 40px;
+
+  }
+  .balanceCard .balanceCard-body p{
+    margin-bottom: 5px;
+  }
+
+  .balanceCard .balanceCard-header .balanceLabel{
+    font-size: larger;
+  }
+
+  /* quick actions section*/
+  .QuickActionCard{
+    background-color: white;
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    right: 230px;
+    top: 7rem;
+    border-radius: 10px;
+
+  }
+  .QuickActionCard .QuickActionCard-header{
+    height: 70px;
+    border-radius: 10px 10px 0 0;
+    padding: 15px;
+    display: flex;
+    font-size: larger;
+    font-weight: 700;
+    flex-direction: row;
+    gap: 150px;
+  }
+  .QuickActionCard .QuickActionCard-body{
+    height: 150px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .QuickActionCard .QuickActionCard-body .Payment-button{
+    display: flex;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+    height: 50px;
+    border: none;
+    gap: 20px;
+  }
+  .QuickActionCard .QuickActionCard-body .LoanApplication-button{
+    display: flex;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+    border: none;
+    height: 50px;
+    gap: 20px;
+  }
+
+  .QuickActionCard .QuickActionCard-footer{
+
+    height: 180px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 10px 10px;
+    gap: 10px;
+  }
+  .QuickActionCard .QuickActionCard-footer .offer-button{
+    display: flex;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+    height: 50px;
+    outline: auto;
+    border-radius: 5px;
+    gap: 20px;
+  }
+
+  .QuickActionCard .QuickActionCard-footer .financial-button{
+    display: flex;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+    outline: auto;
+    border-radius: 5px;
+    height: 50px;
+    gap: 20px;
+  }
+
+  .InsightCard{
+    background-color: rgb(255, 255, 255);
+    width: 400px;
+    height: 350px;
+    position: absolute;
+    border-radius: 10px;
+    padding: 10px;
+    right:  200px;
+    bottom: 12px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    
+
+  }
+
+  .InsightCard .InsightCard-header{
+    display: flex;
+    gap: 30px;
+  }
+
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .action-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .action-button:hover {
+    background-color: #45a049;
+  }
+  
+  .notifications {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notifications ul {
+    padding-left: 20px;
+  }
+  
+  .notifications li {
+    margin-bottom: 10px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .dashboard-container .dashboard-header {
+        height: 60px;
+        padding: 10px;
+        border-radius: 0; /* Remove rounded edges for full width */
+    }
+    
+    .dashboard-content {
+        margin-top: 70px;
+    }
+}

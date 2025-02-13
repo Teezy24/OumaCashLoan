@@ -1,0 +1,160 @@
+.loanHistory-container{
+    margin-left: 250px; /* Adjust if using a sidebar */
+    padding: 20px;
+    background: transparent;
+    position: relative;
+    height: 99vh;
+    width: 150vh;
+    min-height: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    border-radius: 20px;
+    background-color: rgb(179, 178, 243);
+}
+
+.loanHistory-container .chart-Activity-container{
+    width: 70%;
+    height: 100%;
+    padding: 20px;
+    position: relative;
+    
+}
+.loanHistory-container .chart-Activity-container .LoanChart-Card{
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 50%;
+    border-radius: 20px;
+    position: relative;
+
+}
+
+.loanHistory-container .chart-Activity-container .LoanChart-Card .LoanChart-Card-header{
+    padding: 10px;
+    display: flex;
+    gap: 34rem;
+}
+.loanHistory-container .chart-Activity-container .Activity-Card{
+    margin-top: 20px;
+    padding: 10px;
+    height: 45%;
+    
+
+}
+.loanHistory-container .chart-Activity-container .Activity-Card .loan-summary-Card{
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    height: auto;
+    max-height: 100%;
+    overflow: scroll;
+}
+ .loan-summary-Card table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .loan-summary-Card table th,
+  .loan-summary-Card table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .loan-summary-Card table th {
+    background-color: #f2f2f2;
+  }
+  
+
+.loanHistory-container .LoanHistory-stat-container{
+    padding: 20px;
+    width: 30%;
+    height: 100%;
+    position: relative;
+}
+
+.loanHistory-container .LoanHistory-stat-container .payment-process-card{
+    background-color: white;
+    height: 30%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+
+
+}
+.loanHistory-container .LoanHistory-stat-container .payment-process-card .payment-process-card-header{
+    border-radius: 20px 20px 0 0;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.loanHistory-container .LoanHistory-stat-container .payment-process-card .loanType-drop{
+    padding: 10px;
+    padding-top: 10px;
+    height: 30%;
+    justify-items: center;
+
+   
+}
+.loanHistory-container .LoanHistory-stat-container .payment-process-card .loanType-drop .loanType-dropDown{
+    height: 70%;
+    width: 60%;
+}
+.stat-progressbar{
+    width: 100%;
+    padding: 20px;
+
+}
+.progressbar{
+    width: 100%;
+    height: 50px;
+    color: blue;
+}
+
+.count-card{
+    background-color: white;
+    height: 17.6%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.count-card .count-card-header{
+    margin-bottom: 10px;
+}
+
+.count-card .count-card-body{
+    height: 70%;
+    padding: 10px;
+    display: flex;
+    gap: 3.8rem;
+}
+.count-card .count-card-body .TotalLoans{
+    padding: 10px;
+    width: 55%;
+    outline: auto;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+.TotalLoansArrow-icon{
+    font-size: 30px;
+
+}
+.count-card .count-card-body .TotalLoans-span{
+    width: 20%;
+    height: 90%;
+    padding: 20px;
+    padding-left: 27px;
+    outline: auto;
+}
+
+.overallStatus-Card{
+    background-color: white;
+    height: 45%;
+    padding: 10px;
+    border-radius: 20px;
+
+}

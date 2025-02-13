@@ -1,0 +1,428 @@
+.ApplyLoan-container{
+    margin-left: 250px; /* Adjust if using a sidebar */
+    padding: 20px;
+    background: transparent;
+    height: 900px;
+    width: 1400px;
+    min-height: 100%;
+    max-width: 1400px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    position: relative;
+    border-radius: 20px;
+    background-color: rgb(145, 60, 255);
+}
+.ApplyLoan-container .form-container{
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height:830px;
+    width: 1270px;
+    top: 0;
+    left: 0;
+    margin-left: 50px;
+}
+.form-header{
+    background: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    border-radius: 20px 20px 0 0;
+}
+.ApplyLoan-container .ApplyLoan-button-container{
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    justify-content: center;
+    justify-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 140px;
+}
+.ApplyLoan-container .ApplyLoan-button-container .personalDetails-button{
+    height: 50px;
+    width: 220px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    outline: auto;
+}
+.ApplyLoan-container .ApplyLoan-button-container .Document-button{
+    height: 50px;
+    width: 220px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    outline: auto;
+
+}
+.ApplyLoan-container .ApplyLoan-button-container .loanDetail-button{
+    height: 50px;
+    width: 220px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    outline: auto;
+}
+.form-personalDetails{
+    background-color:  rgb(255, 255, 255);
+    position: absolute;
+    height: 520px;
+    margin-top: 0px;
+    padding: 20px;
+    transition: .5s ease;
+}
+.Fullname-PhoneNo-input{
+    background-color:  rgb(255, 255, 255);
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    gap: 30px;
+    justify-content: center;
+    
+}
+.Fullname-PhoneNo-input .Fullname-input{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.Fullname-PhoneNo-input .Fullname-input input{
+    height: 40px;
+    padding: 20px;
+    width: 340px;
+    border-radius: 5px;
+}
+.Fullname-PhoneNo-input .PhoneNo-input{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.Fullname-PhoneNo-input .PhoneNo-input input{
+    height: 40px;
+    padding: 20px;
+    width: 340px;
+    border-radius: 5px;
+
+}
+.Email-Postal-input{
+    background-color:  rgb(255, 255, 255);
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    gap: 30px;
+    justify-content: center;
+    
+}
+.Email-Postal-input .Email-input{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.Email-Postal-input .Email-input input{
+    height: 40px;
+    padding: 20px;
+    width: 340px;
+    border-radius: 5px;
+}
+.Email-Postal-input .Postal-input{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.Email-Postal-input .Postal-input input{
+    height: 40px;
+    padding: 20px;
+    width: 340px;
+    border-radius: 5px;
+}
+
+.IDNo-Residential-input{
+    background-color:  rgb(255, 255, 255);
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    
+}
+.IDNo-Residential-input .IDNo-input{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    gap: 5px;
+}
+.IDNo-Residential-input .IDNo-input input{
+    height: 40px;
+    padding: 20px;
+    width: 340px;
+    border-radius: 5px;
+}
+.IDNo-Residential-input .Residential-input{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.IDNo-Residential-input .Residential-input input{
+    height: 40px;
+    padding: 20px;
+    width: 340px;
+    border-radius: 5px;
+}
+.ApplyLoan-container .ApplyLoan-submit-container{
+    background-color: rgb(255, 255, 255);
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
+    width: 1200px;
+    justify-content: center;
+
+}
+.ApplyLoan-container .ApplyLoan-submit-container .confirmDetails-button{
+    width: 200px;
+    height: 60px;
+    outline: auto;
+}
+.ApplyLoan-container .ApplyLoan-submit-container .RectifyDetails-button{
+    width: 200px;
+    height: 60px;
+    outline: auto;
+   
+}
+
+.wrapper1{
+    width: 100%;
+    height: 540px;
+    justify-content: center;
+    display: flex;
+    border: none;
+    outline: none;
+    transition:  .5s ease-in-out;
+}
+.wrapper1.active1 .form-personalDetails{
+    transition: .5s ease;
+    transform: translateX(-1320px);
+   
+    
+}
+.wrapper1.active2 .form-personalDetails{
+    transition: .5s ease;
+    transform: translateX(-2640px);  
+}
+.wrapper1 .form-Documents{
+    position: absolute;
+    right: -1050px;
+    transition: .5s ease;
+
+}
+.wrapper1.active1 .form-Documents{
+    transition: .5s ease;
+    transform: translateX(-1320px);
+   
+    
+}
+.wrapper1.active2 .form-Documents{
+    transition: .5s ease;
+    transform: translateX(-2640px);
+
+}
+.wrapper1.active1 .form-Documents{
+    transition: .5s ease;
+    transform: translateX(-1200px);
+
+}
+.wrapper1 .form-LoanDetails{
+    position: absolute;
+    right: -1050px;
+    transition: .5s ease;
+
+}
+.wrapper1.active2 .form-LoanDetails{
+    transition: .5s ease;
+    transform: translateX(-1200px);
+
+}
+
+.form-Documents .drag-and-drop-section h3{
+    font-size: 40px;
+    width:950px;
+    margin-bottom: 20px;
+}
+.dropzone {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    align-content: center;
+    cursor: pointer;
+    height: 400px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  .active-dropzone {
+    background-color: #e6f7ff;
+  }
+
+  .dropzone p{
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+
+  }
+  .Upload-icon{
+    font-size: 80px;
+
+  }
+
+  .loanType-Selection p{
+    font-size: 20px;
+    width:100%;
+    margin-bottom: 20px;
+  }
+  .loanType-Selection .LoanType-button-container{
+    display: flex;
+    gap: 80px;
+  }
+  .loanType-Selection .LoanType-button-container button{
+    outline: auto;
+    width: 200px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 10px;
+  }
+  .general-icon{
+    font-size:30px;
+  }
+  .Twoform-container{
+
+    justify-content: center;
+    padding: 20px;
+    display: flex;
+  }
+  .Twoform-container .firstform-conainer{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 500px;
+  }
+  .Twoform-container .firstform-conainer div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .Twoform-container .firstform-conainer div input{
+    height: 40px;
+    width: 350px;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  .Twoform-container .firstform-conainer div .dropDown{
+    padding: 10px;
+    width: 350px;
+    height: 40px;
+    border-radius: 5px;
+
+
+  }
+
+  .Twoform-container .secondform-conainer div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .Twoform-container .secondform-conainer div input{
+    height: 40px;
+    width: 350px;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  .Twoform-container .secondform-conainer .calculator-box{
+    background-color: rgb(245, 245, 245);
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .Twoform-container .secondform-conainer .calculator-box p{
+    font-size: 15px;
+  }
+  .Twoform-container .secondform-conainer .calculator-box span{
+    font-size: 22px;
+    margin-top: -19px;
+    color: rgb(149, 178, 235);
+  }
+
+  .Twoform-container .secondform-conainer .final-submit-button-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    gap: 20px;
+  }
+  .Twoform-container .secondform-conainer .final-submit-button-container button{
+    border-radius: 10px;
+    height: 55px;
+    outline: auto;
+    color: #6765ed;
+    outline-color: #6765ed;
+    font-weight: 800;
+  }
+  .Twoform-container .secondform-conainer .final-submit-button-container .form-apply-button{
+    background-color: #6765ed;
+    color: white;
+    font-weight: 800;
+    height: 55px;
+    font-size: 15px;
+  
+  }
+
+  .selected {
+    border-color: rgb(146, 60, 255);
+    color: rgb(146, 60, 255); /* Optional: to ensure text is readable */
+    transition: .5s ease-in-out;
+  }
+
+  .file-icon {
+    margin-right: 8px;
+    font-size: 35px;
+    color: #eb1616;
+    /* Add additional styling as needed */
+  }
+  
+
+
+
+.Logo{
+    width: 70px;
+}
+
+.form-apply{
+    display: flex;
+    flex-direction: column;
+    background: red;
+    margin-bottom: 20px;
+}
+form .apply-label{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 30px;
+}
+form .apply-input{
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    margin-bottom: 20px;
+}

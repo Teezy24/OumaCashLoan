@@ -1,0 +1,9 @@
+.app {
+    display: flex;
+    font-family: Arial, sans-serif;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
