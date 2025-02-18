@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
+
 import "./styles/home.css";
 import "./styles/aboutus.css";
 import "./styles/explore.css";
@@ -19,6 +21,9 @@ import Bank from '../Assets/Bank.png';
 
 
 function Home() {
+    const navigate = useNavigate();
+
+    
     return (
         <div className="h-app">
             <header className="header">
@@ -33,7 +38,7 @@ function Home() {
                         <a href="#">Contact Us</a>
                         <a href="#">Blog</a>
                     </nav>
-                    <button className="get-started-btn">GET STARTED</button>
+                    <button onClick={() => navigate("/login")}className="get-started-btn">GET STARTED</button>
                 </div>
             </header>
 
