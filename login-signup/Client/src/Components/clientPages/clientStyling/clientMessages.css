@@ -4,17 +4,18 @@
     min-height: 100vh;
     background-color: #6765EA;
     padding: 1rem;
-    margin-left: 300px;
+    margin-left: 20%;
     border-radius: 20px;
   }
   
   /* Sidebar Styles */
   .cm-sidebar {
-    width: 280px;
     background-color: white;
     border-radius: 1rem;
     padding: 1rem;
     margin-right: 1rem;
+    width: 35%;
+
   }
   
   .cm-sidebar__button {
@@ -72,6 +73,7 @@
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
+    width: 700px;
   }
   
   /* Header */
