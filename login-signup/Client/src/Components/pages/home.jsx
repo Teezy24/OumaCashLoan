@@ -1,6 +1,6 @@
 import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
 import "./styles/home.css";
 import "./styles/aboutus.css";
 import "./styles/explore.css";
@@ -10,22 +10,19 @@ import "./styles/services.css";
 import "./styles/testimonials.css";
 import "./styles/whyus.css";
 import { FaWallet, FaCreditCard, FaChartLine, FaFileArchive,
-   FaCheckCircle, FaBriefcase, FaGlobe, FaHandHoldingUsd, FaClipboardList, 
-   FaCloudsmith,FaArrowRight,FaStar,FaArrowAltCircleRight,  
-   FaQuoteRight,
-   FaVideo,FaFacebook,FaInstagram,FaTwitter,FaLinkedin} from 'react-icons/fa';
+         FaCheckCircle, FaBriefcase, FaGlobe, FaHandHoldingUsd, FaClipboardList, 
+         FaCloudsmith,FaStar,FaQuoteRight,
+         FaVideo,FaFacebook,FaInstagram,FaTwitter,FaLinkedin} from 'react-icons/fa';
+import { MdArrowOutward } from "react-icons/md";
 import man from '../Assets/person.avif';
 import woman from '../Assets/woman.png';
-import money from '../Assets/money.jpg';
 import Bank from '../Assets/Bank.png';
-
+import IGIG from '../Assets/IGIG.png';
 
 function Home() {
     const navigate = useNavigate();
-
-    
     return (
-        <div className="h-app">
+        <div className="app">
             <header className="header">
                 <div className="header-content">
                     <div className="logo">
@@ -33,23 +30,45 @@ function Home() {
                     </div>
                     <nav className="nav">
                         <a href="#">Home</a>
-                        <a href="#">About Us</a>
-                        <a href="#">Services</a>
-                        <a href="#">Contact Us</a>
-                        <a href="#">Blog</a>
+                        <a href="#our-section">Blog</a>
+                        <a href="#our-services">Services</a>
+                        <a href="#about-us">About Us</a>
+                        <a href="#contact-us">Contact Us</a>
                     </nav>
-                    <button onClick={() => navigate("/login")}className="get-started-btn">GET STARTED</button>
+                    <div className="button-container">
+                    <button
+                        className="get-started-btn"
+                        onClick={() => navigate("/signup")}
+                    >
+                        SIGN UP
+                    </button>
+
+                    <button
+                        className="login-started-btn"
+                        onClick={() => navigate("/login")}
+                    >
+                        LOGIN
+                    </button>
+                    </div>
                 </div>
             </header>
 
-            <main className="h-main">
-                <div className="h-main-content">
+            <main className="main">
+                <div className="main-content">
                     <div className="welcome-text">
-                        <img src="../assets/1.png" alt="Ouma Cash Loans" /> 
+                        <div className="display-horizontal">
+                        <img src="../assets/2.png" alt="Ouma Cash Loans" /> 
+                        <p>Welcome to Ouma Cash Loans</p>
+                        </div>
                         <h1>Seamless</h1>
                         <h1>Loans, Brighter</h1>
                         <h1>Futures</h1>
-                        <button className="get-started-btn-main">GET STARTED</button>
+                        <button
+                        className="get-started-btn-main"
+                        
+                    >
+                        GET STARTED
+                    </button>
                     </div>
                     <div className="building-icon">
                     <img src={Bank} alt="Bank" />
@@ -58,8 +77,8 @@ function Home() {
             </main>
 
             <App />
-            <AboutUs />
             <OurServices />
+            <AboutUs />
             <WhyUs />
             <SecurityAndPrivacy />
             <Testimonials />
@@ -69,17 +88,23 @@ function Home() {
 }
 
 function App() {
+    const navigate = useNavigate();
     return (
+        <section id="our-section" className="our-section">
         <div className="explore-section">
             <div className="explore-content">
-                <div className="main-container">
                   <div className="outside-container">
                     <div className="horizontal-layout">
                         <div className="image-side">
                             <img src={man} alt="Person" />
                         </div>
                         <div className="text-side">
-                            <button className="explore-button">Explore</button>
+                        <button
+                        className="explore-button"
+                        onClick={() => navigate("/signup")}
+                    >
+                        Explore 
+                    </button>
                             <div className="explore-main-text">
                                 <h2>A New Way to Fund Your</h2>
                                 <h2>Dreams-Join Thousands</h2>
@@ -92,7 +117,6 @@ function App() {
                         </div>
                      </div>
                     </div>
-                </div>
                 <div className="loan-container">
                     <div className="loan-options">
                         <div className="loan-option">
@@ -119,72 +143,30 @@ function App() {
                 </div>
             </div>
         </div>
-    );
-}
-
-function AboutUs() {
-    return (
-        <section className="about-us">
-            <div className="about-content">
-                <div className="left-container"> {/* Left Container */}
-                    <div className="about-text">
-                        <h4>ABOUT US</h4>
-                        <div className="text-blocks">
-                          <h1>
-                            <p>Fresh Perspectives,<br />Real Opportunities</p>
-                            </h1>
-                            <p>At Ouma Cash Loans, we make borrowing<br />simple, accessible, and empowering,<br />redefining dreams with innovation and<br />support.</p>
-                        </div>
-                        <div className="powered-by">
-                            <p>Powered by IGIG Technologies:</p>
-                            <div className="igig-logo">
-                                <img src={man} alt="IGIG Technologies Logo" />
-                            </div>
-                            <div className="currency-image">
-                            <img src={money} alt="Currency" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="right-container"> {/* Right Container */}
-                    <div className="features-container">
-                    <img src={woman} className="h-female-img" alt="Person" />
-                        <div className="features-heading">
-                            <h2>Simple Loans, Big Possibilities</h2>
-                        </div>
-                        <div className="about-features">
-                          <div className="feature">
-                              <div className="feature-icon"> <FaCheckCircle /> </div>
-                              <h6>Fast Access Anywhere</h6>
-                          </div>
-                          <div className="feature">
-                              <div className="feature-icon"> <FaCheckCircle /> </div>
-                              <h6>Save Time, Stress-Free</h6>
-                          </div>
-                      </div>
-                    </div>
-                    <div className="bottom-section">
-                        <div className="bottom-text">
-                            <p>Start your journey with ease today and take the first<br />step toward achieving your financial goals!</p>
-                        </div>
-                        <button className="check-rate-button">CHECK YOUR RATE</button>
-                    </div>
-                </div>
-            </div>
         </section>
     );
 }
 
 function OurServices() {
+    const navigate = useNavigate();
     return (
+        <section id="our-services" className="our-services">
         <div className="our-services-section">
             <div className="our-services-content">
                 <div className="our-services-header">
+                    <div className="display-horizontal">
+                    <img className="image-logo" src="../assets/2.png" alt="Ouma Cash Loans" /> 
                     <p>OUR SERVICES</p>
+                    </div>
                     <h1>Discover How Ouma<br />Cash Loans Supports<br />Your Financial Goals</h1>
                     <div className="right-side">
                     <p className="sub-header">Simpler loans, smarter<br />solutions—tailored for you.</p>
-                    <button className="see-all-services">SEE ALL SERVICES</button>
+                    <button
+                        className="see-all-services"
+                        onClick={() => navigate("/signup")}
+                    >
+                        SEE ALL SERVICES
+                    </button>
                     </div>
                 </div>
                 <div className="service-cards">
@@ -235,20 +217,91 @@ function OurServices() {
                 </div>
             </div>
         </div>
+    </section>
     );
 }
 
+function AboutUs() {
+    const navigate = useNavigate();
+    return (
+        <section id="about-us" className="about-us">
+            <div className="about-content">
+                <div className="left-container"> 
+                    <div className="about-text">
+
+                        <div className="display-horizontal">
+                    <img className="image-logo" src="../assets/2.png" alt="Ouma Cash Loans" /> 
+                        <h4>ABOUT US</h4>
+                        </div>
+                        <div className="text-blocks">
+                          <h1>
+                            <p>Fresh Perspectives,<br />Real Opportunities</p>
+                            </h1>
+                            <p>At Ouma Cash Loans, we make borrowing<br />simple, accessible, and empowering,<br />redefining dreams with innovation and<br />support.</p>
+                        </div>
+                        <div className="powered-by">
+                            <p>Powered by IGIG Technologies:</p>
+                            <div className="igig-logo">
+                                <img src={IGIG} alt="IGIG Technologies Logo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="right-container"> 
+                    <div className="features-container">
+                    <img src={woman} alt="Person" />
+                        <div className="features-heading">
+                            <h2>Simple Loans, Big Possibilities</h2>
+                        </div>
+                        <div className="about-features">
+                          <div className="feature">
+                              <div className="feature-icon"> <FaCheckCircle /> </div>
+                              <h6>Fast Access Anywhere</h6>
+                          </div>
+                          <div className="feature">
+                              <div className="feature-icon"> <FaCheckCircle /> </div>
+                              <h6>Save Time, Stress-Free</h6>
+                          </div>
+                      </div>
+                    </div>
+                    <div className="bottom-section">
+                        <div className="bottom-text">
+                            <p>Start your journey with ease today and take the first<br />step toward achieving your financial goals!</p>
+                        </div>
+                        <button
+                        className="check-rate-button"
+                        onClick={() => navigate("/signup")}
+                    >
+                        CHECK YOUR RATE
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+
 function WhyUs() {
+    const navigate = useNavigate();
   return (
       <section className="why-us-section">
           <div className="why-us-content">
               <div className="top-content">
                   <div className="left-side">
+                  <div className="display-horizontal">
+                  <img className="image-logo" src="../assets/2.png" alt="Ouma Cash Loans" /> 
                       <p className="why-us-title">WHY US</p>
+                      </div>
                       <h1 className="heading">The Ouma Cash Loans<br />Advantage</h1>
                       <p className="sub-heading">Empowering you with innovative financial<br />solutions and unmatched service.</p>
                   </div>
-                      <button className="learn-more-button">LEARN MORE</button>
+                  <button
+                        className="learn-more-button"
+                        onClick={() => navigate("/signup")}
+                    >
+                        LEARN MORE
+                    </button>
               </div>
 
               <div className="bottom-content">
@@ -269,22 +322,22 @@ function WhyUs() {
                       <div className="feature-item">
                           <span className="feature-number">1</span>
                           <p>Flexible Loan Options</p>
-                          <FaArrowRight className="arrow-icon" />
+                          <MdArrowOutward className="arrow-icon" />
                       </div>
                       <div className="feature-item">
                           <span className="feature-number">2</span>
                           <p>Transparent, Competitive Rates</p>
-                          <FaArrowRight className="arrow-icon" />
+                          <MdArrowOutward className="arrow-icon" />
                       </div>
                       <div className="feature-item"> 
                           <span className="feature-number">3</span>
                           <p>Seamless Online Process</p>
-                          <FaArrowRight className="arrow-icon" />
+                          <MdArrowOutward className="arrow-icon" />
                       </div>
                       <div className="feature-item">
                           <span className="feature-number">4</span>
                           <p>Dedicated to Financial Growth</p>
-                          <FaArrowRight className="arrow-icon" />
+                          <MdArrowOutward className="arrow-icon" />
                       </div>
                   </div>
               </div>
@@ -297,18 +350,19 @@ function SecurityAndPrivacy() {
         <section className="security-privacy">
             <div className="security-content">
                 <div className="top-section">
-                    <p className="section-title">Security and Privacy</p>
+                <div className="display-horizontal">
+                <img className="image-logo" src="../assets/2.png" alt="Ouma Cash Loans" /> 
+                    <p className="section-title-1">Security and Privacy</p>
+                    </div>
                 </div>
                 <div className="main-content">
                     <div className="left-side">
                         <h1 className="heading">Your Safety,<br />Our Priority</h1>
                     </div>
                         <p>We prioritize your security with<br />robust systems to protect your data<br />and ensure safe transactions at every<br />step.</p>
-                        <FaArrowAltCircleRight className="arrow-icon" />
+                        <MdArrowOutward className="arrow-icon" />
                 </div>
                 <div className="video-placeholder">
-                    {/* Placeholder for video embed */}
-                    {/* You would embed your video here using an appropriate library or method */}
                     <div className="video-icon">
                       <FaVideo />
                         
@@ -321,6 +375,8 @@ function SecurityAndPrivacy() {
 
 
 function Testimonials() {
+    const navigate = useNavigate();
+    const [hoveredIndex, setHoveredIndex] = useState(null);
   const testimonials = [
       {
           rating: '4.8/5',
@@ -339,9 +395,9 @@ function Testimonials() {
       {
           rating: '4.8/5',
           text: 'Quick approval, great support. Ouma Cash Loans exceeded my expectations.',
-          author: 'Jullus Pepe Onzima',
+          author: 'Jullius Pepe Onzima',
           title: 'IT Consultant',
-          bgColor: '#28348a'
+          bgColor: '#e9ecef'
       },
       {
           rating: '4.6/5',
@@ -353,24 +409,40 @@ function Testimonials() {
   ];
 
   return (
+    
     <section className="testimonials-section">
         <div className="testimonials-content">
-            <div className="left-content"> {/* Left side content */}
+            <div className="left-content"> 
                 <div className="testimonials-header">
+                <div className="display-horizontal">
+                <img className="image-logo" src="../assets/2.png" alt="Ouma Cash Loans" /> 
                     <p className="section-title">Reviews</p>
+                    </div>
                     <h1>What People Are<br />Saying</h1>
                     <p>Hear from our clients about their<br />experiences and how Loantema has<br />helped them achieve their financial<br />goals.</p>
-                    <button className="see-all-button">SEE ALL</button>
+                    <button
+                        className="see-all-button"
+                        onClick={() => navigate("/")}
+                    >
+                        SEE ALL
+                    </button>
                 </div>
             </div>
-            <div className="right-content"> {/* Right side (testimonials) */}
+            <div className="right-content"> 
                 <div className="testimonials-grid">
-                    {testimonials.map((testimonial, index) => (
-                        <div
-                            key={index}
-                            className="testimonial-card"
-                            style={{ backgroundColor: testimonial.bgColor, color: testimonial.bgColor === '#28348a' ? 'white' : 'black' }}
-                        >
+                {testimonials.map((testimonial, index) => (
+                            <div
+                                key={index}
+                                className="testimonial-card"
+                                style={{
+                                    backgroundColor:
+                                        hoveredIndex === index ? "#28348a" : testimonial.bgColor,
+                                    color: hoveredIndex === index ? "white" : "black",
+                                    transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
+                                }}
+                                onMouseEnter={() => setHoveredIndex(index)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                            >
                             <div className="rating-quote">
                                 <span className="rating">{testimonial.rating}</span>
                                 <FaQuoteRight className="quote-icon" />
@@ -390,17 +462,19 @@ function Testimonials() {
 }
 
 function Footer() {
+    const navigate = useNavigate();
   return (
+    <section id="contact-us" className="contact-us">
       <footer className="footer">
           <div className="footer-content">
               <div className="footer-section">
-                  <h3 className="headings">Ouma Cash Loans</h3>
+                  <h3 className="headings-1">Ouma Cash Loans</h3>
                   <p>Empowering financial dreams, one loan at a time. At Ouma Cash Loans, we are committed to providing secure, reliable, and accessible financial solutions to help you achieve your goals with confidence and ease.</p>
                   <hr className="under-border-1"/>
                   <p className="copyright">Copyright © 2024 Ouma Cash Loans</p>
               </div>
               <div className="footer-section">
-                  <h3 className="headings">Our Links</h3>
+                  <h3 className="headings-1">Our Links</h3>
                   <ul>
                       <li><a href="#">Home</a></li>
                       <li><a href="#">About Us</a></li>
@@ -411,18 +485,22 @@ function Footer() {
                   <hr className="under-border-2"/>
               </div>
               <div className="footer-section contact">
-                  <h3 className="headings">Contact Us</h3>
+                  <h3 className="headings-1">Contact Us</h3>
                   <p>Our Support and Sales team is here for you 24/7 to answer your queries.</p>
                   <p>13 Jackson Kaujeua St, Windhoek, Namibia</p>
                   <p>+204 (01) 123-4567</p>
                   <hr className="under-border-3"/>
               </div>
               <div className="footer-section newsletter">
-                  <h3 className="headings">Subscribe To Our Newsletter</h3>
+                  <h3 className="headings-1">Subscribe To Our Newsletter</h3>
                   <p>Subscribe for tips, updates, and exclusive offers</p>
                   <div className="newsletter-form">
                       <input type="email" placeholder="Enter Email" />
-                      <button >SUBSCRIBE</button>
+                      <button
+                        onClick={() => navigate("/signup")}
+                    >
+                        SUBSCRIBE
+                    </button>
                   </div>
                   <hr className="under-border-4"/>
                   <div className="social-icons">
@@ -434,8 +512,7 @@ function Footer() {
               </div>
           </div>
       </footer>
+      </section>
   );
-  //ADD SIGNUP PAGE
 }
 export default Home;
-

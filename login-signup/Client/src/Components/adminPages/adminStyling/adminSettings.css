@@ -1,0 +1,182 @@
+.container-2{
+    background-color: #B9BBF5; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 900px; 
+    margin: 20px auto; 
+    margin-left: 350px;
+    display: flex;
+}
+  
+  .first-sidebar {
+    width: 400px;
+    padding: 10px;
+  }
+  
+  .user-management {
+    width: 800px;
+    padding: 10px;
+  }
+  
+  .white-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .small {
+    width: 250px;
+    height: 110vh;
+  }
+  
+  .large {
+    width: calc(100% - 40px); 
+    height: 110vh;
+  }
+
+  .sidebar1-title-bar { 
+    background-color: #f0f0f0;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar1-title-icon { 
+    margin-right: 8px;
+  }
+  
+  .sidebar1-title-text { 
+    font-weight: bold;
+    flex-grow: 1;
+  }
+  
+  .sidebar1-title-arrow { 
+    margin-left: 8px;
+    color: #888;
+  }
+  
+  .settings-item { 
+    padding: 12px;
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  
+  .sidebar1-icon {
+    margin-right: 8px;
+    font-size: 1.2rem;
+    color: #3d3d3d;
+    vertical-align: text-bottom; /* Align to the middle of the text */
+}
+  
+.sidebar1-item-text {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  vertical-align: middle; /* Best practice: align text too */
+}
+  
+  .sidebar1-item-description { 
+    font-size: 0.85rem;
+    color: #353535;
+    margin-left: 28px;
+  }
+
+  .setting-item{
+  margin: 6%;
+  width: 100%;
+  }
+
+  .setting-item:hover{
+    background-color: #7775ED;
+    color: #fff;
+    border-radius: 5px;
+  }
+
+  .user-management-header {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    margin-bottom: 20px;
+  }
+  
+  .user-management-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .user-management-description {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+  
+  .add-user-button {
+    background-color: #7775ED; 
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .add-user-button:hover{
+    background-color: #fff;
+    color:#7775ED;
+    border: 1px solid #7775ED;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  #administrators th{
+    text-align: left;
+    background-color: #f0efef;
+  }
+
+  .user-table{
+    border: 1px solid #ddd;
+  }
+  
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle; 
+  }
+
+  .custom-select{
+    background-color:  #201B47;
+    padding: 5px 20px;
+    color: #fff;
+    border-radius: 5px;
+  }
+
+  .custom-select:hover{
+    background-color: #fff;
+    padding: 5px 20px;
+    border-radius: 5px;
+    color: #7775ED;
+    border: 1px solid #7775ED;
+  }
+  
+  .delete-button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+  }
