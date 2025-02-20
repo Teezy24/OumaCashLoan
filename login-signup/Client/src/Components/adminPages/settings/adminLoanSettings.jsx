@@ -1,6 +1,6 @@
 import { useState } from "react"
 import React from 'react'
-import "./adminStyling/adminLoanSettings.css"
+import "../adminStyling/adminLoanSettings.css"
 import {  FaHome, FaFileAlt, FaEnvelope, FaChartBar, FaCog,FaLock,FaUser, FaCreditCard, FaFileInvoiceDollar} from "react-icons/fa";
 
 const AdminLoanSettings = () => {
@@ -18,32 +18,7 @@ const AdminLoanSettings = () => {
     const interestRates = Array.from({ length: 100 }, (_, i) => i + 1);
 
   return (
-    <div className="wrapper-1">
-            <div className="container-2">
-                      <div className="first-sidebar">
-                      <div className="white-container small">
-                      <div className="setting-item">
-                  <FaUser className="sidebar1-icon" /> 
-                  <span className="sidebar1-item-text">User and Access Management</span>
-                  <div className="sidebar1-item-description">Manage users and roles</div>
-                </div>
-                <div className="setting-item">
-                  <FaFileInvoiceDollar className="sidebar1-icon" /> 
-                  <span className="sidebar1-item-text">Loan Settings</span>
-                  <div className="sidebar1-item-description">Adjust loan terms and rates.</div>
-                </div>
-                <div className="setting-item">
-                  <FaCreditCard className="sidebar1-icon" /> 
-                  <span className="sidebar1-item-text">Payments</span>
-                  <div className="sidebar1-item-description">Track and configure transactions.</div>
-                </div>
-                <div className="setting-item">
-                  <FaLock className="sidebar1-icon" />
-                  <span className="sidebar1-item-text">Security</span>
-                  <div className="sidebar1-item-description">Set up authentication and access.</div>
-                </div>
-                  </div>
-                </div>
+
                 <div className="user-management">
                  <div className="white-container large">
                  <div className="loan-settings-content"> 
@@ -123,8 +98,7 @@ const AdminLoanSettings = () => {
       </div>
      </div>
     </div>
-   </div>
-  </div>
+
   )
 }
 

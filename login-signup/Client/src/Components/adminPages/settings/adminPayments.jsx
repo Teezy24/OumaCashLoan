@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import "../adminstyles/loanPayments.css"
+import "../adminStyling/adminPayments.css"
+
 import { FaHome, FaFileAlt, FaEnvelope, FaChartBar, FaCog,FaLock,FaCreditCard,FaUser,FaFileInvoiceDollar } from "react-icons/fa";
 
 const AdminPayments = () => {
@@ -23,65 +24,12 @@ const AdminPayments = () => {
 
   return (
     <div className="dashboard-wrapper">
-                {/* Sidebar */}
-              <div className="sidebar">
-                <div className="logo-container">
-                  <img src="../assets/3.png" alt="Logo" className="logo" /> 
-                </div>
-                <ul className="sidebar-links">
-                  <li>
-                    <FaHome className="sidebar-icon" />
-                    <span>Home</span>
-                  </li>
-                  <li>
-                    <FaFileAlt className="sidebar-icon" />
-                    <span>Loan Application</span>
-                  </li>
-                  <li>
-                    <FaEnvelope className="sidebar-icon" />
-                    <span>Message</span>
-                  </li>
-                  <li>
-                    <FaChartBar className="sidebar-icon" />
-                    <span>Analytics and Reports</span>
-                  </li>
-                  <li>
-                    <FaCog className="sidebar-icon" />
-                    <span>Settings</span>
-                  </li>
-                </ul>
-                <div className="logout-btn">
-                <button>LOGOUT</button>
-                </div>
-              </div>
-              <div className="container-3">
-                          <div className="first-sidebar">
-                                      <div className="white-container small-2">
-                                      <div className="setting-item">
-                                  <FaUser className="sidebar1-icon" /> 
-                                  <span className="sidebar1-item-text">User and Access Management</span>
-                                  <div className="sidebar1-item-description">Manage users and roles</div>
-                                </div>
-                                <div className="setting-item">
-                                  <FaFileInvoiceDollar className="sidebar1-icon" /> 
-                                  <span className="sidebar1-item-text">Loan Settings</span>
-                                  <div className="sidebar1-item-description">Adjust loan terms and rates.</div>
-                                </div>
-                                <div className="setting-item">
-                                  <FaCreditCard className="sidebar1-icon" /> 
-                                  <span className="sidebar1-item-text">Payments</span>
-                                  <div className="sidebar1-item-description">Track and configure transactions.</div>
-                                </div>
-                                <div className="setting-item">
-                                  <FaLock className="sidebar1-icon" />
-                                  <span className="sidebar1-item-text">Security</span>
-                                  <div className="sidebar1-item-description">Set up authentication and access.</div>
-                                </div>
-                                  </div>
-                                </div>
-                                      <div className="user-management">
-                                      <div className="white-container large-2">
-                                      <div className="financial-details-section">
+          <div className="container-3">
+          </div>
+            <div className="user-management">
+            <div className="white-container large-2">
+            <div className="financial-details-section">
+                                        
         <h3>Financial Details</h3>
         <p>Update your banking information.</p>
         <div className="horizontally-placed">
@@ -91,7 +39,7 @@ const AdminPayments = () => {
         <div className="financial-details-input-group">
           <input type="text" id="accountNumber" placeholder="Bank Account Number" value={accountNumber} onChange={handleAccountNumberChange} />
         </div>
-        <button className="financial-details-change-button">CHANGE</button>
+        <button className="financial-change-button">CHANGE</button>
       </div>
       </div>
 
@@ -130,7 +78,7 @@ const AdminPayments = () => {
     </div>
     </div>
     </div>
-    </div>
+
   )
 }
 
