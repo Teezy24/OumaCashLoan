@@ -22,13 +22,14 @@ import ClientSettings from './Components/clientPages/clientSettings.jsx';
 
 //Admin
 import AdminHome from './Components/adminPages/adminHome.jsx';
-import AdminLoanApplication from './Components/adminPages/adminLoanApplication.jsx';
+import AdminLoanReviews from './Components/adminPages/adminLoanReviews.jsx';
+import AdminAnalytics from './Components/adminPages/adminAnalytics.jsx';
 import AdminSidebar from './Components/adminPages/adminSidebar.jsx';
 
 //admin messages tabs
 import AdminMessages from './Components/adminPages/adminMessages.jsx';
 //admin settings tabs
-import AdminSettings from './Components/adminPages/settingsTabs/adminSettings.jsx';
+import AdminSettings from './Components/adminPages/settings/adminSettings.jsx';
 
 function App() {
   return (
@@ -54,7 +55,8 @@ function App() {
         {/* Admin Routes with Static Sidebar */}
         <Route element={<AdminSidebar />}>
         <Route path="/admin-home" element={<AdminHome />} />
-        <Route path="/admin-loan-application" element={<AdminLoanApplication />} />
+        <Route path="/admin-loan-reviews" element={<AdminLoanReviews />} />
+        <Route path="/admin-analytics" element={<AdminAnalytics />} />
         <Route path="/admin-messages" element={<AdminMessages />} />
         <Route path="/admin-settings" element={<AdminSettings />} />
         <Route path="/logout" element={<Logout />} />

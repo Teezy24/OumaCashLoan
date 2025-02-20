@@ -1,9 +1,9 @@
 import { useState } from "react"
 import React from 'react'
-import "./adminStyling/adminLoanApplication.css"
+import "./adminStyling/adminLoanSettings.css"
 import {  FaHome, FaFileAlt, FaEnvelope, FaChartBar, FaCog,FaLock,FaUser, FaCreditCard, FaFileInvoiceDollar} from "react-icons/fa";
 
-const AdminLoanApplication = () => {
+const AdminLoanSettings = () => {
 
     const [loanType, setLoanType] = useState('');
     const [interestRate, setInterestRate] = useState('');
@@ -128,4 +128,4 @@ const AdminLoanApplication = () => {
   )
 }
 
-export default AdminLoanApplication;
+export default AdminLoanSettings;

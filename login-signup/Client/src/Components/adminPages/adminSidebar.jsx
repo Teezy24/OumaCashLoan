@@ -21,8 +21,8 @@ function adminSidebar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin-loan-application" activeClassName="active">
-              <FileText size={20} /> Loan Application
+            <NavLink to="/admin-loan-reviews" activeClassName="active">
+              <FileText size={20} /> Loan Reviews
             </NavLink>
           </li>
           <li>
