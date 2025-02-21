@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "israel",
+  password: "lionel messi",
   database: "loan",
 });
 
@@ -22,7 +22,16 @@ db.connect((err) => {
   }
 });
 
-// API routes for login/signup
+// Test Database Connection Route
+app.get("/test-db", (req, res) => {
+  db.query("SELECT 1", (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: "Database connection failed", details: err.message });
+    }
+    res.json({ message: "Database connection successful", result });
+  });
+});
+
 // Signup Route
 app.post("/signup", (req, res) => {
   const {
@@ -32,31 +41,32 @@ app.post("/signup", (req, res) => {
     phoneNumber,
     residentialAddress,
     postalAddress,
+    idNumber,
     role,
   } = req.body;
 
   const query =
-    "INSERT INTO users (full_name, email, password_hash, phone_number, residential_address, postal_address, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
-  db.query(
-    query,
-    [
-      fullName,
-      email,
-      password,
-      phoneNumber,
-      residentialAddress,
-      postalAddress,
-      role,
-    ],
-    (err, result) => {
-      if (err) {
-        console.error("Error during signup:", err);
-        return res.status(500).send("Error during signup");
-      }
-      res.status(200).send("Signup successful!");
+    "INSERT INTO users (full_name, email, password_hash, phone_number, residential_address, postal_address, id_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  
+  db.query(query, [
+    fullName,
+    email,
+    password,
+    phoneNumber,
+    residentialAddress,
+    postalAddress,
+    idNumber,
+    role,
+  ], (err, result) => {
+    if (err) {
+      console.error("Error during signup:", err);
+
+      return res.status(500).json({ error: err.message });
     }
-  );
+    res.status(200).send("Signup successful!");
+  });
 });
+
 
 // Login Route
 app.post("/login", (req, res) => {
@@ -66,15 +76,18 @@ app.post("/login", (req, res) => {
   db.query(query, [email, password], (err, result) => {
     if (err) {
       console.error("Error during login:", err);
-      return res.status(500).send("Error during login");
+      return res.status(500).json({ error: "Internal server error. Please try again later." });
     }
+
     if (result.length > 0) {
-      res.status(200).send("Login successful!");
+      const user = result[0];
+      res.status(200).json({ message: "Login successful!", user });
     } else {
-      res.status(400).send("Invalid email or password");
+      res.status(400).json({ error: "Invalid email or password" });
     }
   });
 });
+
 
 app.get("/", (re, res) => {
   return res.json("From Backend Side");

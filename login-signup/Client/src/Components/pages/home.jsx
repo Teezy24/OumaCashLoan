@@ -21,6 +21,9 @@ import IGIG from '../Assets/IGIG.png';
 
 function Home() {
     const navigate = useNavigate();
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
     return (
         <div className="app">
             <header className="header">
