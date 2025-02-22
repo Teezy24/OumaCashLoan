@@ -1,11 +1,23 @@
 /* ClientMessages.css */
 .c-messages {
+  display: flex;
+  background-color: #6765EA;
+  min-height: 100vh;
+  margin-left: 20%;
+  border-radius: 1rem;
+  width: 155vh;
+  height: 100vh;
+  padding: 1rem;
+}
+  
+  /* Messages Content */
+  .c-messages__content {
+    flex: 1;
+    background-color: white;
+    border-radius: 1rem;
     display: flex;
-    min-height: 100vh;
-    background-color: #6765EA;
-    padding: 1rem;
-    margin-left: 20%;
-    border-radius: 20px;
+    flex-direction: column;
+    width: 700px;
   }
   
   /* Sidebar Styles */
@@ -66,15 +78,7 @@
     color: #6B7280;
   }
   
-  /* Messages Content */
-  .c-messages__content {
-    flex: 1;
-    background-color: white;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    width: 700px;
-  }
+
   
   /* Header */
   .c-messages__header {

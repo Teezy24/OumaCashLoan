@@ -1,106 +1,50 @@
 /* Main layout */
 .c-history-page {
-  display: flex;
-  flex-direction: column;
+  margin-left: 25%;
+  width: 73%;
+  min-height: calc(100vh - 2rem);
   background-color: #9897eb;
-  min-height: 100vh;
-  padding: 1rem;
-  margin-left: 20%;
-  height: 80%;
-  border-radius: 10px;
+  border-radius: 1rem;
+  padding: 1.5rem;
 }
 
 .c-history-container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-  max-width: 990px;
+  grid-template-columns: 65% 33%;
+  gap: 2%;
+  height: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  width: fit-content;
-}
-
-.c-history-left-column {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.c-history-right-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 /* Card styling */
 .c-history-card {
   background: white;
-  border-radius: 0.75rem;
-  padding: 1rem;
+  border-radius: 1rem;
+  padding: 1.25rem;
   margin-bottom: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .c-history-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
-.c-history-card-title {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Dropdown */
-.c-history-dropdown {
-  position: relative;
-}
-
-.c-history-select {
-  appearance: none;
-  background-color: transparent;
-  border: 1px solid #e2e8f0;
-  padding: 6px 30px 6px 12px;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  color: #64748b;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath d='M12 15l-4.243-4.243 1.415-1.414L12 12.172l2.828-2.829 1.415 1.414z' fill='%2364748b'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 16px;
-  cursor: pointer;
-}
-
-/* Chart */
-.c-history-chart {
-  padding: 16px;
-  height: 240px;
-}
-
-/* Account Activity Table */
-.c-history-filter-btn {
-  background-color: transparent;
-  border: none;
-  color: #6366F1;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
+/* Table styling */
 .c-history-table-wrapper {
   overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  background: white;
 }
 
 .c-history-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .c-history-table-header {
@@ -108,42 +52,28 @@
 }
 
 .c-history-table-th {
-  padding: 12px 16px;
+  padding: 1rem;
   text-align: left;
-  font-weight: 500;
-  font-size: 0.75rem;
-  color: #64748b;
-  text-transform: uppercase;
-  border-bottom: 1px solid #e2e8f0;
+  font-weight: 600;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.c-history-table-row {
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.c-history-table-row:last-child {
-  border-bottom: none;
+.c-history-table-row:hover {
+  background-color: #f9fafb;
 }
 
 .c-history-table-cell {
-  padding: 12px 16px;
-  font-size: 0.875rem;
-  color: #334155;
+  padding: 1rem;
+  color: #374151;
 }
 
-.c-history-amount {
-  font-weight: 500;
-  text-align: right;
-}
-
-/* Status indicators */
+/* Status badges */
 .c-history-status {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  text-transform: capitalize;
 }
 
 .c-history-status-success {
@@ -166,207 +96,102 @@
   color: #71717a;
 }
 
-/* Payment Progress */
+/* Progress bar */
 .c-history-progress-container {
-  padding: 20px;
+  padding: 1.25rem;
 }
 
 .c-history-progress-bar {
-  height: 20px;
-  border-radius: 10px;
+  height: 1.5rem;
+  border-radius: 0.75rem;
   background-color: #f1f5f9;
-  display: flex;
   overflow: hidden;
+  margin: 0.5rem 0;
 }
 
 .c-history-progress-fill {
-  background-color: #0ea5e9;
+  height: 100%;
+  background-color: #6366F1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 600;
   color: white;
-}
-
-.c-history-progress-empty {
-  flex: 1;
-  background: repeating-linear-gradient(
-    -45deg,
-    #e2e8f0,
-    #e2e8f0 5px,
-    #f1f5f9 5px,
-    #f1f5f9 10px
-  );
-}
-
-.c-history-progress-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 0.75rem;
-  color: #64748b;
-}
-
-/* Count */
-.c-history-count-container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.c-history-count-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.c-history-count-label {
   font-size: 0.875rem;
-  color: #334155;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-weight: 500;
 }
 
-.c-history-count-icon {
-  color: #6366F1;
-}
-
-.c-history-count-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-/* Overall Loan Status */
-.c-history-status-container {
-  padding:5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Charts section */
+.c-history-chart {
+  height: 250px;
+  margin: 1rem 0;
 }
 
 .c-history-donut-container {
   position: relative;
-}
-
-.c-history-donut-text {
-  font-weight: 700;
-  fill: #0f172a;
-}
-
-.c-history-donut-value {
-  font-size: 1.5rem;
-}
-
-.c-history-donut-label {
-  font-size: 0.875rem;
-  fill: #64748b;
-}
-
-.c-history-legend-container {
+  height: 200px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  margin-left: auto;
-  align-self: flex-end;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Legend */
+.c-history-legend-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .c-history-legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.75rem;
-  color: #334155;
-}
-
-.c-history-legend-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-}
-
-.c-history-status-message {
-  text-align: center;
-  margin-top: 10px;
+  gap: 0.5rem;
   font-size: 0.875rem;
-  color: #64748b;
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  .c-history-container {
-    flex-direction: column;
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .c-history-page {
+    width: 72%;
   }
   
-  .c-history-right-column {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+  .c-history-container {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .c-history-right-column {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-/* Main page wrapper - ensures everything stays inside the main container */
-/* Responsive Design */
-@media screen and (max-width: 1200px) {
-  .c-history-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .c-history-right-column {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
   .c-history-page {
     margin-left: 0;
     width: 100%;
-    padding: 0.5rem;
-  }
-
-  .c-history-right-column {
-    grid-template-columns: 1fr;
-  }
-
-  .c-history-table {
-    font-size: 0.75rem;
+    padding: 1rem;
   }
 
   .c-history-card {
+    padding: 1rem;
+  }
+
+  .c-history-table-wrapper {
+    margin: 0.5rem 0;
+  }
+
+  .c-history-table-th,
+  .c-history-table-cell {
     padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .c-history-chart {
+    height: 200px;
   }
 }
 
-/* Utilities */
-.c-history-select {
-  padding: 0.375rem 1.5rem 0.375rem 0.75rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
-  font-size: clamp(0.75rem, 1vw, 0.875rem);
-  background: white;
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.c-history-filter-btn {
-  padding: 0.375rem 0.75rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
-  background: white;
-  font-size: clamp(0.75rem, 1vw, 0.875rem);
-  cursor: pointer;
-}
-
-.c-history-filter-btn:hover {
-  background: #f3f4f6;
+.c-history-card {
+  animation: fadeIn 0.3s ease-out;
 }
