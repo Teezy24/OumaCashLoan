@@ -1,22 +1,31 @@
 .container-2{
-    background-color: #B9BBF5; 
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 900px; 
-    margin: 20px auto; 
-    margin-left: 350px;
     display: flex;
-}
+    background-color: #B2B3F4;
+    min-height: 100vh;
+    margin-left: 20%;
+    border-radius: 1rem;
+    width: 155vh;
+    height: 100vh;
+    padding: 1rem;
+
+  }
   
   .first-sidebar {
-    width: 400px;
-    padding: 10px;
+    background-color: white;
+    margin-right: 1rem;
+    border-radius: 1rem;
+    width: 35%;
+    padding: 1rem;
+
   }
   
   .user-management {
-    width: 800px;
-    padding: 10px;
+    flex: 1;
+    display: flex;
+    background-color: #B2B3F4;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
   }
   
   .setting-item {

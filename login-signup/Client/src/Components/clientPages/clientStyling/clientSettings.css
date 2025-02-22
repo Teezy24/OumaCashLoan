@@ -1,7 +1,7 @@
 /* ClientSettings.css */
 .c-settings {
     display: flex;
-    background-color: #6765EA;
+    background-color: #B2B3F4;
     min-height: 100vh;
     margin-left: 20%;
     border-radius: 1rem;
@@ -14,13 +14,21 @@
   .c-settings__content {
     flex: 1;
     display: flex;
-    background-color: #6765EA;
+    background-color: #B2B3F4;
     border-radius: 1rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 35%;
 
   }
   
+   /* Detail Area Styles */
+   .c-settings__detail {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: white;
+    
+  }
   /* Navigation Styles */
   .c-settings__nav {
     background-color: white;
@@ -82,14 +90,7 @@
     color: #6B7280;
   }
   
-  /* Detail Area Styles */
-  .c-settings__detail {
-    flex: 1;
-    padding: 1rem;
-    border-radius: 1rem;
-    background-color: white;
-    
-  }
+ 
   
   /* Notifications Styles */
   .c-settings__checkbox-group {

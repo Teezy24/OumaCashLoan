@@ -112,9 +112,6 @@ const ClientHome = () => {
         return (
           <div className={`ch-calendar-event ch-calendar-event-${event.type}`}>
             <span className="ch-calendar-event-dot"></span>
-            <span className="ch-calendar-event-amount">
-              N${event.amount.toLocaleString()}
-            </span>
           </div>
         );
       }
@@ -187,7 +184,6 @@ const CalendarCard = () => {
 
       <ProfilePanel isOpen={isPanelOpen} togglePanel={togglePanel} />
 
-      
       <div className="ch-grid">
         {/* Overview Card */}
         <div className="ch-card">
@@ -231,14 +227,6 @@ const CalendarCard = () => {
           <div className="ch-card-header">
             <h2 className="ch-card-title">Loan Calendar</h2>
             <div className="ch-calendar-legend">
-              <span className="ch-legend-item">
-                <span className="ch-legend-dot payment"></span>
-                Payments Made
-              </span>
-              <span className="ch-legend-item">
-                <span className="ch-legend-dot due"></span>
-                Due Payments
-              </span>
             </div>
           </div>
 

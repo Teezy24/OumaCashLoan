@@ -49,7 +49,7 @@ const AdminSettings = () => {
     <div className="wrapper-1">
       <div className="container-2">
         <div className="first-sidebar">
-          <div className="white-container small">
+          <div className="white-container">
             {tabs.map((tab) => (
               <div 
                 key={tab.id}

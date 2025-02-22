@@ -1,11 +1,13 @@
-.container {
-    background-color: #B9BBF5; 
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 800px; 
-    margin: 20px auto; 
-    margin-left: 350px;
+.a-loan-settings-container {
+    display: flex;
+    background-color: #B2B3F4;
+    min-height: 100vh;
+    margin-left: 20%;
+    border-radius: 1rem;
+    width: 155vh;
+    height: 100vh;
+    padding: 1rem;
+
   }
   
   .top-section {

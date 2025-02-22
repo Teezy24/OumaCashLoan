@@ -1,18 +1,14 @@
 
-/* Main Layout */
-.loan-application {
-  display: flex;
-  min-height: 100vh;
-  background-color: var(--background-color);
-}
 
 /* Main Content Area */
 .loan-main {
   flex: 1;
-  margin-left: 250px; /* Sidebar width */
+  margin-left: 20%; /* Sidebar width */
   padding: 20px;
   background-color: var(--secondary-color);
   overflow-y: auto;
+  background-color: #B2B3F4;
+  border-radius: 20px;
 }
 
 /* Update Content Container */

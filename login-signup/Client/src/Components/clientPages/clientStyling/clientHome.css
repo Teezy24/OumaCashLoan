@@ -1,12 +1,11 @@
 /* Main Dashboard Layout */
-/* Main Dashboard Layout */
 .ch-dashboard {
   min-height: 100vh;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #B2B3F4;
-  margin-left: 250px;
+  margin-left: 20%;
   border-radius: 10px;
   overflow-y: auto;
   padding: 0 15px 15px 15px;
@@ -91,11 +90,13 @@
   z-index: 1000;
   padding: 20px;
   border-radius: 15px;
-  overflow-y: auto;
+  overflow-y: auto;           
 }
 
 .ch-panel-open {
-  right: 35px;
+
+  right: 10%;
+  top: 13%;
 }
 
 .ch-panel-closed {
@@ -231,7 +232,7 @@
 .ch-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  padding-top: 10px;
+  padding-top: 5px;
 }
 
 /* Card Base Styles */

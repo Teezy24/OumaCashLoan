@@ -449,11 +449,11 @@ const LoanApplication = () => {
   };
 
   return (
-    <div className="loan-application">
+   
       <div className="loan-main">
         {view === 'dashboard' ? renderDashboard() : renderCurrentStep()}
       </div>
-    </div>
+
   );
 };
 

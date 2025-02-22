@@ -21,7 +21,7 @@ const AdminLoanReview = () => {
     );
 
   return (
-    <div className="wrapper">
+
    <div className="loan-container-1">
         <div className="spacing">
       <div className="search-box-4">
@@ -87,11 +87,9 @@ const AdminLoanReview = () => {
           </div>
         ))}
       </div>
+      </div>
     </div>
-    </div>
-    </div>
-         </div>
-          
+  </div>          
   )
 }
 
