@@ -1,12 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useCa } from 'react';
 import { Bell, HelpCircle, Search, ArrowLeft, Camera, Filter } from "lucide-react";
+import { useDropzone } from 'react-dropzone'; 
 import './clientStyling/clientLoanApplication.css';
 
+
+const CreditCardForm = () => (
+  <div className="payment-form">
+    <div className="form-grid">
+      <div className="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="1234 5678 9012 3456" className="form-input" />
+      </div>
+      <div className="form-group">
+        <label>Card Holder Name</label>
+        <input type="text" placeholder="Name on card" className="form-input" />
+      </div>
+      <div className="form-group">
+        <label>Expiry Date</label>
+        <input type="text" placeholder="MM/YY" className="form-input" />
+      </div>
+      <div className="form-group">
+        <label>CVV</label>
+        <input type="text" placeholder="123" className="form-input" />
+      </div>
+    </div>
+  </div>
+);
+
+const BankTransferForm = () => (
+  <div className="payment-form">
+    <div className="form-grid">
+      <div className="form-group">
+        <label>Account Holder Name</label>
+        <input type="text" placeholder="Enter account holder name" className="form-input" />
+      </div>
+      <div className="form-group">
+        <label>Bank Name</label>
+        <input type="text" placeholder="Enter bank name" className="form-input" />
+      </div>
+      <div className="form-group">
+        <label>Account Number</label>
+        <input type="text" placeholder="Enter account number" className="form-input" />
+      </div>
+      <div className="form-group">
+        <label>Branch Code</label>
+        <input type="text" placeholder="Enter branch code" className="form-input" />
+      </div>
+    </div>
+  </div>
+);
+
 const LoanApplication = () => {
+  const [formData, setFormData] = useState({
+    // Payment Details
+    loanId: '',
+    paymentAmount: '',
+    
+    // Credit Card Details
+    cardNumber: '',
+    cardHolderName: '',
+    expiryDate: '',
+    cvv: '',
+    
+    // Bank Transfer Details
+    accountHolderName: '',
+    bankName: '',
+    accountNumber: '',
+    branchCode: '',
+    
+    // Personal/Document Details
+    bankStatement: null,
+    paySlip: null,
+    idCopy: null,
+    
+    // Loan Details
+    netSalary: '',
+    description: '',
+    loanAmount: '',
+    period: '36',
+    transferMethod: 'Bank Transfer',
+  });
+  
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [selectedLoanType, setSelectedLoanType] = useState('PERSONAL LOAN');
-  const [view, setView] = useState('dashboard'); // 'dashboard' or 'loanApplication'
+  const [view, setView] = useState('dashboard');
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
+  
 
   const renderDashboard = () => (
     <div className="dashboard-container">
@@ -194,10 +275,12 @@ const LoanApplication = () => {
         </div>
       </div>
 
-      <div className="payment-details-grid">
-        <div className="payment-detail-box"></div>
-        <div className="payment-detail-box"></div>
-      </div>
+      {selectedPaymentMethod && (
+        <div className="payment-details-container">
+          {selectedPaymentMethod === 'card' && <CreditCardForm />}
+          {selectedPaymentMethod === 'bank' && <BankTransferForm />}
+        </div>
+      )}
 
       <div className="security-note">
         <span className="lock-icon">🔒</span>
@@ -218,6 +301,7 @@ const LoanApplication = () => {
     </div>
   );
 
+ 
   const renderDocumentsStep = () => (
     <div className="loan-content">
       <h1 className="loan-title">Apply for a loan</h1>
@@ -240,53 +324,23 @@ const LoanApplication = () => {
         </div>
       </div>
 
-      <div className="upload-section">
-        <div className="upload-box">
-          <div className="upload-icon">📄</div>
-          <p>Drag and Drop files here or Choose File</p>
-          <span className="upload-info">Supported formats: PDF, PNG, JPG, DOCX, XLSX</span>
-          <span className="upload-size">Minimum Size: 25MB</span>
-        </div>
-
-        <div className="uploaded-files">
-          <div className="file-item">
-            <div className="file-icon">📄</div>
-            <div className="file-info">
-              <span className="file-name">bank_statement.pdf</span>
-              <span className="file-size">2 MB</span>
-            </div>
-          </div>
-          <div className="file-item">
-            <div className="file-icon">📄</div>
-            <div className="file-info">
-              <span className="file-name">pay_slip.pdf</span>
-              <span className="file-size">1 MB</span>
-            </div>
-          </div>
-          <div className="file-item">
-            <div className="file-icon">📄</div>
-            <div className="file-info">
-              <span className="file-name">certified_id.pdf</span>
-              <span className="file-size">3 MB</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="action-buttons">
-        <button className="help-button">
-          <HelpCircle size={20} />
+    <div className="action-buttons">
+      <button className="help-button">
+        <HelpCircle size={20} />
+      </button>
+      <div className="navigation-buttons">
+        <button className="prev-button" onClick={() => setCurrentStep(1)}>Previous</button>
+        <button 
+          className="next-button" 
+          onClick={() => setCurrentStep(3)}
+          disabled={uploadedFiles.length === 0}
+        >
+          Next <ArrowLeft size={16} className="arrow-icon" />
         </button>
-        <div className="navigation-buttons">
-          <button className="prev-button" onClick={() => setCurrentStep(1)}>Previous</button>
-          <button className="next-button" onClick={() => setCurrentStep(3)}>
-            Next <ArrowLeft size={16} className="arrow-icon" />
-          </button>
-        </div>
       </div>
     </div>
-  );
-
+    </div>
+    );
   const renderLoanDetailsStep = () => (
     <div className="loan-content">
       <h1 className="loan-title">Apply for a loan</h1>
