@@ -48,7 +48,7 @@ const SignUpForm = () => {
             
             // Navigate based on role
             switch(formData.role) {
-                case 'administrator':
+                case 'admin':
                     navigate('/admin-home');
                     break;
                 case 'approver':
@@ -176,7 +176,7 @@ const SignUpForm = () => {
                             required
                         >
                             <option value="client">Client</option>
-                            <option value="administrator">Administrator</option>
+                            <option value="admin">Admin</option>
                             <option value="approver">Loan Approver</option>
                             <option value="payment_officer">Payment Officer</option>
                         </select>

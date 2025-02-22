@@ -1,47 +1,65 @@
-const pool = require('../config/database');
-const { v4: uuidv4 } = require('uuid');
+const db = require('../config/database');
 
 const messageController = {
-  async createMessage(req, res) {
-    try {
-      const { conversation_id, message_text } = req.body;
-      const sender_id = req.user.user_id;
-      const messageId = uuidv4();
+  getConversations: (req, res) => {
+    const userId = req.user.id; // Assuming you have authentication middleware
+    const query = `
+      SELECT c.*, u.username as title
+      FROM conversations c
+      JOIN users u ON (c.user1_id = u.id OR c.user2_id = u.id)
+      WHERE (c.user1_id = ? OR c.user2_id = ?)
+      AND u.id != ?
+    `;
+    
+    db.query(query, [userId, userId, userId], (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json(results);
+    });
+  },
 
-      const [result] = await pool.query(
-        'INSERT INTO messages (id, conversation_id, sender_id, message_text) VALUES (?, ?, ?, ?)',
-        [messageId, conversation_id, sender_id, message_text]
-      );
+  getMessages: (req, res) => {
+    const { conversationId } = req.params;
+    const query = `
+      SELECT * FROM messages 
+      WHERE conversation_id = ?
+      ORDER BY created_at ASC
+    `;
+    
+    db.query(query, [conversationId], (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json(results);
+    });
+  },
 
-      res.status(201).json({ 
-        id: messageId,
+  createMessage: (req, res) => {
+    const { conversation_id, message_text } = req.body;
+    const sender_id = req.user.id; // Assuming you have authentication middleware
+    
+    const query = `
+      INSERT INTO messages (conversation_id, sender_id, message_text)
+      VALUES (?, ?, ?)
+    `;
+    
+    db.query(query, [conversation_id, sender_id, message_text], (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      
+      // Return the created message
+      const message = {
+        id: result.insertId,
         conversation_id,
         sender_id,
         message_text,
         created_at: new Date()
-      });
-    } catch (error) {
-      res.status(500).json({ message: 'Error creating message', error: error.message });
-    }
-  },
-
-  async getConversationMessages(req, res) {
-    try {
-      const { conversation_id } = req.params;
+      };
       
-      const [messages] = await pool.query(
-        `SELECT m.*, u.full_name as sender_name 
-         FROM messages m 
-         JOIN users u ON m.sender_id = u.user_id 
-         WHERE m.conversation_id = ? 
-         ORDER BY m.created_at ASC`,
-        [conversation_id]
-      );
-
-      res.json(messages);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching messages', error: error.message });
-    }
+      res.status(201).json(message);
+    });
   }
 };
 

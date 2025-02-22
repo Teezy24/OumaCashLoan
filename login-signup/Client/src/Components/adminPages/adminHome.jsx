@@ -1,13 +1,90 @@
 import React, { useState } from "react";
 import "./adminStyling/adminHome.css";
-import { IoFilterOutline } from "react-icons/io5";
+import { IoFilterOutline, IoSettingsOutline } from "react-icons/io5";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { FaCheckCircle, FaEye, FaEdit, FaTrash, FaFilter, FaSortAmountUp } from "react-icons/fa";
-import { FaComments, FaTimesCircle, FaExclamationTriangle, FaSearch, FaHome, FaFileAlt, FaEnvelope, FaChartBar, FaCog } from "react-icons/fa";
+import { ArrowLeft, Camera } from "lucide-react";
+import { BiBell } from "react-icons/bi";
+import { FaCheckCircle, FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaComments, FaTimesCircle, FaExclamationTriangle, FaSearch, FaCamera, FaArrowLeft } from "react-icons/fa";
+
+const ProfilePanel = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className={`profile-panel ${isOpen ? 'panel-open' : ''}`}>
+      <div className="profile-header">
+        <button className="back-button" onClick={onClose}>
+          <FaArrowLeft size={20} />
+        </button>
+        <h2 className="profile-title">Personal Details</h2>
+      </div>
+      <div className="profile-content">
+        <div className="photo-section">
+          <div className="photo-container">
+            <div className="photo-placeholder">
+              <FaCamera size={32} color="#666" />
+            </div>
+            <button className="change-photo-btn">
+              <FaCamera size={16} />
+              Change Profile Photo
+            </button>
+          </div>
+        </div>
+
+        <div className="profile-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="James" />
+            </div>
+            <div className="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Bond" />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="admin@example.com" />
+            </div>
+            <div className="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+264 81 123 4567" />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>National ID</label>
+              <input type="text" placeholder="ID Number" />
+            </div>
+            <div className="form-group">
+              <label>Postal Address</label>
+              <input type="text" placeholder="P.O. Box" />
+            </div>
+          </div>
+
+          <div className="form-group full-width">
+            <label>Residential Address</label>
+            <input type="text" placeholder="Full Address" />
+          </div>
+
+          <div className="button-group">
+            <button className="edit-button">Edit Details</button>
+            <button className="delete-button">Delete Account</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AdminHome = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("30 days");
-
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const togglePanel = () => setIsPanelOpen(!isPanelOpen);
   const handlePeriodChange = (event) => {
     setSelectedPeriod(event.target.value);
   };
@@ -39,15 +116,35 @@ const users = [
   { id: 7, name: "David Green", email: "david@nova.laravel.com" }
 ];
 
-  return (
-
-    <div className="dashboard-wrapper">
-      
-      <div className="dashboard-container">
-        <header className="dashboard-header">
-          <div className="dashboard-header-left">
+return (
+  <div className="dashboard-wrapper">
+    <div className="dashboard-container">
+      <header className="ah-topbar">
+        <div className="dashboard-header-left">
+          <h1>Dashboard</h1>
+        </div>
+        <div className="dashboard-header-right">
+          <div className="header-actions">
+            <button className="icon-button">
+              <BiBell size={24} />
+              <span className="notification-badge">3</span>
+            </button>
+            <button className="icon-button">
+              <IoSettingsOutline size={24} />
+            </button>
+            <button 
+              className="profile-button"
+              onClick={() => setIsProfileOpen(true)}
+            >
+              <img 
+                src="/api/placeholder/40/40"
+                alt="Profile" 
+                className="profile-image"
+              />
+            </button>
           </div>
-        </header>
+        </div>
+      </header>
 
         <div className="dashboard-main">
           <div className="main-left">
@@ -137,7 +234,7 @@ const users = [
                 </button>
               </div>
 
-              <div className="borrowers-container-1">
+        <div className="borrowers-container-1">
       <div className="header-1">
         <div className="sort-icon-1"><RiArrowDropDownLine size={20} /></div>
         <div className="filter-icon-1"><IoFilterOutline  size={20} /></div>
@@ -181,6 +278,9 @@ const users = [
     </div>
           
         </div>
+
+
+        
       </div>
       <div className="main-right-container"> 
             <div className="dark-container">
@@ -203,40 +303,44 @@ const users = [
                 </div>
               </div>
 
-<div className="to-do-list-container">
-  <div className="todo-header">
-    <h2 className="title">To-do List</h2>
-    <div className="todo-actions">
-      <button className="todo-action-button" onClick={addTask}>
-        +
-      </button>
-    </div>
-  </div>
-  <div className="to-do-list">
-    <ul>
-      {tasks.map((task, index) => (
-        <li key={index} className="todo-item">
-          <input
-            type="text"
-            value={task}
-            onChange={(e) => handleTaskChange(index, e.target.value)}
-            placeholder={`Task ${index + 1}`}
-            className="todo-input"
-          />
-          <button
-            className="remove-task-button"
-            onClick={() => removeTask(index)}
-          >
-            ✖
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
-</div>
-
+        <div className="to-do-list-container">
+          <div className="todo-header">
+            <h2 className="title">To-do List</h2>
+            <div className="todo-actions">
+              <button className="todo-action-button" onClick={addTask}>
+                +
+              </button>
             </div>
           </div>
+          <div className="to-do-list">
+            <ul>
+              {tasks.map((task, index) => (
+                <li key={index} className="todo-item">
+                  <input
+                    type="text"
+                    value={task}
+                    onChange={(e) => handleTaskChange(index, e.target.value)}
+                    placeholder={`Task ${index + 1}`}
+                    className="todo-input"
+                  />
+                  <button
+                    className="remove-task-button"
+                    onClick={() => removeTask(index)}
+                  >
+                    ✖
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+            </div>
+            <ProfilePanel 
+        isOpen={isProfileOpen} 
+        onClose={() => setIsProfileOpen(false)} 
+      />
+    </div>
     </div>
   );
 };

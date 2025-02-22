@@ -36,7 +36,10 @@ function ClientSidebar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/client-messages" activeClassName="active">
+          <NavLink 
+              to="/client-messages" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
               <MessageSquare size={20} /> Messages
             </NavLink>
           </li>
@@ -46,7 +49,7 @@ function ClientSidebar() {
             </NavLink>
           </li>
         </ul>
-        <NavLink to="/logout" className="logout-btn">
+        <NavLink to="/" className="logout-btn">
           Logout
         </NavLink>
       </div>
