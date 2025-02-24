@@ -9,18 +9,15 @@ body {
   flex-direction: column;
   background-color: #B2B3F4;
   min-height: 100vh;
-  margin-left: 20%;
   border-radius: 1rem;
-  width: 155vh;
-  height: 100vh;
-  padding: 1rem;
+  width: 100%;
 }
 
 /* Tabs Styles */
 .ap-tabs {
   display: flex;
   justify-content: space-around;
-  background-color: #787684;
+  background-color: #201B47;
   border-radius: 1rem;
   padding: 1rem;
   margin-bottom: 1rem;

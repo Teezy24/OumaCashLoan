@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaCreditCard, FaFileInvoiceDollar, FaFileAlt } from "react-icons/fa";
-
+import '../adminStyling/adminPayments.css';
 const AdminPayments = () => {
   const [activeTab, setActiveTab] = useState('financialDetails');
   const [bankName, setBankName] = useState('');
