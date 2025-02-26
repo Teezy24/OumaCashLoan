@@ -1,146 +1,128 @@
-import React, { useState } from 'react';
-import '../sidebar.css';
-import "./clientStyling/clientMessages.css";
-import { Search, Star, Users, Trash2, ChevronRight, Mic, Paperclip, Send } from 'lucide-react';
-
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Users } from 'lucide-react';
+import axios from 'axios';
+import './clientStyling/clientMessages.css';
 
 const ClientMessages = () => {
-  const [activeChat, setActiveChat] = useState('all');
-  
+  const [activeChat, setActiveChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+
+  // Fetch or create conversation on component mount
+  useEffect(() => {
+    fetchOrCreateAdminChat();
+  }, []);
+
+  // Fetch messages when active chat changes
+  useEffect(() => {
+    if (activeChat) {
+      fetchMessages(activeChat.conversation_id);
+    }
+  }, [activeChat]);
+
+  const fetchOrCreateAdminChat = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/conversations/client/${currentUser.user_id}`);
+      setActiveChat(res.data);
+    } catch (err) {
+      console.error('Error fetching admin chat:', err);
+    }
+  };
+
+  const fetchMessages = async (conversationId) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/messages/${conversationId}`);
+      setMessages(res.data);
+    } catch (err) {
+      console.error('Error fetching messages:', err);
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !activeChat) return;
+
+    try {
+      await axios.post('http://localhost:5000/api/messages', {
+        conversation_id: activeChat.conversation_id,
+        sender_id: currentUser.user_id,
+        message_text: newMessage
+      });
+      setNewMessage('');
+      fetchMessages(activeChat.conversation_id);
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
+  };
+
   return (
     <div className="c-messages">
-      {/* Messages Sidebar */}
       <div className="cm-sidebar">
-        <button className="cm-sidebar__button cm-sidebar__button--active">
-          <div className="cm-sidebar__button-content">
-            <div className="cm-sidebar__icon-container">
-              <ChevronRight size={20} />
-            </div>
-            <div className="cm-sidebar__text">
-              <span className="cm-sidebar__title">All Inbox</span>
-              <span className="cm-sidebar__subtitle">Access all your communications</span>
-            </div>
-          </div>
-        </button>
-
-        <button className="cm-sidebar__button">
-          <div className="cm-sidebar__button-content">
-            <div className="cm-sidebar__icon-container">
-              <Users size={20} />
-            </div>
-            <div className="cm-sidebar__text">
-              <span className="cm-sidebar__title">Staff</span>
-              <span className="cm-sidebar__subtitle">Send your queries to our team</span>
+        <div className="cm-sidebar__header">
+          <h2>Admin Support</h2>
+        </div>
+        {activeChat && (
+          <div className="cm-sidebar__admin">
+            <div className="cm-sidebar__button cm-sidebar__button--active">
+              <div className="cm-sidebar__button-content">
+                <Users size={20} />
+                <div className="cm-sidebar__text">
+                  <span className="cm-sidebar__title">{activeChat.admin_name}</span>
+                  <span className="cm-sidebar__subtitle">Support Agent</span>
+                </div>
+              </div>
             </div>
           </div>
-        </button>
-
-        <button className="cm-sidebar__button">
-          <div className="cm-sidebar__button-content">
-            <div className="cm-sidebar__icon-container">
-              <Star size={20} />
-            </div>
-            <div className="cm-sidebar__text">
-              <span className="cm-sidebar__title">Starred</span>
-              <span className="cm-sidebar__subtitle">View your important messages</span>
-            </div>
-          </div>
-        </button>
-
-        <button className="cm-sidebar__button">
-          <div className="cm-sidebar__button-content">
-            <div className="cm-sidebar__icon-container">
-              <Trash2 size={20} />
-            </div>
-            <div className="cm-sidebar__text">
-              <span className="cm-sidebar__title">Deleted</span>
-              <span className="cm-sidebar__subtitle">View your deleted messages</span>
-            </div>
-          </div>
-        </button>
+        )}
       </div>
 
-      {/* Messages Content */}
       <div className="c-messages__content">
-        {/* Header */}
-        <div className="c-messages__header">
-          <div className="c-messages__search">
-            <input type="text" placeholder="Search Chat" />
-            <button className="c-messages__search-btn">
-              <Search size={20} />
-            </button>
-          </div>
-          <div className="c-messages__user">
-            <img src="/api/placeholder/40/40" alt="User" className="c-messages__user-avatar" />
-            <div className="c-messages__user-info">
-              <span className="c-messages__user-name">Nchangwe Reinhold</span>
-              <span className="c-messages__user-role">Client</span>
+        {activeChat ? (
+          <>
+            <div className="c-messages__header">
+              <h2>Chat with Support</h2>
             </div>
-            <div className="c-messages__actions">
-              <button className="c-messages__action-btn">
-                <Star size={20} />
-              </button>
-              <button className="c-messages__action-btn">
-                <span className="sr-only">Menu</span>
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                  <path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM5 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill="currentColor"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
 
-        {/* Chat Area */}
-        <div className="c-messages__chat">
-          <div className="c-messages__chat-container">
-            {/* Message Bubbles */}
-            <div className="c-messages__message c-messages__message--received">
-              <img src="/api/placeholder/32/32" alt="" className="c-messages__message-avatar" />
-              <div className="c-messages__message-content">
-                <p>Yes Ms. Kuvare your ...</p>
-                <span className="c-messages__message-time">08:52</span>
+            <div className="c-messages__chat">
+              <div className="c-messages__chat-container">
+                {messages.map((message) => (
+                  <div
+                    key={message.message_id}
+                    className={`c-messages__message ${
+                      message.sender_id === currentUser.user_id 
+                        ? 'c-messages__message--sent' 
+                        : 'c-messages__message--received'
+                    }`}
+                  >
+                    <div className="c-messages__message-content">
+                      <p>{message.message_text}</p>
+                      <span className="c-messages__message-time">
+                        {new Date(message.created_at).toLocaleTimeString()}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
 
-            <div className="c-messages__message c-messages__message--sent">
-              <div className="c-messages__message-content">
-                <p>Your invoice will be sent shortly</p>
-                <span className="c-messages__message-time">08:12</span>
-              </div>
+              <form className="c-messages__input" onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Type your message..."
+                />
+                <button type="submit" className="c-messages__input-btn">
+                  <Send size={20} />
+                </button>
+              </form>
             </div>
-
-            <div className="c-messages__message c-messages__message--sent">
-              <div className="c-messages__message-content c-messages__message-content--dark">
-                <p>Have you received my payment for the Cruz Home Loan</p>
-                <span className="c-messages__message-time">08:32</span>
-              </div>
-            </div>
-
-            <div className="c-messages__message c-messages__message--received">
-              <img src="/api/placeholder/32/32" alt="" className="c-messages__message-avatar" />
-              <div className="c-messages__message-content">
-                <p>Yes Ms. Kuvare your payment has been received</p>
-                <span className="c-messages__message-time">08:52</span>
-              </div>
-            </div>
+          </>
+        ) : (
+          <div className="c-messages__empty">
+            Connecting to support...
           </div>
-
-          {/* Input Area */}
-          <div className="c-messages__input">
-            <input type="text" placeholder="Thank you very much for clarifying" />
-            <div className="c-messages__input-actions">
-              <button className="c-messages__input-btn">
-                <Paperclip size={20} />
-              </button>
-              <button className="c-messages__input-btn">
-                <Mic size={20} />
-              </button>
-              <button className="c-messages__input-btn c-messages__input-btn--send">
-                <Send size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

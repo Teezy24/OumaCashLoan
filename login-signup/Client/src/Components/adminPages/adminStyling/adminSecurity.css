@@ -1,14 +1,22 @@
+/* Apply smooth scrolling */
 html {
     scroll-behavior: smooth;
 }
 
-
+/* Container Styles */
 .security-privacy {
     background-color: #01073be1;
     color: white;
-    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    border-radius: 1rem;
+    width: 100%;/* Adjusted to account for the fixed sidebar width */
+    height: 100vh;
+    padding: 1rem;
 }
 
+/* Content Styles */
 .security-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -38,11 +46,11 @@ p.section-title-1 {
     text-align: left;
 }
 
-h1.heading{
+h1.heading {
     font-size: 24px;
 }
 
-.arrow-icon{
+.arrow-icon {
     margin-bottom: 10px;
     color: #4c6ef5;
     font-size: 2em;
@@ -57,15 +65,18 @@ h1.heading{
     color: gray;
     font-size: 2em;
 }
-.video-icon{
+
+.video-icon {
     padding: 20px;
     font-size: 2em;
 }
-@media (max-width: 768px){
-    .main-content{
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
         flex-direction: column;
     }
-    .right-side{
+    .right-side {
         align-items: flex-start;
         margin-top: 20px;
     }

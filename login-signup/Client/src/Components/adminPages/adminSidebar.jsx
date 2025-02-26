@@ -41,7 +41,7 @@ function adminSidebar() {
             </NavLink>
           </li>
         </ul>
-        <NavLink to="/logout" className="logout-btn">
+        <NavLink to="/" className="logout-btn">
           Logout
         </NavLink>
       </div>

@@ -1,98 +1,145 @@
-import './adminStyling/adminMessages.css'; 
-import { FaHome, FaFileAlt, FaEnvelope, FaChartBar, FaCog, FaSearch  } from 'react-icons/fa';
-import { MdInbox, MdPeople, MdGroups, MdStar, MdDelete} from 'react-icons/md';
-import { MdOutlineAttachment } from 'react-icons/md';
-import { FaMicrophone } from 'react-icons/fa';
-import { HiPaperAirplane } from 'react-icons/hi';
-  
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Users } from 'lucide-react';
+import axios from 'axios';
+import './adminStyling/adminMessages.css';
 
 const AdminMessages = () => {
+  const [clients, setClients] = useState([]);
+  const [activeChat, setActiveChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const currentUser = JSON.parse(localStorage.getItem('user'));
 
-    const sidebarLinks = [
-        { icon: <MdInbox />, text: 'All Inbox', subtext: 'View all your messages' },
-        { icon: <MdPeople />, text: 'Clients', subtext: 'Manage your clients' },
-        { icon: <MdGroups  />, text: 'Staff', subtext: 'Manage your staff' },
-        { icon: <MdStar />, text: 'Starred', subtext: 'Important messages' },
-        { icon: <MdDelete />, text: 'Deleted', subtext: 'Recently deleted messages' },
-      ];
+  // Fetch clients on component mount
+  useEffect(() => {
+    fetchClients();
+  }, []);
 
+  // Fetch messages when active chat changes
+  useEffect(() => {
+    if (activeChat) {
+      fetchMessages(activeChat.conversation_id);
+    }
+  }, [activeChat]);
+
+  const fetchClients = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/users/clients');
+      setClients(res.data);
+    } catch (err) {
+      console.error('Error fetching clients:', err);
+    }
+  };
+
+  const fetchMessages = async (conversationId) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/messages/${conversationId}`);
+      setMessages(res.data);
+    } catch (err) {
+      console.error('Error fetching messages:', err);
+    }
+  };
+
+  const startChat = async (clientId) => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/conversations', {
+        client_id: clientId,
+        admin_id: currentUser.user_id
+      });
+      setActiveChat(res.data);
+    } catch (err) {
+      console.error('Error starting chat:', err);
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !activeChat) return;
+
+    try {
+      await axios.post('http://localhost:5000/api/messages', {
+        conversation_id: activeChat.conversation_id,
+        sender_id: currentUser.user_id,
+        message_text: newMessage
+      });
+      setNewMessage('');
+      fetchMessages(activeChat.conversation_id);
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
+  };
 
   return (
-    <div className="wrapper">
-    <div className="container-1">
-        <div className="chat-container">
-        <div className="chat-left">
-      <ul className="sidebar-list-1">
-        {sidebarLinks.map((link, index) => (
-          <li key={index} className="sidebar-item-1">
-            <a href="#" className="sidebar-link-1">
-              <span className="sidebar-icon-1">{link.icon}</span>
-              <div className="sidebar-text-container-1"> 
-                <span className="sidebar-text-1">{link.text}</span><br/> 
-                <span className="sidebar-subtext-1">{link.subtext}</span>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-        <div className="chat-right">
-        <aside className="sidebar-1">
-        <div className="search-box">
-          <input type="text" placeholder="Search Chat" />
-          <button > <FaSearch/></button>
+    <div className="c-messages">
+      <div className="cm-sidebar">
+        <div className="cm-sidebar__header">
+          <h2>Clients</h2>
         </div>
-        <div className="chat-list">
-          {['Moses UriKhab', 'Admin Group', 'Jimmy Takluk', 'Jane Kuvare'].map((name, index) => (
-            <div key={index} className={`chat-item ${name === 'Admin Group' ? 'active' : ''}`}>
-              <img src="../assets/woman.png" alt="Contact Avatar" />
-              <p>{name}</p>
-            </div>
+        <div className="cm-sidebar__clients">
+          {clients.map((client) => (
+            <button
+              key={client.user_id}
+              onClick={() => startChat(client.user_id)}
+              className={`cm-sidebar__button ${
+                activeChat?.client_id === client.user_id ? 'cm-sidebar__button--active' : ''
+              }`}
+            >
+              <div className="cm-sidebar__button-content">
+                <Users size={20} />
+                <div className="cm-sidebar__text">
+                  <span className="cm-sidebar__title">{client.full_name}</span>
+                  <span className="cm-sidebar__subtitle">{client.email}</span>
+                </div>
+              </div>
+            </button>
           ))}
         </div>
-      </aside>
-      <main className="chat-area">
-        <div className="chat-item active">
-          <img src="../assets/woman.png" alt="Contact Avatar" />
-          <div className="chat-item-text">
-            <p>Admin Group</p>
-            <p className="subtext">Senior Administrator</p>
-          </div>
-        </div>
+      </div>
 
-        <div className="message-area">
-          <div className="message received">
-            <img src="../assets/woman.png" alt="Contact Avatar" />
-            <p>Jamie has instructed me to tell you to focus on the pending application sent in this week as there is an overflow on clients that was not addressed yet.</p>
-          </div>
-          <div className="message sent">
-            <img src="../assets/woman.png" alt="User Avatar" />
-            <p>Sure thing, I will begin with that promptly.</p>
-          </div>
-          <div className="message received">
-            <img src="../assets/woman.png" alt="Contact Avatar" />
-            <p>How many applications were you able to complete?</p>
-          </div>
-          <div className="message sent">
-            <img src="../assets/woman.png" alt="User Avatar" />
-            <p>About 20 or so, why?</p>
-          </div>
-        </div>
+      <div className="c-messages__content">
+        {activeChat ? (
+          <>
+            <div className="c-messages__header">
+              <h2>{activeChat.title}</h2>
+            </div>
 
-        <div className="input-area">
-      <div className="input-wrapper">
-        <input type="text" placeholder="Type a message..." />
-        <MdOutlineAttachment className="input-icon right" />
-        <FaMicrophone className="input-icon right" />
-        <HiPaperAirplane className="input-icon right send-icon" /> {/* Added class */}
+            <div className="c-messages__chat">
+              <div className="c-messages__chat-container">
+                {messages.map((message) => (
+                  <div
+                    key={message.message_id}
+                    className={`c-messages__message ${
+                      message.sender_id === currentUser.user_id 
+                        ? 'c-messages__message--sent' 
+                        : 'c-messages__message--received'
+                    }`}
+                  >
+                    <p>{message.message_text}</p>
+                    <span>{new Date(message.created_at).toLocaleTimeString()}</span>
+                  </div>
+                ))}
+              </div>
+
+              <form className="c-messages__input" onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Type your message..."
+                />
+                <button type="submit" className="c-messages__input-btn">
+                  <Send size={20} />
+                </button>
+              </form>
+            </div>
+          </>
+        ) : (
+          <div className="c-messages__empty">
+            Select a client to start messaging
+          </div>
+        )}
       </div>
     </div>
-      </main>
-        </div>
-      </div>
-      </div>
-      </div>
-      
   );
 };
 

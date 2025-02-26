@@ -35,7 +35,7 @@ const ProfilePanel = ({ isOpen, togglePanel }) => {
               <label>First Name</label>
               <input type="text" placeholder="James" className="ch-form-input" />
             </div>
-            <div className="ch-form-group-left">
+            <div className="ch-form-group label">
               <label>Last Name</label>
               <input type="text" placeholder="Bond" className="ch-form-input" />
             </div>
@@ -98,6 +98,27 @@ const ClientHome = () => {
   const togglePanel = () => setIsPanelOpen(!isPanelOpen);
   const [date, setDate] = useState(new Date()); 
 
+  const loanPaymentDates = [
+    { date: '2025-02-25', type: 'payment', amount: 5000 },
+    { date: '2025-03-15', type: 'due', amount: 7500 },
+    { date: '2025-03-25', type: 'payment', amount: 5000 }
+  ];
+  const tileContent = ({ date, view }) => {
+    if (view === 'month') {
+      const formattedDate = date.toISOString().split('T')[0];
+      const event = loanPaymentDates.find(e => e.date === formattedDate);
+      
+      if (event) {
+        return (
+          <div className={`ch-calendar-event ch-calendar-event-${event.type}`}>
+            <span className="ch-calendar-event-dot"></span>
+          </div>
+        );
+      }
+    }
+    return null;
+
+  };
   const pieData = [
     { name: "Loans", value: 40, color: "#4c4cff" },
     { name: "Payments", value: 25, color: "#10b981" },
@@ -163,7 +184,6 @@ const CalendarCard = () => {
 
       <ProfilePanel isOpen={isPanelOpen} togglePanel={togglePanel} />
 
-      
       <div className="ch-grid">
         {/* Overview Card */}
         <div className="ch-card">
@@ -171,6 +191,7 @@ const CalendarCard = () => {
             <h2 className="ch-card-title">Overview</h2>
             <span className="ch-card-date">{date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
           </div>
+          
 
         {/* Calendar card */}
         <div className="ch-calendar-overview">
@@ -187,35 +208,44 @@ const CalendarCard = () => {
             </div>
       ))}
     </div>
+    
+    <div className="ch-calendar-summary">
+            <div className="ch-summary-item">
+              <span className="ch-summary-label">Next Payment Due:</span>
+              <span className="ch-summary-value">March 15, 2025</span>
+            </div>
+            <div className="ch-summary-item">
+              <span className="ch-summary-label">Amount Due:</span>
+              <span className="ch-summary-value">N$7,500</span>
+            </div>
+          </div>
   </div>
-
-  {/* Calendar Header */}
-  <div className="ch-calendar-header">
-    <span className="ch-calendar-month">
-      {date.toLocaleString('default', { month: 'long', year: 'numeric' })}
-    </span>
-    <button className="ch-calendar-add">+</button>
-  </div>
-
-  {/* Calendar Component */}
-  <div className="ch-calendar-container">
-  <Calendar 
-    onChange={setDate} 
-    value={date} 
-    className="ch-calendar"
-    showNavigation={false}
-    tileClassName={({ date, view }) => {
-      if (view === 'month') {
-        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-        return isWeekend ? 'ch-calendar-weekend' : 'ch-calendar-day';
-      }
-    }}
-    formatShortWeekday={(locale, date) => 
-      ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()]
-    }
-  />
 </div>
-</div>
+
+  {/* Loan Calendar Section */}
+  <div className="ch-card">
+          <div className="ch-card-header">
+            <h2 className="ch-card-title">Loan Calendar</h2>
+            <div className="ch-calendar-legend">
+            </div>
+          </div>
+
+          <div className="ch-calendar-wrapper">
+            <Calendar
+              onChange={setDate}
+              value={date}
+              tileContent={tileContent}
+              className="loan-calendar"
+              tileClassName={({ date, view }) => {
+                const formattedDate = date.toISOString().split('T')[0];
+                const event = loanPaymentDates.find(e => e.date === formattedDate);
+                return event ? `ch-calendar-tile-${event.type}` : '';
+              }}
+            />
+          </div>
+
+        </div>
+
         {/* Balance Card */}
         <div className="ch-card">
           <div className="ch-card-header">

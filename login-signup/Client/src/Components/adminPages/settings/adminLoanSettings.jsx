@@ -19,9 +19,8 @@ const AdminLoanSettings = () => {
 
   return (
 
-                <div className="user-management">
-                 <div className="white-container large">
-                 <div className="loan-settings-content"> 
+        <div className="white-container large">
+        <div className="loan-settings-content"> 
         <div className="loan-settings-section">
           <h3>Configure loan type</h3>
           <p>Configure the rates of interest for different loan types and modify repayment terms.</p>
@@ -97,8 +96,6 @@ const AdminLoanSettings = () => {
           </div>
       </div>
      </div>
-    </div>
-
   )
 }
 
