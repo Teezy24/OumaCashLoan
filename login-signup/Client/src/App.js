@@ -10,7 +10,7 @@ import Home from './Components/pages/home.jsx';
 
 // Client
 import ClientHome from './Components/clientPages/clientHome.jsx';
-import ClientLoanApplication from './Components/clientPages/clientLoanApplication.jsx';
+import ClientLoanApplication from './Components/clientPages/loanApplication/clientLoanApplication.jsx';
 import ClientLoanCalculator from './Components/clientPages/clientLoanCalculator.jsx';
 import ClientLoanHistory from './Components/clientPages/clientLoanHistory.jsx';
 import ClientSidebar from './Components/clientPages/clientSidebar.jsx';

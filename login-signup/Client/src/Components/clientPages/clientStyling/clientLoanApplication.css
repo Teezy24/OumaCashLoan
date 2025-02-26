@@ -7,24 +7,29 @@
   padding: 20px;
   background-color: var(--secondary-color);
   overflow-y: auto;
-  background-color: #B2B3F4;
+  background-color: #1c1e98;
   border-radius: 20px;
 }
 
 /* Update Content Container */
 .loan-content {
-  background: white;
+  background: #cecef3;
   border-radius: 12px;
   padding: 24px;
   max-width: 900px; /* Reduced from 1200px */
-  margin: 0 auto;
+  margin-left: 25%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Dashboard Styles */
 .dashboard-container {
-  margin: 0 auto;
-  max-width: 1000px;
+  flex: 1;
+  margin-left: 20%; /* Sidebar width */
+  padding: 20px;
+  background-color: var(--secondary-color);
+  overflow-y: auto;
+  background-color: #B2B3F4;
+  border-radius: 20px;
 }
 
 .dashboard-cards {
@@ -120,6 +125,8 @@
   justify-content: center;
   cursor: pointer;
 }
+
+*/*Upload Box */
 
 /* Loans Section Styles */
 .loans-section {

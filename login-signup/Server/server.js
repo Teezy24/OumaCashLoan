@@ -4,9 +4,14 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const http = require('http');
 const { Server } = require("socket.io");
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Ensures form data is properly parsed
+
 
 // Socket.IO setup
 const io = new Server(server, {
@@ -16,7 +21,6 @@ const io = new Server(server, {
   }
 });
 
-app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
@@ -26,6 +30,7 @@ const db = mysql.createConnection({
   database: "loan",
 });
 
+app.use(cors());
 db.connect((err) => {
   if (err) {
     console.error("error connecting to MySQL:", err);
@@ -35,8 +40,9 @@ db.connect((err) => {
 });
 
 // Existing authentication routes
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
   const { fullName, email, password, phoneNumber, residentialAddress, postalAddress, idNumber, role } = req.body;
+  // No hashing of password
   const query = "INSERT INTO users (full_name, email, password_hash, phone_number, residential_address, postal_address, id_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   
   db.query(query, [fullName, email, password, phoneNumber, residentialAddress, postalAddress, idNumber, role], (err, result) => {
@@ -53,21 +59,27 @@ app.post("/login", async (req, res) => {
 
   try {
     const [users] = await db.promise().query(
-      "SELECT user_id, full_name, email, role FROM users WHERE email = ? AND password_hash = ?",
-      [email, password]
+      "SELECT user_id, full_name, email, password_hash, role FROM users WHERE email = ?",
+      [email]
     );
 
     if (users.length > 0) {
       const user = users[0];
-      res.status(200).json({ 
-        message: "Login successful!",
-        user: {
-          user_id: user.user_id,
-          full_name: user.full_name,
-          email: user.email,
-          role: user.role
-        }
-      });
+      const match = (password === user.password_hash); // Compare the password directly
+
+      if (match) {
+        res.status(200).json({ 
+          message: "Login successful!",
+          user: {
+            user_id: user.user_id,
+            full_name: user.full_name,
+            email: user.email,
+            role: user.role
+          }
+        });
+      } else {
+        res.status(400).json({ error: "Invalid email or password" });
+      }
     } else {
       res.status(400).json({ error: "Invalid email or password" });
     }
@@ -88,6 +100,7 @@ app.get("/api/users/clients", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 // Chat system routes
 // Get or create conversation between client and admin
 app.get("/api/conversations/admin/:adminId", async (req, res) => {
@@ -113,6 +126,7 @@ app.get("/api/conversations/admin/:adminId", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 app.get("/api/conversations/client/:clientId", async (req, res) => {
   const clientId = req.params.clientId;
   
@@ -262,7 +276,76 @@ io.on("connection", (socket) => {
 });
 
 // Start server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+// Endpoint to handle form submissions
+app.post('/api/loanApplication', (req, res) => {
+  console.log("Received form data:", req.body); // Debugging step
+
+  const { fullname, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
+
+  if (!fullname || !phoneNumber || !email) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const query = 'INSERT INTO loan_applications (fullname, phone_number, email, postal_address, national_id, net_salary, loan_amount, period, transfer_method, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  
+  db.query(query, [fullname, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+    res.json({ id: result.insertId });
+  });
+});
+
+// Endpoint to handle file uploads
+app.post('/api/uploadDocuments', upload.array('files'), (req, res) => {
+  const loanApplicationId = req.body.loanApplicationId;
+  const files = req.files;
+
+  files.forEach(file => {
+    const query = 'INSERT INTO loan_documents (loan_application_id, filename, path, size) VALUES (?, ?, ?, ?)';
+    db.query(query, [loanApplicationId, file.filename, file.path, file.size], (err, result) => {
+      if (err) throw err;
+    });
+  });
+
+  res.send('Documents uploaded successfully');
+});
+
+// Endpoint to fetch loan applications
+app.get('/api/loanApplications', (req, res) => {
+  const query = `
+    SELECT 
+      la.id, la.fullname, la.phone_number, la.email, la.postal_address, la.national_id, 
+      la.net_salary, la.loan_amount, la.period, la.description, la.transfer_method, la.created_at,
+      ld.filename, ld.path, ld.size
+    FROM loan_applications la
+    LEFT JOIN loan_documents ld ON la.id = ld.loan_application_id
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });

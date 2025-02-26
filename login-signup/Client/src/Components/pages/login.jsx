@@ -18,7 +18,7 @@ const LoginSignup = () => {
       if (response.data.user) {
         const { role } = response.data.user; 
 
-        if (role === 'Admin') {
+        if (role === 'admin') {
           navigate('/admin-home');
         } else if (role === 'client') {
           navigate('/client-home'); 

@@ -11,12 +11,11 @@
 }
 
 .loan-page-container {
-  width: 700px;
+  width: 95%;
   background-color: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
- margin: 5px;
 }
 
 .spacing{
