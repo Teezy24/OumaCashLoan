@@ -346,6 +346,20 @@ app.get('/api/loanApplications', (req, res) => {
   });
 });
 
+
+// Endpoint to delete a loan application
+app.delete('/api/loanApplications/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM loan_applications WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error deleting loan application:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'Loan application deleted successfully' });
+  });
+});
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
