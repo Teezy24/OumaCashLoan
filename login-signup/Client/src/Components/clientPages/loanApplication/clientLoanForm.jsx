@@ -5,7 +5,7 @@ import '../clientStyling/clientLoanApplication.css';
 
 const ClientLoanForm = ({ setView }) => {
   const [formData, setFormData] = useState({
-    fullname: '',
+    full_name: '',
     phoneNumber: '',
     email: '',
     postalAddress: '',
@@ -76,10 +76,10 @@ const ClientLoanForm = ({ setView }) => {
               <label>First Name & Surname</label>
               <input 
                 type="text" 
-                placeholder="Enter Fullname" 
+                placeholder="Enter full_name" 
                 className="form-input" 
-                value={formData.fullname}
-                onChange={(e) => setFormData({...formData, fullname: e.target.value})}
+                value={formData.full_name}
+                onChange={(e) => setFormData({...formData, full_name: e.target.value})}
               />
             </div>
             <div className="form-group">

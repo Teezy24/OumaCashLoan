@@ -46,7 +46,7 @@ const AdminLoanReview = () => {
   };
 
   const filteredLoans = loans.filter(loan =>
-    (loan.fullname && loan.fullname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (loan.full_name && loan.full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (loan.id && loan.id.toString().includes(searchTerm.toLowerCase()))
   );
 
@@ -89,13 +89,13 @@ const AdminLoanReview = () => {
             {filteredLoans.map((loan) => (
               <tr key={loan.id}>
                 <td>{loan.id}</td>
-                <td>{loan.fullname}</td>
+                <td>{loan.full_name}</td>
                 <td>{loan.phone_number}</td>
                 <td>{loan.email}</td>
                 <td>{loan.postal_address}</td>
                 <td>{loan.national_id}</td>
-                <td>${loan.net_salary}</td>
-                <td>${loan.loan_amount}</td>
+                <td>{loan.net_salary}</td>
+                <td>{loan.loan_amount}</td>
                 <td>{loan.period} months</td>
                 <td>{loan.transfer_method}</td>
                 <td>{loan.description}</td>
@@ -125,7 +125,7 @@ const AdminLoanReview = () => {
       >
         <h2>Confirm Delete</h2>
         {selectedLoan && (
-          <p>Are you sure you want to delete '{selectedLoan.id} - {selectedLoan.fullname}'s Loan Application?</p>
+          <p>Are you sure you want to delete '{selectedLoan.id} - {selectedLoan.full_name}'s Loan Application?</p>
         )}
         <div className="modal-buttons">
           <button onClick={handleDelete} className="confirm-button">Yes, Delete</button>

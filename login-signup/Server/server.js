@@ -6,17 +6,18 @@ const http = require('http');
 const { Server } = require("socket.io");
 const multer = require('multer');
 const path = require('path');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 const app = express();
 const server = http.createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Ensures form data is properly parsed
 
-
 // Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     methods: ["GET", "POST"]
   }
 });
@@ -30,7 +31,11 @@ const db = mysql.createConnection({
   database: "loan",
 });
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:3001"],
+  credentials: true  // Allows sending session cookies
+}));
+
 db.connect((err) => {
   if (err) {
     console.error("error connecting to MySQL:", err);
@@ -39,13 +44,28 @@ db.connect((err) => {
   }
 });
 
+// Configure session store
+const sessionStore = new MySQLStore({}, db.promise());
+
+// Configure session middleware
+app.use(session({
+  key: 'session_cookie_name',
+  secret: 'session_cookie_secret',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
+}));
+
 // Existing authentication routes
 app.post("/signup", async (req, res) => {
-  const { fullName, email, password, phoneNumber, residentialAddress, postalAddress, idNumber, role } = req.body;
+  const { full_name, email, password, phoneNumber, residentialAddress, postalAddress, idNumber, role } = req.body;
   // No hashing of password
   const query = "INSERT INTO users (full_name, email, password_hash, phone_number, residential_address, postal_address, id_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   
-  db.query(query, [fullName, email, password, phoneNumber, residentialAddress, postalAddress, idNumber, role], (err, result) => {
+  db.query(query, [full_name, email, password, phoneNumber, residentialAddress, postalAddress, idNumber, role], (err, result) => {
     if (err) {
       console.error("Error during signup:", err);
       return res.status(500).json({ error: err.message });
@@ -68,6 +88,7 @@ app.post("/login", async (req, res) => {
       const match = (password === user.password_hash); // Compare the password directly
 
       if (match) {
+        req.session.userId = user.user_id; // Save user ID in session
         res.status(200).json({ 
           message: "Login successful!",
           user: {
@@ -89,7 +110,54 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Add this new route after your existing routes
+app.get('/api/auth/user', (req, res) => {
+  const userId = req.session.userId; // Get user ID from session
+
+  if (!userId) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
+  const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results[0]);
+  });
+});
+
+app.get('/api/user/:id', (req, res) => {
+  const user_id = req.params.id;
+  const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
+
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results[0]);
+  });
+});
+
+// Endpoint to update user details
+app.put('/api/user/:id', (req, res) => {
+  const user_id = req.params.id;
+  const { full_name, email, phone_number, residential_address, postal_address, id_number } = req.body;
+  const query = 'UPDATE users SET full_name = ?, email = ?, phone_number = ?, residential_address = ?, postal_address = ?, id_number = ? WHERE user_id = ?';
+
+  db.query(query, [full_name, email, phone_number, residential_address, postal_address, id_number, user_id], (err, result) => {
+    if (err) {
+      console.error('Error updating user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'User details updated successfully' });
+  });
+});
+
+// Other routes...
+
 app.get("/api/users/clients", async (req, res) => {
   try {
     const [clients] = await db.promise().query(
@@ -297,15 +365,15 @@ const upload = multer({ storage });
 app.post('/api/loanApplication', (req, res) => {
   console.log("Received form data:", req.body); // Debugging step
 
-  const { fullname, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
+  const { full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
 
-  if (!fullname || !phoneNumber || !email) {
+  if (!full_name || !phoneNumber || !email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  const query = 'INSERT INTO loan_applications (fullname, phone_number, email, postal_address, national_id, net_salary, loan_amount, period, transfer_method, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO loan_applications (full_name, phone_number, email, postal_address, national_id, net_salary, loan_amount, period, transfer_method, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   
-  db.query(query, [fullname, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description], (err, result) => {
+  db.query(query, [full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description], (err, result) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Internal server error" });
@@ -333,7 +401,7 @@ app.post('/api/uploadDocuments', upload.array('files'), (req, res) => {
 app.get('/api/loanApplications', (req, res) => {
   const query = `
     SELECT 
-      la.id, la.fullname, la.phone_number, la.email, la.postal_address, la.national_id, 
+      la.id, la.full_name, la.phone_number, la.email, la.postal_address, la.national_id, 
       la.net_salary, la.loan_amount, la.period, la.description, la.transfer_method, la.created_at,
       ld.filename, ld.path, ld.size
     FROM loan_applications la

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
+// import './AuthContext.js';
 import LoginSignup from './Components/pages/login.jsx';
 import SignUpForm from './Components/pages/signup.jsx';
 import Profile from './Components/pages/Profile.jsx';
@@ -27,7 +28,9 @@ import AdminMessages from './Components/adminPages/adminMessages.jsx';
 import AdminSettings from './Components/adminPages/settings/adminSettings.jsx';
 
 function App() {
+
   return (
+    
     <Router>
     <div className="app-container">
       <Routes>
