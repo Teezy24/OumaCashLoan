@@ -256,6 +256,13 @@ app.get("/api/messages/:conversationId", async (req, res) => {
   }
 });
 
+// Add this endpoint at an appropriate location in your server.js file
+
+app.get('/api/placeholder/:width/:height', (req, res) => {
+  const { width, height } = req.params;
+  res.status(200).json({ message: `Placeholder for ${width}x${height}` });
+});
+
 // Create a new message
 app.post("/api/messages", async (req, res) => {
   const { conversation_id, sender_id, message_text } = req.body;
@@ -427,7 +434,4 @@ app.delete('/api/loanApplications/:id', (req, res) => {
     }
     res.json({ message: 'Loan application deleted successfully' });
   });
-});
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
 });
