@@ -1,0 +1,250 @@
+.ar-loan-cards-container {
+  overflow-y: scroll;
+  max-height: 500px;
+  padding: 10px; /* Add padding to ensure content is not cut off */
+}
+
+.ar-loan-card {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  width: 100%; /* Ensure the card takes full width */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.ar-loan-card-header,
+.ar-loan-card-body,
+.ar-loan-card-actions {
+  margin-bottom: 10px;
+}
+
+.ar-loan-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ar-loan-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.ar-loan-card-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ar-main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.ar-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ar-loan-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ar-search-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.ar-search-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.ar-search-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+}
+
+.ar-search-button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.ar-loans-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ar-header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.ar-filter-button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.ar-filter-select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.ar-loan-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.ar-loan-id {
+  font-weight: bold;
+}
+
+.ar-loan-badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.ar-loan-badge.pending {
+  background-color: #ffc107;
+}
+
+.ar-loan-badge.approved {
+  background-color: #28a745;
+}
+
+.ar-loan-badge.rejected {
+  background-color: #dc3545;
+}
+
+.ar-loan-detail-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ar-detail-icon {
+  margin-right: 10px;
+}
+
+.ar-detail-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.ar-label {
+  font-weight: bold;
+}
+
+.ar-loan-type-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.ar-loan-type-icon {
+  margin-bottom: 10px;
+}
+
+.ar-loan-update {
+  margin-bottom: 5px;
+}
+
+.ar-approve-button,
+.ar-reject-button,
+.ar-email-button,
+.ar-delete-button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.ar-approve-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.ar-reject-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.ar-email-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.ar-delete-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.ar-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.ar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.ar-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.ar-confirm-button,
+.ar-cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ar-confirm-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.ar-cancel-button {
+  background-color: #6c757d;
+  color: white;
+}

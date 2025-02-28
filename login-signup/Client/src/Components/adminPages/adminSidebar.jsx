@@ -26,11 +26,11 @@ function adminSidebar() {
             </NavLink>
           </li>
           <li>
-          <li>
             <NavLink to="/admin-analytics" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <ChartNoAxesCombined size={20} /> Analytics
             </NavLink>
           </li>
+          <li>
             <NavLink to="/admin-messages" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <MessageSquare size={20} /> Messages
             </NavLink>

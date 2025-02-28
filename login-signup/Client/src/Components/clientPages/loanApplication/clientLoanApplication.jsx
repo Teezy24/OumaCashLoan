@@ -1,11 +1,36 @@
-// filepath: /path/to/LoanApplication.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter } from "lucide-react";
 import ClientLoanForm from './clientLoanForm';
 import '../clientStyling/clientLoanApplication.css';
+import axios from 'axios';
 
-const LoanApplication = () => {
+const LoanApplication = ({ user_id }) => {
+  const [loanApplications, setLoanApplications] = useState([]);
   const [view, setView] = useState('dashboard');
+
+  useEffect(() => {
+    const fetchLoanApplications = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/user/loanApplications', { withCredentials: true });
+        console.log('Response data:', response.data);
+        
+        if (Array.isArray(response.data)) {
+          setLoanApplications(response.data);
+        } else if (response.data.error) {
+          console.error('API Error:', response.data.error);
+          setLoanApplications([]); // Handle authentication error
+        } else {
+          console.error('Unexpected response format:', response.data);
+          setLoanApplications([]);
+        }
+      } catch (error) {
+        console.error('Error fetching loan applications:', error);
+        setLoanApplications([]);
+      }
+    };
+    
+    fetchLoanApplications();
+  }, [user_id]);
 
   const renderDashboard = () => (
     <div className="dashboard-container">
@@ -32,7 +57,7 @@ const LoanApplication = () => {
           <p>Explore Tips and Tools for Smarter Borrowing!</p>
         </div>
       </div>
-  
+
       <div className="search-container">
         <div className="search-box">
           <input type="text" placeholder="Search..." className="search-input" />
@@ -41,7 +66,7 @@ const LoanApplication = () => {
           </button>
         </div>
       </div>
-  
+
       <div className="loans-section">
         <div className="loans-header">
           <div className="loans-title">
@@ -55,86 +80,38 @@ const LoanApplication = () => {
         </div>
         
         <div className="loan-list">
-          <div className="loan-item">
-            <div className="loan-info">
-              <div className="loan-id">#80149 - Cruz Home Loan</div>
-              <div className="loan-badge approved">Approved</div>
-            </div>
-            <div className="loan-details">
-              <div className="loan-detail">
-                <span className="detail-icon">💰</span>
-                <span>$250,000</span>
+          {loanApplications.length > 0 ? (
+            loanApplications.map((loan) => (
+              <div className="loan-item modern-loan-item" key={loan.id}>
+                <div className="loan-info">
+                  <div className="loan-id">#{loan.id} - {loan.full_name}</div>
+                  <div className={`loan-badge ${loan.status.toLowerCase()}`}>{loan.status}</div>
+                </div>
+                <div className="loan-details">
+                  <div className="loan-detail">
+                    <span className="detail-icon">💰</span>
+                    <span>${loan.loan_amount}</span>
+                  </div>
+                  <div className="loan-detail">
+                    <span className="detail-icon">⏱️</span>
+                    <span>{loan.period} months</span>
+                  </div>
+                  <div className="loan-detail">
+                    <span className="detail-icon">📈</span>
+                    <span>{loan.interest_rate}% interest</span>
+                  </div>
+                </div>
+                <div className="loan-type">
+                  <span className="type-icon">🏠</span>
+                  <span>{loan.loan_type}</span>
+                  <span className="applied-text">applied {loan.applied_date}</span>
+                </div>
+                <button className="more-button">···</button>
               </div>
-              <div className="loan-detail">
-                <span className="detail-icon">⏱️</span>
-                <span>20 months</span>
-              </div>
-              <div className="loan-detail">
-                <span className="detail-icon">📈</span>
-                <span>5 percent interest</span>
-              </div>
-            </div>
-            <div className="loan-type">
-              <span className="type-icon">🏠</span>
-              <span>Housing Loan</span>
-              <span className="applied-text">applied 3d ago</span>
-            </div>
-            <button className="more-button">···</button>
-          </div>
-  
-          <div className="loan-item">
-            <div className="loan-info">
-              <div className="loan-id">#79998- Horizon Auto Loan</div>
-              <div className="loan-badge pending">Pending</div>
-            </div>
-            <div className="loan-details">
-              <div className="loan-detail">
-                <span className="detail-icon">💰</span>
-                <span>$25,000</span>
-              </div>
-              <div className="loan-detail">
-                <span className="detail-icon">⏱️</span>
-                <span>10 months</span>
-              </div>
-              <div className="loan-detail">
-                <span className="detail-icon">📈</span>
-                <span>7 percent interest</span>
-              </div>
-            </div>
-            <div className="loan-type">
-              <span className="type-icon">🚗</span>
-              <span>Auto Loan</span>
-              <span className="applied-text">applied 4d ago</span>
-            </div>
-            <button className="more-button">···</button>
-          </div>
-  
-          <div className="loan-item">
-            <div className="loan-info">
-              <div className="loan-id">#79844- Horizon Auto Loan</div>
-              <div className="loan-badge rejected">Rejected</div>
-            </div>
-            <div className="loan-details">
-              <div className="loan-detail">
-                <span className="detail-icon">💰</span>
-                <span>$30,000</span>
-              </div>
-              <div className="loan-detail">
-                <span className="detail-icon">⏱️</span>
-                <span>8 months</span>
-              </div>
-              <div className="loan-detail">
-                <span className="detail-icon">📈</span>
-                <span>10 percent interest</span>
-              </div>
-            </div>
-            <div className="loan-type">
-              <span className="type-icon">👤</span>
-              <span>Personal Loan</span>
-              <span className="applied-text">applied 5d ago</span>
-            </div>
-            <button className="more-button">···</button>
-          </div>
+            ))
+          ) : (
+            <p>No loan applications found.</p>
+          )}
         </div>
       </div>
     </div>

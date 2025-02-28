@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true })); // Ensures form data is properl
 // Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://localhost:3000"],
     methods: ["GET", "POST"]
   }
 });
@@ -32,7 +32,7 @@ const db = mysql.createConnection({
 });
 
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: ["http://localhost:3000"],
   credentials: true  // Allows sending session cookies
 }));
 
@@ -55,7 +55,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    secure: false, // Change to true in production (HTTPS)
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
   }
 }));
 
@@ -88,7 +90,7 @@ app.post("/login", async (req, res) => {
       const match = (password === user.password_hash); // Compare the password directly
 
       if (match) {
-        req.session.userId = user.user_id; // Save user ID in session
+        req.session.user_id = user.user_id; // Save user ID in session
         res.status(200).json({ 
           message: "Login successful!",
           user: {
@@ -111,15 +113,15 @@ app.post("/login", async (req, res) => {
 });
 
 app.get('/api/auth/user', (req, res) => {
-  const userId = req.session.userId; // Get user ID from session
+  const user_id = req.session.user_id; // Get user ID from session
 
-  if (!userId) {
+  if (!user_id) {
     return res.status(401).json({ error: 'Not authenticated' });
   }
 
   const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
 
-  db.query(query, [userId], (err, results) => {
+  db.query(query, [user_id], (err, results) => {
     if (err) {
       console.error('Error fetching user details:', err);
       return res.status(500).json({ error: 'Internal server error' });
@@ -368,24 +370,94 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Endpoint to fetch loan applications for the logged-in user
+app.get('/api/user/loanApplications', (req, res) => {
+  const user_id = req.session.user_id; // Get user_id from session
+  if (!user_id) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
+  const query = 'SELECT * FROM loan_applications WHERE user_id = ?';
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching loan applications:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (!Array.isArray(results)) {
+      console.error('Unexpected database response format:', results);
+      return res.status(500).json({ error: 'Unexpected database response format' });
+    }
+
+    res.json(results);
+  });
+});
+
+// Endpoint to fetch all loan applications
+app.get('/api/loanApplications', (req, res) => {
+  const query = 'SELECT * FROM loan_applications';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching loan applications:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results);
+  });
+});
+
 // Endpoint to handle form submissions
 app.post('/api/loanApplication', (req, res) => {
   console.log("Received form data:", req.body); // Debugging step
 
+  const user_id = req.session.user_id; // Get user ID from session
   const { full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
+
+  if (!user_id) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
 
   if (!full_name || !phoneNumber || !email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  const query = 'INSERT INTO loan_applications (full_name, phone_number, email, postal_address, national_id, net_salary, loan_amount, period, transfer_method, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO loan_applications (user_id, full_name, phone_number, email, postal_address, national_id, net_salary, loan_amount, period, transfer_method, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   
-  db.query(query, [full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description], (err, result) => {
+  db.query(query, [user_id, full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description], (err, result) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Internal server error" });
     }
     res.json({ id: result.insertId });
+  });
+});
+
+// Endpoint to update loan application status
+app.put('/api/loanApplications/:id/status', (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const query = 'UPDATE loan_applications SET status = ? WHERE id = ?';
+
+  db.query(query, [status, id], (err, result) => {
+    if (err) {
+      console.error('Error updating loan application status:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'Loan application status updated successfully' });
+  });
+});
+
+// Endpoint to delete a loan application
+app.delete('/api/loanApplications/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM loan_applications WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error deleting loan application:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'Loan application deleted successfully' });
   });
 });
 
@@ -402,36 +474,4 @@ app.post('/api/uploadDocuments', upload.array('files'), (req, res) => {
   });
 
   res.send('Documents uploaded successfully');
-});
-
-// Endpoint to fetch loan applications
-app.get('/api/loanApplications', (req, res) => {
-  const query = `
-    SELECT 
-      la.id, la.full_name, la.phone_number, la.email, la.postal_address, la.national_id, 
-      la.net_salary, la.loan_amount, la.period, la.description, la.transfer_method, la.created_at,
-      ld.filename, ld.path, ld.size
-    FROM loan_applications la
-    LEFT JOIN loan_documents ld ON la.id = ld.loan_application_id
-  `;
-
-  db.query(query, (err, results) => {
-    if (err) throw err;
-    res.json(results);
-  });
-});
-
-
-// Endpoint to delete a loan application
-app.delete('/api/loanApplications/:id', (req, res) => {
-  const { id } = req.params;
-  const query = 'DELETE FROM loan_applications WHERE id = ?';
-
-  db.query(query, [id], (err, result) => {
-    if (err) {
-      console.error('Error deleting loan application:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-    res.json({ message: 'Loan application deleted successfully' });
-  });
 });

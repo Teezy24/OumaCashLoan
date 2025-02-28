@@ -1,78 +1,132 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./adminStyling/adminHome.css";
-import { Bell, HelpCircle, } from "lucide-react";
+import { Bell, HelpCircle,ArrowLeft, Camera } from "lucide-react";
+import axios from "axios";
 import { IoFilterOutline, IoSettingsOutline } from "react-icons/io5";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { BiBell } from "react-icons/bi";
 import { FaCheckCircle, FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { FaComments, FaTimesCircle, FaExclamationTriangle, FaSearch, FaCamera, FaArrowLeft } from "react-icons/fa";
+import { AuthContext } from '../../AuthContext';
 
-const ProfilePanel = ({ isOpen, togglePanel }) => {
+const ProfilePanel = ({ isOpen, togglePanel, user, setUser }) => {
+  const [formData, setFormData] = useState(user || {});
+
+  useEffect(() => {
+    setFormData(user || {});
+  }, [user]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await axios.put(`/api/user/${user.user_id}`, formData);
+      alert(response.data.message);
+      setUser(formData);
+    } catch (error) {
+      console.error('Error updating user details:', error);
+      alert('Failed to update user details');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className={`ah-profile-panel ${isOpen ? 'ah-panel-open' : 'ah-panel-closed'}`}>
-      <div className="ah-profile-header">
-        <button className="ah-back-button" onClick={togglePanel}>
-          <FaArrowLeft size={20} />
+    <div className={`ch-profile-panel ${isOpen ? 'ch-panel-open' : 'ch-panel-closed'}`}>
+      <div className="ch-profile-header">
+        <button className="ch-back-button" onClick={togglePanel}>
+          <ArrowLeft size={20} />
         </button>
-        <h2 className="ah-profile-title">Personal Details</h2>
+        <h2 className="ch-profile-title">Personal Details</h2>
       </div>
-      <div className="ah-profile-content">
-        <div className="ah-photo-section">
-          <div className="ah-photo-container">
-            <div className="ah-photo-placeholder">
-              <FaCamera size={32} color="#666" />
+      <div className="ch-profile-content">
+        <div className="ch-photo-section">
+          <div className="ch-photo-container">
+            <div className="ch-photo-placeholder">
+              <Camera size={32} color="#666" />
             </div>
-            <button className="ah-change-photo-btn">
-              <FaCamera size={16} />
+            <button className="ch-change-photo-btn">
+              <Camera size={16} />
               Change Profile Photo
             </button>
           </div>
         </div>
 
-        <div className="ah-form">
-          <div className="ah-form-row">
-            <div className="ah-form-group">
-              <label>First Name</label>
-              <input type="text" placeholder="James" className="ah-form-input" />
+        <div className="ch-form">
+          <div className="ch-form-row">
+            <div className="ch-form-group">
+              <label>Full Name</label>
+              <input 
+                type="text" 
+                name="full_name" 
+                value={formData.full_name || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
-            <div className="ah-form-group">
-              <label>Last Name</label>
-              <input type="text" placeholder="Bond" className="ah-form-input" />
+            <div className="ch-form-group">
+              <label>National Identification Number</label>
+              <input 
+                type="text" 
+                name="id_number" 
+                value={formData.id_number || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
           </div>
 
-          <div className="ah-form-row">
-            <div className="ah-form-group">
+          <div className="ch-form-row">
+            <div className="ch-form-group">
               <label>Email</label>
-              <input type="email" placeholder="admin@example.com" className="ah-form-input" />
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
-            <div className="ah-form-group">
+            <div className="ch-form-group">
               <label>Phone Number</label>
-              <input type="tel" placeholder="+264 81 123 4567" className="ah-form-input" />
+              <input 
+                type="tel" 
+                name="phone_number" 
+                value={formData.phone_number || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
           </div>
 
-          <div className="ah-form-row">
-            <div className="ah-form-group">
-              <label>National ID</label>
-              <input type="text" placeholder="ID Number" className="ah-form-input" />
+          <div className="ch-form-row">
+            <div className="ch-form-group">
+              <label>Residential Address</label>
+              <input 
+                type="text" 
+                name="residential_address" 
+                value={formData.residential_address || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
-            <div className="ah-form-group">
+            <div className="ch-form-group">
               <label>Postal Address</label>
-              <input type="text" placeholder="P.O. Box" className="ah-form-input" />
+              <input 
+                type="text" 
+                name="postal_address" 
+                value={formData.postal_address || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
           </div>
 
-          <div className="ah-form-group ah-form-full-width">
-            <label>Residential Address</label>
-            <input type="text" placeholder="Full Address" className="ah-form-input" />
-          </div>
-
-          <div className="ah-button-group">
-            <button className="ah-edit-button">Edit Details</button>
-            <button className="ah-delete-button">Delete Account</button>
+          <div className="ch-button-group">
+            <button className="ch-edit-button" onClick={handleSave}>Save Details</button>
           </div>
         </div>
       </div>
@@ -80,10 +134,27 @@ const ProfilePanel = ({ isOpen, togglePanel }) => {
   );
 };
 
+
 const AdminHome = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("30 days");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const { user, setUser } = useContext(AuthContext);
   const togglePanel = () => setIsPanelOpen(!isPanelOpen);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        if (user && user.user_id) {
+          const response = await axios.get(`/api/user/${user.user_id}`);
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [user]);
 
   const handlePeriodChange = (event) => {
     setSelectedPeriod(event.target.value);
@@ -137,14 +208,14 @@ return (
           
           <div className="ah-avatar" ></div>
           <div className="ah-user-info">
-            <span className="ah-user-text">Enter Text</span>
-            <span className="ah-user-welcome">Hello, Welcome Back</span>
+          <span className="ch-user-text">{user ? user.full_name : 'Loading...'}</span>
+            <span className="ch-user-welcome">Hello, Welcome Back</span>
           </div>
         </div>
         </div>
         </div>
       </div>
-      <ProfilePanel isOpen={isPanelOpen} togglePanel={togglePanel} />
+      <ProfilePanel isOpen={isPanelOpen} togglePanel={togglePanel} user={user} setUser={setUser} />
 
         <div className="ah-dashboard-main">
           <div className="ah-main-content">
