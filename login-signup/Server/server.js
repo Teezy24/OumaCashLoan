@@ -57,6 +57,7 @@ app.use(session({
   cookie: {
     secure: false, // Change to true in production (HTTPS)
     httpOnly: true,
+    sameSite: "lax",  // Ensures cookies are isolated per tab
     maxAge: 1000 * 60 * 60 * 24, // 1 day
   }
 }));
@@ -90,16 +91,19 @@ app.post("/login", async (req, res) => {
       const match = (password === user.password_hash); // Compare the password directly
 
       if (match) {
-        req.session.user_id = user.user_id; // Save user ID in session
-        res.status(200).json({ 
+        // ✅ Store user details in session
+        req.session.user = {
+          user_id: user.user_id,
+          full_name: user.full_name,
+          email: user.email,
+          role: user.role
+        };
+
+        res.status(200).json({
           message: "Login successful!",
-          user: {
-            user_id: user.user_id,
-            full_name: user.full_name,
-            email: user.email,
-            role: user.role
-          }
+          user: req.session.user
         });
+
       } else {
         res.status(400).json({ error: "Invalid email or password" });
       }
@@ -112,8 +116,33 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get('/api/auth/session', (req, res) => {
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(401).json({ error: 'Not authenticated' });
+  }
+});
+
+// Endpoint to fetch loan applications for the logged-in user
+app.get('/api/user/loanApplications', (req, res) => {
+  const user_id = req.session.user.user_id; // Get user_id from session
+  if (!user_id) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
+  const query = 'SELECT * FROM loan_applications WHERE user_id = ?';
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching loan applications:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results);
+  });
+});
+
 app.get('/api/auth/user', (req, res) => {
-  const user_id = req.session.user_id; // Get user ID from session
+  const user_id = req.session.user.user_id; // Get user ID from session
 
   if (!user_id) {
     return res.status(401).json({ error: 'Not authenticated' });
@@ -129,6 +158,7 @@ app.get('/api/auth/user', (req, res) => {
     res.json(results[0]);
   });
 });
+
 
 app.get('/api/user/:id', (req, res) => {
   const user_id = req.params.id;
@@ -370,28 +400,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Endpoint to fetch loan applications for the logged-in user
-app.get('/api/user/loanApplications', (req, res) => {
-  const user_id = req.session.user_id; // Get user_id from session
-  if (!user_id) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
 
-  const query = 'SELECT * FROM loan_applications WHERE user_id = ?';
-  db.query(query, [user_id], (err, results) => {
-    if (err) {
-      console.error('Error fetching loan applications:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-
-    if (!Array.isArray(results)) {
-      console.error('Unexpected database response format:', results);
-      return res.status(500).json({ error: 'Unexpected database response format' });
-    }
-
-    res.json(results);
-  });
-});
 
 // Endpoint to fetch all loan applications
 app.get('/api/loanApplications', (req, res) => {
@@ -409,7 +418,7 @@ app.get('/api/loanApplications', (req, res) => {
 app.post('/api/loanApplication', (req, res) => {
   console.log("Received form data:", req.body); // Debugging step
 
-  const user_id = req.session.user_id; // Get user ID from session
+  const user_id = req.session.user.user_id; // Get user ID from session
   const { full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
 
   if (!user_id) {

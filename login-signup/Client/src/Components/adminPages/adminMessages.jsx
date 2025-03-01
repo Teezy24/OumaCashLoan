@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Send, Users } from 'lucide-react';
-import axios from 'axios';
+import { UserContext } from '../../UserContext'; // Import the UserContext
+import api from '../../axiosConfig'; // Import the configured Axios instance
 import './adminStyling/adminMessages.css';
 
 const AdminMessages = () => {
+  const { user } = useContext(UserContext); // Use the UserContext
   const [clients, setClients] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const currentUser = JSON.parse(localStorage.getItem('user'));
 
   // Fetch clients on component mount
   useEffect(() => {
@@ -24,7 +25,7 @@ const AdminMessages = () => {
 
   const fetchClients = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users/clients');
+      const res = await api.get('/api/users/clients');
       setClients(res.data);
     } catch (err) {
       console.error('Error fetching clients:', err);
@@ -33,7 +34,7 @@ const AdminMessages = () => {
 
   const fetchMessages = async (conversationId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/messages/${conversationId}`);
+      const res = await api.get(`/api/messages/${conversationId}`);
       setMessages(res.data);
     } catch (err) {
       console.error('Error fetching messages:', err);
@@ -42,9 +43,9 @@ const AdminMessages = () => {
 
   const startChat = async (clientId) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/conversations', {
+      const res = await api.post('/api/conversations', {
         client_id: clientId,
-        admin_id: currentUser.user_id
+        admin_id: user.user_id
       });
       setActiveChat(res.data);
     } catch (err) {
@@ -57,9 +58,9 @@ const AdminMessages = () => {
     if (!newMessage.trim() || !activeChat) return;
 
     try {
-      await axios.post('http://localhost:5000/api/messages', {
+      await api.post('/api/messages', {
         conversation_id: activeChat.conversation_id,
-        sender_id: currentUser.user_id,
+        sender_id: user.user_id,
         message_text: newMessage
       });
       setNewMessage('');
@@ -109,7 +110,7 @@ const AdminMessages = () => {
                   <div
                     key={message.message_id}
                     className={`c-messages__message ${
-                      message.sender_id === currentUser.user_id 
+                      message.sender_id === user.user_id 
                         ? 'c-messages__message--sent' 
                         : 'c-messages__message--received'
                     }`}
