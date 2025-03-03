@@ -16,22 +16,22 @@ function ClientSidebar() {
         
         <ul className="c-sidebar-menu">
           <li>
-            <NavLink to="/client-home" activeClassName="active">
+            <NavLink to="/client-home" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <Home size={20} /> Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/client-loan-application" activeClassName="active">
+            <NavLink to="/client-loan-application" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <FileText size={20} /> Loan Application
             </NavLink>
           </li>
           <li>
-            <NavLink to="/client-loan-calculator" activeClassName="active">
+            <NavLink to="/client-loan-calculator" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <Calculator size={20} /> Loan Calculator
             </NavLink>
           </li>
           <li>
-            <NavLink to="/client-loan-history" activeClassName="active">
+            <NavLink to="/client-loan-history" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <Clock size={20} /> Loan History
             </NavLink>
           </li>
@@ -44,7 +44,7 @@ function ClientSidebar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/client-settings" activeClassName="active">
+            <NavLink to="/client-settings" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <Settings size={20} /> Settings
             </NavLink>
           </li>

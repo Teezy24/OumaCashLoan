@@ -2,7 +2,7 @@ const db = require('../config/database');
 
 const messageController = {
   getConversations: (req, res) => {
-    const userId = req.user.id; // Assuming you have authentication middleware
+    const user_id = req.user.id; // Assuming you have authentication middleware
     const query = `
       SELECT c.*, u.username as title
       FROM conversations c
@@ -11,7 +11,7 @@ const messageController = {
       AND u.id != ?
     `;
     
-    db.query(query, [userId, userId, userId], (err, results) => {
+    db.query(query, [user_id, user_id, user_id], (err, results) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }

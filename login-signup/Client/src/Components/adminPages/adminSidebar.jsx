@@ -16,27 +16,27 @@ function adminSidebar() {
         
         <ul className="c-sidebar-menu">
           <li>
-            <NavLink to="/admin-home" activeClassName="active">
+            <NavLink to="/admin-home" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <Home size={20} /> Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin-loan-reviews" activeClassName="active">
+            <NavLink to="/admin-loan-reviews" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <FileText size={20} /> Loan Reviews
             </NavLink>
           </li>
           <li>
-          <li>
-            <NavLink to="/admin-analytics" activeClassName="active">
+            <NavLink to="/admin-analytics" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <ChartNoAxesCombined size={20} /> Analytics
             </NavLink>
           </li>
-            <NavLink to="/admin-messages" activeClassName="active">
+          <li>
+            <NavLink to="/admin-messages" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <MessageSquare size={20} /> Messages
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin-settings" activeClassName="active">
+            <NavLink to="/admin-settings" className={({ isActive }) => (isActive ? "some-class" : "")}>
               <Settings size={20} /> Settings
             </NavLink>
           </li>

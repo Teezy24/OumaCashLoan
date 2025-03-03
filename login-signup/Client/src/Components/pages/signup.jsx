@@ -14,7 +14,7 @@ import './styles/loginSignUp.css';
 const SignUpForm = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        fullName: '',
+        full_name: '',
         email: '',
         phoneNumber: '',
         residentialAddress: '',
@@ -80,9 +80,9 @@ const SignUpForm = () => {
                         <FaUser />
                         <input
                             type="text"
-                            name="fullName"
+                            name="full_name"
                             placeholder="Enter your full name"
-                            value={formData.fullName}
+                            value={formData.full_name}
                             onChange={handleChange}
                             required
                         />

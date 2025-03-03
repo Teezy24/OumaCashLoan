@@ -1,11 +1,36 @@
-import React, { useState } from "react";
+// filepath: /c:/Users/monte/Documents/VS Code Projects/OumaCashLoans/login-signup/Client/src/Components/clientPages/clientHome.jsx
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { Bell, HelpCircle, Search, ArrowLeft, Camera } from "lucide-react";
 import Calendar from 'react-calendar';
 import '../sidebar.css';
 import "./clientStyling/clientHome.css";
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { AuthContext } from '../../AuthContext';
 
-const ProfilePanel = ({ isOpen, togglePanel }) => {
+const ProfilePanel = ({ isOpen, togglePanel, user, setUser }) => {
+  const [formData, setFormData] = useState(user || {});
+
+  useEffect(() => {
+    setFormData(user || {});
+  }, [user]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await axios.put(`/api/user/${user.user_id}`, formData);
+      alert(response.data.message);
+      setUser(formData);
+    } catch (error) {
+      console.error('Error updating user details:', error);
+      alert('Failed to update user details');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -32,60 +57,75 @@ const ProfilePanel = ({ isOpen, togglePanel }) => {
         <div className="ch-form">
           <div className="ch-form-row">
             <div className="ch-form-group">
-              <label>First Name</label>
-              <input type="text" placeholder="James" className="ch-form-input" />
+              <label>Full Name</label>
+              <input 
+                type="text" 
+                name="full_name" 
+                value={formData.full_name || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
-            <div className="ch-form-group label">
-              <label>Last Name</label>
-              <input type="text" placeholder="Bond" className="ch-form-input" />
+            <div className="ch-form-group">
+              <label>National Identification Number</label>
+              <input 
+                type="text" 
+                name="id_number" 
+                value={formData.id_number || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
           </div>
 
           <div className="ch-form-row">
             <div className="ch-form-group">
               <label>Email</label>
-              <input type="email" placeholder="spymail@gmail.com" className="ch-form-input" />
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
             <div className="ch-form-group">
               <label>Phone Number</label>
-              <input type="tel" placeholder="+264 81 243 7745" className="ch-form-input" />
+              <input 
+                type="tel" 
+                name="phone_number" 
+                value={formData.phone_number || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
           </div>
 
           <div className="ch-form-row">
             <div className="ch-form-group">
-              <label>National Identification Number</label>
-              <input type="text" placeholder="2011FE33007" className="ch-form-input" />
+              <label>Residential Address</label>
+              <input 
+                type="text" 
+                name="residential_address" 
+                value={formData.residential_address || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
             <div className="ch-form-group">
               <label>Postal Address</label>
-              <input type="text" placeholder="P.O. Box 007 Windhoek" className="ch-form-input" />
-            </div>
-          </div>
-
-          <div className="ch-form-group ch-form-full-width">
-            <label>Residential Address</label>
-            <input 
-              type="text" 
-              placeholder="House No. 45, Wambo Street Klein Kuppe Windhoek, Namibia 9000" 
-              className="ch-form-input"
-            />
-          </div>
-
-          <div className="ch-form-row">
-            <div className="ch-form-group">
-              <label>Bank Name</label>
-              <input type="text" placeholder="Bank Windhoek" className="ch-form-input" />
-            </div>
-            <div className="ch-form-group">
-              <label>Bank Account Number</label>
-              <input type="text" placeholder="8152094531" className="ch-form-input" />
+              <input 
+                type="text" 
+                name="postal_address" 
+                value={formData.postal_address || ''} 
+                onChange={handleChange} 
+                className="ch-form-input" 
+              />
             </div>
           </div>
 
           <div className="ch-button-group">
-            <button className="ch-edit-button">Edit Details</button>
-            <button className="ch-delete-button">Delete Account</button>
+            <button className="ch-edit-button" onClick={handleSave}>Save Details</button>
           </div>
         </div>
       </div>
@@ -95,8 +135,24 @@ const ProfilePanel = ({ isOpen, togglePanel }) => {
 
 const ClientHome = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const { user, setUser } = useContext(AuthContext);
   const togglePanel = () => setIsPanelOpen(!isPanelOpen);
-  const [date, setDate] = useState(new Date()); 
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        if (user && user.user_id) {
+          const response = await axios.get(`/api/user/${user.user_id}`);
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [user]);
 
   const loanPaymentDates = [
     { date: '2025-02-25', type: 'payment', amount: 5000 },
@@ -107,7 +163,7 @@ const ClientHome = () => {
     if (view === 'month') {
       const formattedDate = date.toISOString().split('T')[0];
       const event = loanPaymentDates.find(e => e.date === formattedDate);
-      
+
       if (event) {
         return (
           <div className={`ch-calendar-event ch-calendar-event-${event.type}`}>
@@ -117,7 +173,6 @@ const ClientHome = () => {
       }
     }
     return null;
-
   };
   const pieData = [
     { name: "Loans", value: 40, color: "#4c4cff" },
@@ -154,15 +209,8 @@ const ClientHome = () => {
       status: "pending",
       type: "Bank Transfer",
       amount: "N$10,000"
-    },    
-];
-
-
-const CalendarCard = () => {
-
-  const [value, onChange] = useState(new Date());
-
-};
+    },
+  ];
 
   return (
     <div className="ch-dashboard">
@@ -176,13 +224,13 @@ const CalendarCard = () => {
           <HelpCircle className="ch-icon" />
           <div className="ch-avatar"></div>
           <div className="ch-user-info">
-            <span className="ch-user-text">Enter Text</span>
+            <span className="ch-user-text">{user ? user.full_name : 'Loading...'}</span>
             <span className="ch-user-welcome">Hello, Welcome Back</span>
           </div>
         </div>
       </div>
 
-      <ProfilePanel isOpen={isPanelOpen} togglePanel={togglePanel} />
+      <ProfilePanel isOpen={isPanelOpen} togglePanel={togglePanel} user={user} setUser={setUser} />
 
       <div className="ch-grid">
         {/* Overview Card */}
@@ -191,39 +239,38 @@ const CalendarCard = () => {
             <h2 className="ch-card-title">Overview</h2>
             <span className="ch-card-date">{date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
           </div>
-          
 
-        {/* Calendar card */}
-        <div className="ch-calendar-overview">
-        <div className="ch-stats-container">
-          {[
-            { value: "29", label: "Transaction" },
-            { value: "18", label: "Income" },
-            { value: "11", label: "Outcome" }
-          ].map((stat, index, array) => (
-            <div key={index} className="ch-stat-block">
-              <div className="ch-stat-value">{stat.value}</div>
-              <div className="ch-stat-label">{stat.label}</div>
-              {index < array.length - 1 && <div className="ch-stat-divider"></div>}
+          {/* Calendar card */}
+          <div className="ch-calendar-overview">
+            <div className="ch-stats-container">
+              {[
+                { value: "29", label: "Transaction" },
+                { value: "18", label: "Income" },
+                { value: "11", label: "Outcome" }
+              ].map((stat, index, array) => (
+                <div key={index} className="ch-stat-block">
+                  <div className="ch-stat-value">{stat.value}</div>
+                  <div className="ch-stat-label">{stat.label}</div>
+                  {index < array.length - 1 && <div className="ch-stat-divider"></div>}
+                </div>
+              ))}
             </div>
-      ))}
-    </div>
-    
-    <div className="ch-calendar-summary">
-            <div className="ch-summary-item">
-              <span className="ch-summary-label">Next Payment Due:</span>
-              <span className="ch-summary-value">March 15, 2025</span>
-            </div>
-            <div className="ch-summary-item">
-              <span className="ch-summary-label">Amount Due:</span>
-              <span className="ch-summary-value">N$7,500</span>
+
+            <div className="ch-calendar-summary">
+              <div className="ch-summary-item">
+                <span className="ch-summary-label">Next Payment Due:</span>
+                <span className="ch-summary-value">March 15, 2025</span>
+              </div>
+              <div className="ch-summary-item">
+                <span className="ch-summary-label">Amount Due:</span>
+                <span className="ch-summary-value">N$7,500</span>
+              </div>
             </div>
           </div>
-  </div>
-</div>
+        </div>
 
-  {/* Loan Calendar Section */}
-  <div className="ch-card">
+        {/* Loan Calendar Section */}
+        <div className="ch-card">
           <div className="ch-card-header">
             <h2 className="ch-card-title">Loan Calendar</h2>
             <div className="ch-calendar-legend">
@@ -243,7 +290,6 @@ const CalendarCard = () => {
               }}
             />
           </div>
-
         </div>
 
         {/* Balance Card */}

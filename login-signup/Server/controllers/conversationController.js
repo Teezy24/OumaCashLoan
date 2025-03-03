@@ -14,7 +14,7 @@ const conversationController = {
         [conversationId, title]
       );
 
-      const participantValues = participants.map(userId => [conversationId, userId]);
+      const participantValues = participants.map(user_id => [conversationId, user_id]);
       await pool.query(
         'INSERT INTO conversation_participants (conversation_id, user_id) VALUES ?',
         [participantValues]
@@ -30,7 +30,7 @@ const conversationController = {
 
   async getUserConversations(req, res) {
     try {
-      const userId = req.user.user_id;
+      const user_id = req.user.user_id;
 
       const [conversations] = await pool.query(
         `SELECT c.*, 
@@ -49,7 +49,7 @@ const conversationController = {
          )
          GROUP BY c.id
          ORDER BY c.updated_at DESC`,
-        [userId, userId]
+        [user_id, user_id]
       );
 
       res.json(conversations);

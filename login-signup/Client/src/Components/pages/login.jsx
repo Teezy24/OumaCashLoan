@@ -1,39 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../AuthContext'; // Import AuthContext
 import './styles/loginSignUp.css';
 
 const LoginSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); 
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext); // Get setUser from AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(null); // Reset error before request
 
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
+      const response = await axios.post(
+        'http://localhost:5000/login',
+        { email, password },
+        { withCredentials: true } // Ensures session cookies are sent
+      );
 
       if (response.data.user) {
-        const { role } = response.data.user; 
+        const { role } = response.data.user;
+        setUser(response.data.user); // Save user in AuthContext
 
-        if (role === 'admin') {
-          navigate('/admin-home');
-        } else if (role === 'client') {
-          navigate('/client-home'); 
-        } else if (role === 'approver') {
-          navigate('/approver-dashboard');
-        } else if (role === 'payment_officer') {
-          navigate('/payment-officer-dashboard');
+        // Redirect based on role
+        switch (role) {
+          case 'admin':
+            navigate('/admin-home');
+            break;
+          case 'client':
+            navigate('/client-home');
+            break;
+          case 'approver':
+            navigate('/approver-dashboard');
+            break;
+          case 'payment_officer':
+            navigate('/payment-officer-dashboard');
+            break;
+          default:
+            navigate('/'); // Default to homepage if role is unknown
         }
       } else {
-        alert('Login failed');
+        setErrorMessage('Login failed. Please check your credentials.');
       }
     } catch (err) {
       console.error('Login error:', err);
-      // Show server error
-      alert('Something went wrong: ' + (err.response?.data?.error || 'Unknown error'));
+      setErrorMessage(err.response?.data?.error || 'An error occurred. Please try again.');
     }
   };
 
@@ -72,6 +88,8 @@ const LoginSignup = () => {
             />
           </div>
         </div>
+
+        {errorMessage && <p className="auth-error">{errorMessage}</p>} {/* Display error message */}
 
         <button className="auth-submit" type="submit">
           Login

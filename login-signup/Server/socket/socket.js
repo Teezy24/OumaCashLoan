@@ -13,8 +13,8 @@ const setupSocket = (server) => {
   io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
 
-    socket.on('userConnected', (userId) => {
-      onlineUsers.set(userId, socket.id);
+    socket.on('userConnected', (user_id) => {
+      onlineUsers.set(user_id, socket.id);
       io.emit('usersOnline', Array.from(onlineUsers.keys()));
     });
 
@@ -30,11 +30,11 @@ const setupSocket = (server) => {
     });
 
     socket.on('disconnect', () => {
-      const userId = Array.from(onlineUsers.entries())
+      const user_id = Array.from(onlineUsers.entries())
         .find(([_, socketId]) => socketId === socket.id)?.[0];
       
-      if (userId) {
-        onlineUsers.delete(userId);
+      if (user_id) {
+        onlineUsers.delete(user_id);
         io.emit('usersOnline', Array.from(onlineUsers.keys()));
       }
       console.log('Client disconnected:', socket.id);

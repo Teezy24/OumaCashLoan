@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ArrowRight, HelpCircle } from "lucide-react";
 import '../clientStyling/clientLoanApplication.css';
 
 const ClientLoanForm = ({ setView }) => {
   const [formData, setFormData] = useState({
-    fullname: '',
+    full_name: '',
     phoneNumber: '',
     email: '',
     postalAddress: '',
@@ -19,6 +19,21 @@ const ClientLoanForm = ({ setView }) => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [user_id, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Fetch user session data
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/auth/user', { withCredentials: true });
+        setUserId(response.data.user_id);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleFileChange = (event) => {
     setUploadedFiles(prevFiles => [...prevFiles, ...event.target.files]);
@@ -28,14 +43,18 @@ const ClientLoanForm = ({ setView }) => {
     try {
       console.log("Submitting form data:", formData); // Debugging output
 
+      // Include user ID in form data
+      const dataToSubmit = { ...formData, user_id: user_id };
+
       // Send as JSON instead of FormData
       const response = await axios.post(
-        'http://localhost:3000/api/loanApplication',
-        formData,
+        'http://localhost:5000/api/loanApplication',
+        dataToSubmit,
         {
           headers: {
             'Content-Type': 'application/json', // Ensure JSON format
           },
+          withCredentials: true
         }
       );
 
@@ -76,10 +95,10 @@ const ClientLoanForm = ({ setView }) => {
               <label>First Name & Surname</label>
               <input 
                 type="text" 
-                placeholder="Enter Fullname" 
+                placeholder="Enter full_name" 
                 className="form-input" 
-                value={formData.fullname}
-                onChange={(e) => setFormData({...formData, fullname: e.target.value})}
+                value={formData.full_name}
+                onChange={(e) => setFormData({...formData, full_name: e.target.value})}
               />
             </div>
             <div className="form-group">
