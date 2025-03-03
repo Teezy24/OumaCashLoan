@@ -1,18 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Send, Users } from 'lucide-react';
 import axios from 'axios';
 import './clientStyling/clientMessages.css';
+import { UserContext } from '../../UserContext'; // Import UserContext
 
 const ClientMessages = () => {
+  const { user: currentUser } = useContext(UserContext); // Use UserContext to get the current user
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const currentUser = JSON.parse(localStorage.getItem('user'));
 
   // Fetch or create conversation on component mount
   useEffect(() => {
-    fetchOrCreateAdminChat();
-  }, []);
+    if (currentUser) {
+      fetchOrCreateAdminChat();
+    }
+  }, [currentUser]);
 
   // Fetch messages when active chat changes
   useEffect(() => {

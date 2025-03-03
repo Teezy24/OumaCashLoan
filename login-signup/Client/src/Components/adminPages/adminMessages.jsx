@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Send, Users } from 'lucide-react';
 import { UserContext } from '../../UserContext'; // Import the UserContext
 import api from '../../axiosConfig'; // Import the configured Axios instance
@@ -25,7 +25,7 @@ const AdminMessages = () => {
 
   const fetchClients = async () => {
     try {
-      const res = await api.get('/api/users/clients');
+      const res = await api.get('/users/clients');
       setClients(res.data);
     } catch (err) {
       console.error('Error fetching clients:', err);
@@ -34,7 +34,7 @@ const AdminMessages = () => {
 
   const fetchMessages = async (conversationId) => {
     try {
-      const res = await api.get(`/api/messages/${conversationId}`);
+      const res = await api.get(`/messages/${conversationId}`);
       setMessages(res.data);
     } catch (err) {
       console.error('Error fetching messages:', err);
@@ -43,7 +43,7 @@ const AdminMessages = () => {
 
   const startChat = async (clientId) => {
     try {
-      const res = await api.post('/api/conversations', {
+      const res = await api.post('/conversations', {
         client_id: clientId,
         admin_id: user.user_id
       });
@@ -58,7 +58,7 @@ const AdminMessages = () => {
     if (!newMessage.trim() || !activeChat) return;
 
     try {
-      await api.post('/api/messages', {
+      await api.post('/messages', {
         conversation_id: activeChat.conversation_id,
         sender_id: user.user_id,
         message_text: newMessage

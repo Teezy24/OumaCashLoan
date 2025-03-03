@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await api.get('/api/auth/session');
+        const response = await api.get('/auth/session');
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch session:", error);
