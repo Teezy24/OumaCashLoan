@@ -147,6 +147,20 @@
   gap: 0.5rem;
 }
 
+.doc-file {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.doc-file:hover {
+  background-color: #0056b3;
+}
+
 .ar-filter-button {
   display: flex;
   align-items: center;
@@ -188,6 +202,7 @@
   justify-content: space-between;
   padding: 1rem;
   border-bottom: 1px solid #f1f5f9;
+  background-color: #B2B3F4;
 }
 
 .ar-loan-info {
@@ -244,17 +259,20 @@
 }
 
 .ar-loan-card-body {
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .ar-loan-detail-row {
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
+  justify-content: space-between;
+  padding: 10px 0;
 }
 
 .ar-detail-icon {
-  margin-right: 0.75rem;
+  margin-right: 10px;
 }
 
 .ar-icon-circle {
@@ -267,8 +285,15 @@
 }
 
 .ar-detail-info {
+  flex: 1;
+}
+
+.ar-detail-info-right {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-right: 100px;
 }
 
 .ar-label {
@@ -300,7 +325,7 @@
 .ar-loan-card-actions {
   display: flex;
   padding: 1rem;
-  gap: 0.5rem;
+  gap: 1.5rem;
   border-top: 1px solid #f1f5f9;
   background-color: #fff1fd;
 }

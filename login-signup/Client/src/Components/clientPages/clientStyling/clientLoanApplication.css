@@ -128,6 +128,58 @@
 
 */*Upload Box */
 
+  .upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  .upload-box:hover {
+    border-color: #007bff;
+  }
+  
+  .upload-box .upload-input {
+    display: none;
+  }
+  
+  .upload-box .upload-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .upload-box .upload-icon-svg {
+    stroke-width: 1; /* Adjust the thickness of the icon */
+  }
+  
+  .upload-box p {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .uploaded-files {
+    margin-top: 20px;
+  }
+  
+  .uploaded-files h3 {
+    margin-bottom: 10px;
+  }
+  
+  .uploaded-files ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .uploaded-files li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+
 /* Loans Section Styles */
 .loans-section {
   background: white;

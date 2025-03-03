@@ -1,0 +1,6 @@
+what to study
+
+around the end of interproccess communication
+slide 32 onwards of indirect communication slide
+
+publish subscribe architecture (indirect communication)

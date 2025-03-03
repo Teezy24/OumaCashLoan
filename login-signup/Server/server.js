@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require('path');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
@@ -391,16 +392,39 @@ server.listen(PORT, () => {
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    const uploadPath = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
-  },
+  }
 });
 
 const upload = multer({ storage });
 
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Endpoint to handle file uploads
+app.post('/api/uploadDocuments', upload.single('file'), async (req, res) => {
+  const { loan_application_id, documentType } = req.body;
+  const { filename, path: filePath, size } = req.file;
+
+  try {
+    const [result] = await db.promise().query(
+      'INSERT INTO loan_documents (loan_application_id, filename, path, size, document_type) VALUES (?, ?, ?, ?, ?)',
+      [loan_application_id, filename, filePath, size, documentType]
+    );
+
+    res.status(200).json({ message: 'File uploaded successfully', documentId: result.insertId });
+  } catch (error) {
+    console.error('Error uploading document:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 // Endpoint to fetch all loan applications
 app.get('/api/loanApplications', (req, res) => {
@@ -470,17 +494,19 @@ app.delete('/api/loanApplications/:id', (req, res) => {
   });
 });
 
-// Endpoint to handle file uploads
-app.post('/api/uploadDocuments', upload.array('files'), (req, res) => {
-  const loanApplicationId = req.body.loanApplicationId;
-  const files = req.files;
+// Endpoint to fetch documents for a loan application
+app.get('/api/loanApplications/:id/documents', async (req, res) => {
+  const { id } = req.params;
 
-  files.forEach(file => {
-    const query = 'INSERT INTO loan_documents (loan_application_id, filename, path, size) VALUES (?, ?, ?, ?)';
-    db.query(query, [loanApplicationId, file.filename, file.path, file.size], (err, result) => {
-      if (err) throw err;
-    });
-  });
+  try {
+    const [documents] = await db.promise().query(
+      'SELECT * FROM loan_documents WHERE loan_application_id = ?',
+      [id]
+    );
 
-  res.send('Documents uploaded successfully');
+    res.json(documents);
+  } catch (error) {
+    console.error('Error fetching documents:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });

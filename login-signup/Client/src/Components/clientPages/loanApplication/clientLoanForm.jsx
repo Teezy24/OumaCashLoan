@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { ArrowRight, HelpCircle } from "lucide-react";
+import { MdUploadFile } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
 import '../clientStyling/clientLoanApplication.css';
 
 const ClientLoanForm = ({ setView }) => {
@@ -19,7 +21,9 @@ const ClientLoanForm = ({ setView }) => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [documentType, setDocumentType] = useState('');
   const [user_id, setUserId] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     // Fetch user session data
@@ -36,10 +40,36 @@ const ClientLoanForm = ({ setView }) => {
   }, []);
 
   const handleFileChange = (event) => {
-    setUploadedFiles(prevFiles => [...prevFiles, ...event.target.files]);
+    const files = Array.from(event.target.files).map(file => ({
+      file,
+      documentType
+    }));
+    setUploadedFiles(prevFiles => [...prevFiles, ...files]);
   };
 
-  const handleSubmit = async () => {
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files).map(file => ({
+      file,
+      documentType
+    }));
+    setUploadedFiles(prevFiles => [...prevFiles, ...files]);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleDeleteFile = (index) => {
+    setUploadedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       console.log("Submitting form data:", formData); // Debugging output
 
@@ -57,6 +87,23 @@ const ClientLoanForm = ({ setView }) => {
           withCredentials: true
         }
       );
+
+      const loanApplicationId = response.data.id; // Get the loan application ID from the response
+
+      // Upload files
+      for (const { file, documentType } of uploadedFiles) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('documentType', documentType);
+        formData.append('loan_application_id', loanApplicationId); // Use the correct loan application ID
+
+        await axios.post('http://localhost:5000/api/uploadDocuments', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true
+        });
+      }
 
       alert('Loan application submitted successfully');
       setView('dashboard');
@@ -172,24 +219,61 @@ const ClientLoanForm = ({ setView }) => {
               <span>Documents</span>
             </div>
             <div className="step-connector"></div>
-            <div className="step-item">
+            <div className="step-item active">
               <div className="step-number">3</div>
               <span>Loan Details</span>
             </div>
           </div>
 
-          <div className="upload-box">
-            <input type="file" multiple onChange={handleFileChange} />
-            <div className="upload-icon">📁</div>
-            <p>Drag and drop your files here, or click to select files</p>
+          <div className="form-group">
+            <label>Document Type</label>
+            <select 
+              className="form-input" 
+              value={documentType}
+              onChange={(e) => setDocumentType(e.target.value)}
+            >
+              <option value="">Select Document Type</option>
+              <option value="ID">ID</option>
+              <option value="Payslip">Payslip</option>
+              <option value="Bank Statement">Bank Statement</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
-          
+
+          <div 
+            className="upload-box" 
+            onDrop={handleDrop} 
+            onDragOver={handleDragOver}
+            onClick={handleUploadClick}
+          >
+            <input 
+              type="file" 
+              multiple 
+              onChange={handleFileChange} 
+              className="upload-input"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
+            <div className="upload-icon">
+              <MdUploadFile size={44}/>
+              <p>Drag and drop your files here, or click to select files</p>
+            </div>
+          </div>
+      
           {uploadedFiles.length > 0 && (
             <div className="uploaded-files">
               <h3>Uploaded Files</h3>
               <ul>
                 {uploadedFiles.map((file, index) => (
-                  <li key={index}>{file.name}</li>
+                  <li key={index}>
+                    {file.file.name} ({file.documentType})
+                    <button 
+                      className="delete-button" 
+                      onClick={() => handleDeleteFile(index)}
+                    >
+                      <FaTrash color="red" /> Delete
+                    </button>
+                  </li>
                 ))}
               </ul>
             </div>

@@ -1,6 +1,6 @@
 .ar-loan-cards-container {
-  overflow-y: scroll;
-  max-height: 500px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 500px; /* Set a maximum height for the container */
   padding: 10px; /* Add padding to ensure content is not cut off */
 }
 

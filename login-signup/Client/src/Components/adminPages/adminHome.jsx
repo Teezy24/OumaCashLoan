@@ -187,6 +187,32 @@ const users = [
   { id: 7, name: "David Green", email: "david@nova.laravel.com" }
 ];
 
+const [pendingApplications, setPendingApplications] = useState(0);
+const [rejectedApplications, setRejectedApplications] = useState(0);
+const [forwardedApplications, setForwardedApplications] = useState(0);
+const [documentIssues, setDocumentIssues] = useState(0);
+
+useEffect(() => {
+  const fetchApplications = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/loanApplications');
+      const applications = response.data;
+
+      const pendingCount = applications.filter(app => app.status === 'Pending').length;
+      const rejectedCount = applications.filter(app => app.status === 'Rejected').length;
+
+      setPendingApplications(pendingCount);
+      setRejectedApplications(rejectedCount);
+      setForwardedApplications(0); // Set forwarded applications to 0
+      setDocumentIssues(0); // Set document issues to 0
+    } catch (error) {
+      console.error('Error fetching loan applications:', error);
+    }
+  };
+
+  fetchApplications();
+}, []);
+
 return (
 
   <div className="ah-container">
@@ -236,7 +262,7 @@ return (
                 </div>
                 <div className="ah-stat-container">
                 <FaComments className="ah-stat-icon" />
-                <h2>12</h2>
+                <h2>{pendingApplications}</h2>
                 </div>
               </div>
               <div className="ah-stat-card">
@@ -255,7 +281,7 @@ return (
                 </div>
                 <div className="ah-stat-container">
                 <FaComments className="ah-stat-icon" />
-                <h2>14</h2>
+                <h2>{forwardedApplications}</h2>
                 </div>
               </div>
               <div className="ah-stat-card">
@@ -274,7 +300,7 @@ return (
                 </div>
                 <div className="ah-stat-container">
                 <FaTimesCircle className="stat-icon" />
-                <h2>0</h2>
+                <h2>{rejectedApplications}</h2>
                 </div>
               </div>
               <div className="ah-stat-card">
@@ -294,7 +320,7 @@ return (
                 
                 <div className="ah-stat-container"> 
                              <FaExclamationTriangle className="stat-icon" />
-                         <h2>4</h2>
+                         <h2>{documentIssues}</h2>
                      </div>
               </div>
             </div>
