@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Send, Users } from 'lucide-react';
-import { UserContext } from '../../UserContext'; // Import the UserContext
+import { AuthContext } from '../../AuthContext'; // Import the AuthContext
 import api from '../../axiosConfig'; // Import the configured Axios instance
 import './adminStyling/adminMessages.css';
 
 const AdminMessages = () => {
-  const { user } = useContext(UserContext); // Use the UserContext
+  const { user } = useContext(AuthContext); // Use the AuthContext
   const [clients, setClients] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [error, setError] = useState(null);
 
   // Fetch clients on component mount
   useEffect(() => {
@@ -29,6 +30,7 @@ const AdminMessages = () => {
       setClients(res.data);
     } catch (err) {
       console.error('Error fetching clients:', err);
+      setError('Failed to fetch clients. Please try again later.');
     }
   };
 
@@ -38,10 +40,16 @@ const AdminMessages = () => {
       setMessages(res.data);
     } catch (err) {
       console.error('Error fetching messages:', err);
+      setError('Failed to fetch messages. Please try again later.');
     }
   };
 
   const startChat = async (clientId) => {
+    if (!user || !user.user_id) {
+      setError('User not authenticated. Please log in.');
+      return;
+    }
+
     try {
       const res = await api.post('/conversations', {
         client_id: clientId,
@@ -50,6 +58,7 @@ const AdminMessages = () => {
       setActiveChat(res.data);
     } catch (err) {
       console.error('Error starting chat:', err);
+      setError('Failed to start chat. Please try again later.');
     }
   };
 
@@ -67,7 +76,13 @@ const AdminMessages = () => {
       fetchMessages(activeChat.conversation_id);
     } catch (err) {
       console.error('Error sending message:', err);
+      setError('Failed to send message. Please try again later.');
     }
+  };
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
@@ -98,10 +113,11 @@ const AdminMessages = () => {
       </div>
 
       <div className="c-messages__content">
+        {error && <div className="c-messages__error">{error}</div>}
         {activeChat ? (
           <>
             <div className="c-messages__header">
-              <h2>{activeChat.title}</h2>
+              <h2>{activeChat.client_name}</h2>
             </div>
 
             <div className="c-messages__chat">
@@ -116,7 +132,7 @@ const AdminMessages = () => {
                     }`}
                   >
                     <p>{message.message_text}</p>
-                    <span>{new Date(message.created_at).toLocaleTimeString()}</span>
+                    <span>{formatTime(message.created_at)}</span>
                   </div>
                 ))}
               </div>

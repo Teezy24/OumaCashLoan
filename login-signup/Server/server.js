@@ -8,7 +8,6 @@ const multer = require('multer');
 const path = require('path');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
@@ -117,12 +116,30 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get('/api/auth/session', (req, res) => {
+app.get('api/auth/session', (req, res) => {
   if (req.session.user) {
     res.json(req.session.user);
   } else {
     res.status(401).json({ error: 'Not authenticated' });
   }
+});
+
+app.get('/api/auth/user', (req, res) => {
+  const user_id = req.session.user_id; // Get user ID from session
+
+  if (!user_id) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
+  const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
+
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results[0]);
+  });
 });
 
 // Endpoint to fetch loan applications for the logged-in user
@@ -141,25 +158,6 @@ app.get('/api/user/loanApplications', (req, res) => {
     res.json(results);
   });
 });
-
-app.get('/api/auth/user', (req, res) => {
-  const user_id = req.session.user.user_id; // Get user ID from session
-
-  if (!user_id) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
-
-  const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
-
-  db.query(query, [user_id], (err, results) => {
-    if (err) {
-      console.error('Error fetching user details:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-    res.json(results[0]);
-  });
-});
-
 
 app.get('/api/user/:id', (req, res) => {
   const user_id = req.params.id;
@@ -188,6 +186,8 @@ app.put('/api/user/:id', (req, res) => {
     res.json({ message: 'User details updated successfully' });
   });
 });
+
+
 
 // Other routes...
 
@@ -392,39 +392,14 @@ server.listen(PORT, () => {
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath);
-    }
-    cb(null, uploadPath);
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
-  }
+  },
 });
 
 const upload = multer({ storage });
-
-// Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Endpoint to handle file uploads
-app.post('/api/uploadDocuments', upload.single('file'), async (req, res) => {
-  const { loan_application_id, documentType } = req.body;
-  const { filename, path: filePath, size } = req.file;
-
-  try {
-    const [result] = await db.promise().query(
-      'INSERT INTO loan_documents (loan_application_id, filename, path, size, document_type) VALUES (?, ?, ?, ?, ?)',
-      [loan_application_id, filename, filePath, size, documentType]
-    );
-
-    res.status(200).json({ message: 'File uploaded successfully', documentId: result.insertId });
-  } catch (error) {
-    console.error('Error uploading document:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 // Endpoint to fetch all loan applications
 app.get('/api/loanApplications', (req, res) => {
@@ -442,7 +417,7 @@ app.get('/api/loanApplications', (req, res) => {
 app.post('/api/loanApplication', (req, res) => {
   console.log("Received form data:", req.body); // Debugging step
 
-  const user_id = req.session.user.user_id; // Get user ID from session
+  const user_id = req.session.user_id; // Get user ID from session
   const { full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
 
   if (!user_id) {
@@ -494,19 +469,17 @@ app.delete('/api/loanApplications/:id', (req, res) => {
   });
 });
 
-// Endpoint to fetch documents for a loan application
-app.get('/api/loanApplications/:id/documents', async (req, res) => {
-  const { id } = req.params;
+// Endpoint to handle file uploads
+app.post('/api/uploadDocuments', upload.array('files'), (req, res) => {
+  const loanApplicationId = req.body.loanApplicationId;
+  const files = req.files;
 
-  try {
-    const [documents] = await db.promise().query(
-      'SELECT * FROM loan_documents WHERE loan_application_id = ?',
-      [id]
-    );
+  files.forEach(file => {
+    const query = 'INSERT INTO loan_documents (loan_application_id, filename, path, size) VALUES (?, ?, ?, ?)';
+    db.query(query, [loanApplicationId, file.filename, file.path, file.size], (err, result) => {
+      if (err) throw err;
+    });
+  });
 
-    res.json(documents);
-  } catch (error) {
-    console.error('Error fetching documents:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+  res.send('Documents uploaded successfully');
 });

@@ -1,13 +1,30 @@
 /* Main Layout */
 .ar-main-container {
+  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
-  background-color: #f8f9fa;
-  height: 100vh;
-  width: 100%;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  margin-left: 10%;
+  flex-direction: column;
+  background-color: #B2B3F4;
+  margin-left: 20%;
+  border-radius: 10px;
+  padding: 15px 15px 15px 15px;
+  position: relative;
+  max-width: calc(100vw - 280px);
 }
 
+.ar-loan-container {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #B2B3F4;
+  margin-left: 20%;
+  border-radius: 10px;
+  overflow-y: auto;
+  padding: 0 15px 15px 15px;
+  position: relative;
+  max-width: calc(100vw - 280px);
+}
 .ar-logo {
   padding: 1rem 0;
   font-size: 18px;

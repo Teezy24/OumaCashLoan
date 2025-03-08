@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import "./adminStyling/adminLoanReviews.css";
 import { FaSearch, FaCheckCircle, FaClock, FaTimesCircle, FaTrash, FaEnvelope, FaEllipsisV, FaFileAlt } from "react-icons/fa";
 import { Chart, Filler } from 'chart.js';
+import { Bell, HelpCircle, Search, ArrowLeft, Camera } from "lucide-react";
 
 // Register the 'Filler' plugin
 Chart.register(Filler);
@@ -96,9 +97,8 @@ const AdminLoanReview = () => {
 
   return (
     <div className="ar-main-container">
-      <div className="ar-content">
-        <div className="ar-loan-container" style={{ height: '500px', overflow: 'auto' }}>
-          <div className="ar-search-wrapper">
+      <div className="ar-loan-container" style={{ height: '500px', overflow: 'auto' }}>
+        <div className="ar-search-wrapper">
             <div className="ar-search-box">
               <input
                 type="text"
@@ -111,7 +111,7 @@ const AdminLoanReview = () => {
               </button>
             </div>
           </div>
-
+       
           <div className="ar-loans-header">
             <h2>Loans</h2>
             <div className="ar-header-actions">
@@ -246,7 +246,6 @@ const AdminLoanReview = () => {
             ))}
           </div>
         </div>
-      </div>
 
       <Modal
         isOpen={modalIsOpen}
