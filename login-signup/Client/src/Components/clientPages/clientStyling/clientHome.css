@@ -528,12 +528,12 @@
   border-radius: 4px;
 }
 
-.ch-status-success {
+.ch-status-approved {
   background-color: #10b981;
   color: white;
 }
 
-.ch-status-failed {
+.ch-status-rejected {
   background-color: #ef4444;
   color: white;
 }
@@ -623,4 +623,54 @@ img, svg {
 .ch-dashboard::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+}
+
+.ch-activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.ch-activity-table th,
+.ch-activity-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.ch-activity-table th {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.ch-activity-table tr {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.ch-activity-table tr:last-child {
+  border-bottom: none;
+}
+
+.ch-activity-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.no-data {
+  text-align: center;
+  color: #6c757d;
+  padding: 1.5rem !important;
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  padding: 1rem;
 }

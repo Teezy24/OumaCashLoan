@@ -1,4 +1,3 @@
-// filepath: /c:/Users/monte/Documents/VS Code Projects/OumaCashLoans/login-signup/Client/src/Components/clientPages/clientHome.jsx
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Bell, HelpCircle, Search, ArrowLeft, Camera } from "lucide-react";
@@ -7,6 +6,8 @@ import '../sidebar.css';
 import "./clientStyling/clientHome.css";
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 import { AuthContext } from '../../AuthContext';
+import ClientLoanForm from './loanApplication/clientLoanForm';
+import api from '../../axiosConfig'; // Import the configured Axios instance
 
 const ProfilePanel = ({ isOpen, togglePanel, user, setUser }) => {
   const [formData, setFormData] = useState(user || {});
@@ -138,6 +139,8 @@ const ClientHome = () => {
   const { user, setUser } = useContext(AuthContext);
   const togglePanel = () => setIsPanelOpen(!isPanelOpen);
   const [date, setDate] = useState(new Date());
+  const [loanApplications, setLoanApplications] = useState([]);
+  const [view, setView] = useState('dashboard');
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -152,7 +155,33 @@ const ClientHome = () => {
     };
 
     fetchUserDetails();
-  }, [user]);
+  }, [user?.user_id, setUser]);
+
+  useEffect(() => {
+    const fetchLoanApplications = async () => {
+      try {
+        const response = await api.get('/user/loanApplications');
+        console.log('Response data:', response.data);
+        
+        if (Array.isArray(response.data)) {
+          setLoanApplications(response.data);
+        } else if (response.data.error) {
+          console.error('API Error:', response.data.error);
+          setLoanApplications([]); // Handle authentication error
+        } else {
+          console.error('Unexpected response format:', response.data);
+          setLoanApplications([]);
+        }
+      } catch (error) {
+        console.error('Error fetching loan applications:', error);
+        setLoanApplications([]);
+      }
+    };
+
+    if (user && user.user_id) {
+      fetchLoanApplications();
+    }
+  }, [user?.user_id]);
 
   const loanPaymentDates = [
     { date: '2025-02-25', type: 'payment', amount: 5000 },
@@ -181,38 +210,7 @@ const ClientHome = () => {
     { name: "Investments", value: 15, color: "#ef4444" }
   ];
 
-  const activityData = [
-    {
-      date: "Feb 12",
-      description: "Namibia Bank Loan Funding",
-      status: "pending",
-      type: "Bank Transfer",
-      amount: "N$200,000"
-    },
-    {
-      date: "Feb 5",
-      description: "One Home Loan Repayment",
-      status: "success",
-      type: "Bank Transfer",
-      amount: "N$52,000"
-    },
-    {
-      date: "Jan 27",
-      description: "Millennium Loan Funding",
-      status: "failed",
-      type: "Bank Transfer",
-      amount: "N$50,000"
-    },
-    {
-      date: "Jan 25",
-      description: "The Big Plan Loan Funding",
-      status: "pending",
-      type: "Bank Transfer",
-      amount: "N$10,000"
-    },
-  ];
-
-  return (
+  const renderDashboard = () => (
     <div className="ch-dashboard">
       <div className="ch-topbar">
         <div className="ch-search-container">
@@ -268,7 +266,7 @@ const ClientHome = () => {
             </div>
           </div>
         </div>
-
+      
         {/* Loan Calendar Section */}
         <div className="ch-card">
           <div className="ch-card-header">
@@ -318,13 +316,13 @@ const ClientHome = () => {
             <span className="ch-card-subtitle">Manage</span>
           </div>
           <div className="ch-actions">
-            <button className="ch-action-button">
+            <button className="ch-action-button" onClick={() => setView('loanApplication')}>
               <span className="ch-action-icon">→</span>
-              Make Payment
+              Apply for a Loan
             </button>
             <button className="ch-action-button">
               <span className="ch-action-icon">←</span>
-              Apply for a Loan
+              Make Payment
             </button>
             <div className="ch-action-grid">
               <button className="ch-action-link">
@@ -355,19 +353,24 @@ const ClientHome = () => {
                 </tr>
               </thead>
               <tbody>
-                {activityData.map((item, index) => (
+                {loanApplications.slice(0, 4).map((item, index) => (
                   <tr key={index} className="ch-table-row">
-                    <td className="ch-table-cell">{item.date}</td>
+                    <td className="ch-table-cell">{new Date(item.created_at).toLocaleDateString()}</td>
                     <td className="ch-table-cell">{item.description}</td>
                     <td className="ch-table-cell">
-                      <span className={`ch-status ch-status-${item.status}`}>
+                      <span className={`ch-status ch-status-${item.status.toLowerCase()}`}>
                         {item.status}
                       </span>
                     </td>
-                    <td className="ch-table-cell">{item.type}</td>
-                    <td className="ch-table-cell ch-amount">{item.amount}</td>
+                    <td className="ch-table-cell">{item.transfer_method}</td>
+                    <td className="ch-table-cell ch-amount">{item.loan_amount}</td>
                   </tr>
                 ))}
+                {loanApplications.length === 0 && (
+                  <tr>
+                    <td colSpan="5" className="no-data">No loan applications available.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -401,10 +404,20 @@ const ClientHome = () => {
               />
             </PieChart>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+          </div>
 
+    </div>
+  </div>
+  );
+  return (
+    <div>
+      {view === 'dashboard' && renderDashboard()}
+      {view === 'loanApplication' && <ClientLoanForm setView={setView} />}
+    </div>
+
+  );
+
+
+};
+  
 export default ClientHome;

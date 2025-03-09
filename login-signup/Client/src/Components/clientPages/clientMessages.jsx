@@ -2,20 +2,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Send, Users } from 'lucide-react';
 import axios from 'axios';
 import './clientStyling/clientMessages.css';
-import { UserContext } from '../../UserContext'; // Import UserContext
+import { AuthContext } from '../../AuthContext'; // Import AuthContext
 
 const ClientMessages = () => {
-  const { user: currentUser } = useContext(UserContext); // Use UserContext to get the current user
+  const { user } = useContext(AuthContext); // Use AuthContext to get the current user
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [error, setError] = useState(null);
 
   // Fetch or create conversation on component mount
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       fetchOrCreateAdminChat();
     }
-  }, [currentUser]);
+  }, [user]);
 
   // Fetch messages when active chat changes
   useEffect(() => {
@@ -26,10 +27,11 @@ const ClientMessages = () => {
 
   const fetchOrCreateAdminChat = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/conversations/client/${currentUser.user_id}`);
+      const res = await axios.get(`http://localhost:5000/api/conversations/client/${user.user_id}`);
       setActiveChat(res.data);
     } catch (err) {
       console.error('Error fetching admin chat:', err);
+      setError('Failed to connect to support. Please try again later.');
     }
   };
 
@@ -39,6 +41,7 @@ const ClientMessages = () => {
       setMessages(res.data);
     } catch (err) {
       console.error('Error fetching messages:', err);
+      setError('Failed to fetch messages. Please try again later.');
     }
   };
 
@@ -49,14 +52,20 @@ const ClientMessages = () => {
     try {
       await axios.post('http://localhost:5000/api/messages', {
         conversation_id: activeChat.conversation_id,
-        sender_id: currentUser.user_id,
+        sender_id: user.user_id,
         message_text: newMessage
       });
       setNewMessage('');
       fetchMessages(activeChat.conversation_id);
     } catch (err) {
       console.error('Error sending message:', err);
+      setError('Failed to send message. Please try again later.');
     }
+  };
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
@@ -81,6 +90,7 @@ const ClientMessages = () => {
       </div>
 
       <div className="c-messages__content">
+        {error && <div className="c-messages__error">{error}</div>}
         {activeChat ? (
           <>
             <div className="c-messages__header">
@@ -93,7 +103,7 @@ const ClientMessages = () => {
                   <div
                     key={message.message_id}
                     className={`c-messages__message ${
-                      message.sender_id === currentUser.user_id 
+                      message.sender_id === user.user_id 
                         ? 'c-messages__message--sent' 
                         : 'c-messages__message--received'
                     }`}
@@ -101,7 +111,7 @@ const ClientMessages = () => {
                     <div className="c-messages__message-content">
                       <p>{message.message_text}</p>
                       <span className="c-messages__message-time">
-                        {new Date(message.created_at).toLocaleTimeString()}
+                        {formatTime(message.created_at)}
                       </span>
                     </div>
                   </div>

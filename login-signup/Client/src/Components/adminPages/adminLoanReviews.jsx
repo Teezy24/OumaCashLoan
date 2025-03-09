@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Modal from 'react-modal';
 import "./adminStyling/adminLoanReviews.css";
-import { FaSearch, FaCheckCircle, FaClock, FaTimesCircle, FaTrash, FaSyncAlt, FaEnvelope, FaEllipsisV } from "react-icons/fa";
+import { FaSearch, FaCheckCircle, FaClock, FaTimesCircle, FaTrash, FaEnvelope, FaEllipsisV, FaFileAlt } from "react-icons/fa";
 import { Chart, Filler } from 'chart.js';
+import { Bell, HelpCircle, Search, ArrowLeft, Camera } from "lucide-react";
 
 // Register the 'Filler' plugin
 Chart.register(Filler);
@@ -18,8 +19,12 @@ const AdminLoanReview = () => {
 
   const fetchLoans = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/loanApplications');
-      setLoans(response.data);
+      const response = await axios.get('http://localhost:5000/api/loanApplications');
+      const loansWithDocuments = await Promise.all(response.data.map(async (loan) => {
+        const documents = await fetchDocuments(loan.id);
+        return { ...loan, documents };
+      }));
+      setLoans(loansWithDocuments);
     } catch (error) {
       console.error('Error fetching loan applications:', error);
     }
@@ -28,6 +33,16 @@ const AdminLoanReview = () => {
   useEffect(() => {
     fetchLoans();
   }, []);
+
+  const fetchDocuments = async (loanId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/loanApplications/${loanId}/documents`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+      return [];
+    }
+  };
 
   const openModal = (loan) => {
     setSelectedLoan(loan);
@@ -42,7 +57,7 @@ const AdminLoanReview = () => {
   const handleDelete = async () => {
     if (selectedLoan) {
       try {
-        await axios.delete(`http://localhost:3000/api/loanApplications/${selectedLoan.id}`);
+        await axios.delete(`http://localhost:5000/api/loanApplications/${selectedLoan.id}`);
         setLoans(loans.filter(loan => loan.id !== selectedLoan.id));
         closeModal();
       } catch (error) {
@@ -53,7 +68,7 @@ const AdminLoanReview = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`http://localhost:3000/api/loanApplications/${id}/status`, { status });
+      await axios.put(`http://localhost:5000/api/loanApplications/${id}/status`, { status });
       setLoans(loans.map(loan => loan.id === id ? { ...loan, status } : loan));
     } catch (error) {
       console.error('Error updating loan application status:', error);
@@ -82,9 +97,8 @@ const AdminLoanReview = () => {
 
   return (
     <div className="ar-main-container">
-      <div className="ar-content">
-        <div className="ar-loan-container">
-          <div className="ar-search-wrapper">
+      <div className="ar-loan-container" style={{ height: '500px', overflow: 'auto' }}>
+        <div className="ar-search-wrapper">
             <div className="ar-search-box">
               <input
                 type="text"
@@ -97,7 +111,7 @@ const AdminLoanReview = () => {
               </button>
             </div>
           </div>
-
+       
           <div className="ar-loans-header">
             <h2>Loans</h2>
             <div className="ar-header-actions">
@@ -135,8 +149,25 @@ const AdminLoanReview = () => {
                     </button>
                   </div>
                 </div>
-                
+          
                 <div className="ar-loan-card-body">
+                  <div className="ar-loan-detail-row">
+                    <div className="ar-detail-icon">
+                      <FaClock className="ar-icon-circle" />
+                    </div>
+                    <div className="ar-detail-info">
+                      <span>National ID: {loan.national_id}</span>
+                    </div>
+                    <div className="ar-detail-info-right">      
+                      <span className="ar-label">Attached Document:</span>
+                      {loan.documents && loan.documents.map((doc, index) => (
+                        <button key={index} className="doc-file" onClick={() => window.open(`http://localhost:5000/uploads/${doc.filename}`, '_blank')}>
+                          <FaFileAlt /> {doc.filename}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
                   <div className="ar-loan-detail-row">
                     <div className="ar-detail-icon">
                       <FaCheckCircle className="ar-icon-circle" />
@@ -215,7 +246,6 @@ const AdminLoanReview = () => {
             ))}
           </div>
         </div>
-      </div>
 
       <Modal
         isOpen={modalIsOpen}

@@ -76,7 +76,7 @@
   font-weight: 500;
 }
 
-.c-history-status-success {
+.c-history-status-approved {
   background-color: #d1fae5;
   color: #059669;
 }
@@ -86,7 +86,7 @@
   color: #d97706;
 }
 
-.c-history-status-failed {
+.c-history-status-rejected {
   background-color: #fee2e2;
   color: #dc2626;
 }

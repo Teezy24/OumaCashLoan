@@ -1,70 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../sidebar.css';
 import "./clientStyling/clientLoanHistory.css";
 import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { IoIosArrowForward } from "react-icons/io";
-
-// Monthly loan data
-const monthlyLoanData = [
-  { month: 'Jan', value: 1 },
-  { month: 'Feb', value: 4 },
-  { month: 'Mar', value: 2 },
-  { month: 'Apr', value: 2 },
-  { month: 'May', value: 1 },
-  { month: 'Jun', value: 1 }
-];
-
-// Activity data
-const activityData = [
-  {
-    date: "Feb 13",
-    description: "Heritage Auto Loan Funding",
-    status: "pending",
-    type: "Bank Transfer",
-    amount: "N$350,000"
-  },
-  {
-    date: "Feb 5",
-    description: "Cruz Home Loan Repayment",
-    status: "success",
-    type: "Bank Transfer",
-    amount: "N$50,000"
-  },
-  {
-    date: "Jan 27",
-    description: "Millennium Loan Funding",
-    status: "failed",
-    type: "Bank Transfer",
-    amount: "N$550,000"
-  },
-  {
-    date: "Jan 26",
-    description: "The Big Plan Loan Funding",
-    status: "pending",
-    type: "Bank Transfer",
-    amount: "N$10,000"
-  },
-  {
-    date: "Jan 25",
-    description: "Johnson Loan Funding",
-    status: "canceled",
-    type: "Bank Transfer",
-    amount: "N$30,000"
-  }
-];
-
-// Pie chart data
-const pieData = [
-  { name: "0-19%", value: 5, color: "#ef4444" },
-  { name: "20-39%", value: 10, color: "#fbbf24" },
-  { name: "40-59%", value: 15, color: "#d97706" },
-  { name: "60-79%", value: 25, color: "#a3e635" },
-  { name: "80-100%", value: 45, color: "#10b981" }
-];
+import api from '../../axiosConfig'; // Import the configured Axios instance
+import { AuthContext } from '../../AuthContext'; // Import the AuthContext
 
 const ClientLoanHistory = () => {
+  const { user } = useContext(AuthContext);
+  const [loanApplications, setLoanApplications] = useState([]);
   const [selectedLoan, setSelectedLoan] = useState("Cruz Home Loan");
-  
+
+  useEffect(() => {
+    const fetchLoanApplications = async () => {
+      try {
+        const response = await api.get('/user/loanApplications');
+        console.log('Response data:', response.data);
+        
+        if (Array.isArray(response.data)) {
+          setLoanApplications(response.data);
+        } else if (response.data.error) {
+          console.error('API Error:', response.data.error);
+          setLoanApplications([]); // Handle authentication error
+        } else {
+          console.error('Unexpected response format:', response.data);
+          setLoanApplications([]);
+        }
+      } catch (error) {
+        console.error('Error fetching loan applications:', error);
+        setLoanApplications([]);
+      }
+    };
+
+    if (user && user.user_id) {
+      fetchLoanApplications();
+    }
+  }, [user?.user_id]);
+
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(2) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(2) + 'K';
+    } else {
+      return num.toString();
+    }
+  };
+
+  const activityData = loanApplications.map(loan => ({
+    date: new Date(loan.created_at).toLocaleDateString(),
+    description: loan.description,
+    status: loan.status.toLowerCase(),
+    type: loan.transfer_method,
+    amount: `N$${formatNumber(loan.loan_amount)}`
+  }));
+
+  const pieData = [
+    { name: "Pending", value: loanApplications.filter(loan => loan.status === "Pending").length, color: "#fbbf24" },
+    { name: "Approved", value: loanApplications.filter(loan => loan.status === "Approved").length, color: "#10b981" },
+    { name: "Rejected", value: loanApplications.filter(loan => loan.status === "Rejected").length, color: "#ef4444" }
+  ];
+
+  const formattedLoanApplications = loanApplications.map(loan => ({
+    ...loan,
+    loan_amount: isNaN(loan.loan_amount) ? 0 : Number(loan.loan_amount),
+    created_at: new Date(loan.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })
+  }));
+
   return (
     <div className="c-history-page">
       <div className="c-history-container">
@@ -81,12 +83,13 @@ const ClientLoanHistory = () => {
               </div>
             </div>
             <div className="c-history-chart">
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={monthlyLoanData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+              <ResponsiveContainer width="100%" height= {240} >
+                <BarChart data={formattedLoanApplications} margin={{ top: 10, right: 10, left: 30, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                  <YAxis domain={[0, 5]} axisLine={false} tickLine={false} />
-                  <Bar dataKey="value" fill="#6366F1" radius={[4, 4, 0, 0]} />
+                  <XAxis dataKey="created_at" axisLine={false} tickLine={false} label={{ value: 'Date', position: 'insideBottom', offset: -20, dx: -45 }} />
+                  <YAxis domain={[0, 'dataMax + 1']} axisLine={false} tickLine={false} label={{ value: 'Loan Amount', angle: -90, position: 'insideLeft', offset: -18, dy: 45}} tickFormatter={formatNumber} />
+                  <Tooltip formatter={(value) => `N$${formatNumber(value)}`} />
+                  <Bar dataKey="loan_amount" fill="#6366F1" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -168,15 +171,15 @@ const ClientLoanHistory = () => {
                   Total Loans
                   <IoIosArrowForward className="c-history-count-icon" />
                 </span>
-                <span className="c-history-count-value">58</span>
+                <span className="c-history-count-value">{loanApplications.length}</span>
               </div>
             </div>
           </div>
 
-          {/* Overall Loan Status Card */}
+          {/* Overall Loan Performance Card */}
           <div className="c-history-card">
             <div className="c-history-card-header">
-              <h3 className="c-history-card-title">Overall Loan Status</h3>
+              <h3 className="c-history-card-title">Overall Loan Performance</h3>
             </div>
             <div className="c-history-status-container">
               <div className="c-history-donut-container">
@@ -196,7 +199,7 @@ const ClientLoanHistory = () => {
                     ))}
                   </Pie>
                   <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="c-history-donut-text">
-                    <tspan x="50%" dy="-5" className="c-history-donut-value">67%</tspan>
+                    <tspan x="50%" dy="-5" className="c-history-donut-value">{loanApplications.length > 0 ? `${Math.round((loanApplications.filter(loan => loan.status === "Approved").length / loanApplications.length) * 100)}%` : '0%'}</tspan>
                     <tspan x="50%" dy="20" className="c-history-donut-label"></tspan>
                   </text>
                 </PieChart>

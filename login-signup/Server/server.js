@@ -116,12 +116,30 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get('/api/auth/session', (req, res) => {
+app.get('api/auth/session', (req, res) => {
   if (req.session.user) {
     res.json(req.session.user);
   } else {
     res.status(401).json({ error: 'Not authenticated' });
   }
+});
+
+app.get('/api/auth/user', (req, res) => {
+  const user_id = req.session.user_id; // Get user ID from session
+
+  if (!user_id) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
+  const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
+
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching user details:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results[0]);
+  });
 });
 
 // Endpoint to fetch loan applications for the logged-in user
@@ -140,25 +158,6 @@ app.get('/api/user/loanApplications', (req, res) => {
     res.json(results);
   });
 });
-
-app.get('/api/auth/user', (req, res) => {
-  const user_id = req.session.user.user_id; // Get user ID from session
-
-  if (!user_id) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
-
-  const query = 'SELECT user_id, full_name, email, phone_number, residential_address, postal_address, id_number FROM users WHERE user_id = ?';
-
-  db.query(query, [user_id], (err, results) => {
-    if (err) {
-      console.error('Error fetching user details:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-    res.json(results[0]);
-  });
-});
-
 
 app.get('/api/user/:id', (req, res) => {
   const user_id = req.params.id;
@@ -187,6 +186,8 @@ app.put('/api/user/:id', (req, res) => {
     res.json({ message: 'User details updated successfully' });
   });
 });
+
+
 
 // Other routes...
 
@@ -400,8 +401,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-
-
 // Endpoint to fetch all loan applications
 app.get('/api/loanApplications', (req, res) => {
   const query = 'SELECT * FROM loan_applications';
@@ -418,7 +417,7 @@ app.get('/api/loanApplications', (req, res) => {
 app.post('/api/loanApplication', (req, res) => {
   console.log("Received form data:", req.body); // Debugging step
 
-  const user_id = req.session.user.user_id; // Get user ID from session
+  const user_id = req.session.user_id; // Get user ID from session
   const { full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
 
   if (!user_id) {

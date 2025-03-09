@@ -128,3 +128,29 @@
   background-color: #6c757d;
   color: white;
 }
+
+.uploaded-files ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.uploaded-files li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.delete-button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  border: red 1px solid;
+}
+
+.cf-delete-button:hover {
+  text-decoration: underline;
+}
