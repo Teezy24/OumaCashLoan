@@ -17,7 +17,7 @@ import ClientLoanCalculator from './Components/clientPages/clientLoanCalculator.
 import ClientLoanHistory from './Components/clientPages/clientLoanHistory.jsx';
 import ClientSidebar from './Components/clientPages/clientSidebar.jsx';
 import ClientMessages from './Components/clientPages/clientMessages.jsx';
-import ClientSettings from './Components/clientPages/clientSettings.jsx';
+import ClientSettings from './Components/clientPages/clientSettings/clientSettings.jsx';
 
 // Admin
 import AdminHome from './Components/adminPages/adminHome.jsx';

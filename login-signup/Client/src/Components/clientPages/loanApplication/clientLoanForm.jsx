@@ -5,6 +5,10 @@ import { MdUploadFile } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import '../clientStyling/clientLoanApplication.css';
 
+// Set the base URL for axios
+axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.withCredentials = true;
+
 const ClientLoanForm = ({ setView }) => {
   const [formData, setFormData] = useState({
     full_name: '',
@@ -29,7 +33,7 @@ const ClientLoanForm = ({ setView }) => {
     // Fetch user session data
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/auth/user', { withCredentials: true });
+        const response = await axios.get('/api/auth/user');
         setUserId(response.data.user_id);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -71,40 +75,36 @@ const ClientLoanForm = ({ setView }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Submitting form data:", formData); // Debugging output
-
+      console.log("Submitting form data:", formData);
+  
       // Include user ID in form data
       const dataToSubmit = { ...formData, user_id: user_id };
-
-      // Send as JSON instead of FormData
-      const response = await axios.post(
-        'http://localhost:5000/api/loanApplication',
-        dataToSubmit,
-        {
-          headers: {
-            'Content-Type': 'application/json', // Ensure JSON format
-          },
-          withCredentials: true
-        }
-      );
-
-      const loanApplicationId = response.data.id; // Get the loan application ID from the response
-
-      // Upload files
-      for (const { file, documentType } of uploadedFiles) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('documentType', documentType);
-        formData.append('loan_application_id', loanApplicationId); // Use the correct loan application ID
-
-        await axios.post('http://localhost:5000/api/uploadDocuments', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true
-        });
+  
+      // Send form data to create a loan application
+      const response = await axios.post('/api/loanApplication', dataToSubmit, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+  
+      const loanApplicationId = response.data.id;
+      if (!loanApplicationId) {
+        alert('Loan application failed. Please try again.');
+        return;
       }
-
+  
+      // Upload all files in parallel
+      const uploadPromises = uploadedFiles.map(({ file, documentType }) => {
+        const formData = new FormData();
+        formData.append('files', file);  // Fix field name
+        formData.append('documentType', documentType);
+        formData.append('loan_application_id', loanApplicationId);
+  
+        return axios.post('/api/uploadDocuments', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+      });
+  
+      await Promise.all(uploadPromises);
+  
       alert('Loan application submitted successfully');
       setView('dashboard');
     } catch (error) {
@@ -112,6 +112,7 @@ const ClientLoanForm = ({ setView }) => {
       alert('Error submitting loan application');
     }
   };
+  
 
   return (
     <div>

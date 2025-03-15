@@ -8,6 +8,8 @@ const multer = require('multer');
 const path = require('path');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const fs = require('fs');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const server = http.createServer(app);
@@ -23,7 +25,7 @@ const io = new Server(server, {
 });
 
 app.use(bodyParser.json());
-require('dotenv').config();
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -61,6 +63,14 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24, // 1 day
   }
 }));
+
+const authenticate = (req, res, next) => {
+  if (req.session && req.session.user) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+};
 
 // Existing authentication routes
 app.post("/signup", async (req, res) => {
@@ -116,7 +126,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get('api/auth/session', (req, res) => {
+app.get('/api/auth/session', (req, res) => {
   if (req.session.user) {
     res.json(req.session.user);
   } else {
@@ -125,7 +135,7 @@ app.get('api/auth/session', (req, res) => {
 });
 
 app.get('/api/auth/user', (req, res) => {
-  const user_id = req.session.user_id; // Get user ID from session
+  const user_id = req.session.user && req.session.user.user_id; // Get user ID from session
 
   if (!user_id) {
     return res.status(401).json({ error: 'Not authenticated' });
@@ -139,6 +149,17 @@ app.get('/api/auth/user', (req, res) => {
       return res.status(500).json({ error: 'Internal server error' });
     }
     res.json(results[0]);
+  });
+});
+
+// Endpoint to handle user logout
+app.post('/api/auth/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to log out' });
+    }
+    res.clearCookie('session_cookie_name');
+    res.status(200).json({ message: 'Logged out successfully' });
   });
 });
 
@@ -187,7 +208,59 @@ app.put('/api/user/:id', (req, res) => {
   });
 });
 
+// Endpoint to fetch all users
+app.get('/api/users', (req, res) => {
+  const query = 'SELECT user_id, full_name, email, role FROM users';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching users:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(results);
+  });
+});
 
+// Endpoint to update user role
+app.put('/api/users/:id/role', (req, res) => {
+  const user_id = req.params.id;
+  const { role } = req.body;
+  const query = 'UPDATE users SET role = ? WHERE user_id = ?';
+
+  db.query(query, [role, user_id], (err, result) => {
+    if (err) {
+      console.error('Error updating user role:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'User role updated successfully' });
+  });
+});
+
+// Endpoint to delete a user
+app.delete('/api/users/:id', async (req, res) => {
+  const user_id = req.params.id;
+
+  try {
+    // Start a transaction
+    await db.promise().query('START TRANSACTION');
+
+    // Set client_id or admin_id to NULL in conversations
+    await db.promise().query('UPDATE conversations SET client_id = NULL WHERE client_id = ?', [user_id]);
+    await db.promise().query('UPDATE conversations SET admin_id = NULL WHERE admin_id = ?', [user_id]);
+
+    // Delete the user
+    await db.promise().query('DELETE FROM users WHERE user_id = ?', [user_id]);
+
+    // Commit the transaction
+    await db.promise().query('COMMIT');
+
+    res.json({ message: 'User deleted successfully and conversations updated' });
+  } catch (err) {
+    // Rollback the transaction in case of error
+    await db.promise().query('ROLLBACK');
+    console.error('Error deleting user:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 // Other routes...
 
@@ -401,6 +474,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+const uploadDir = 'uploads/';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Endpoint to fetch all loan applications
 app.get('/api/loanApplications', (req, res) => {
   const query = 'SELECT * FROM loan_applications';
@@ -417,7 +497,7 @@ app.get('/api/loanApplications', (req, res) => {
 app.post('/api/loanApplication', (req, res) => {
   console.log("Received form data:", req.body); // Debugging step
 
-  const user_id = req.session.user_id; // Get user ID from session
+  const user_id = req.session.user && req.session.user.user_id; // Get user ID from session
   const { full_name, phoneNumber, email, postalAddress, nationalId, netSalary, loanAmount, period, transferMethod, description } = req.body;
 
   if (!user_id) {
@@ -468,18 +548,45 @@ app.delete('/api/loanApplications/:id', (req, res) => {
     res.json({ message: 'Loan application deleted successfully' });
   });
 });
+// Endpoint to fetch documents for a specific loan application
+app.get('/api/loanApplications/:id/documents', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM loan_documents WHERE loan_application_id = ?';
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('Error fetching loan application documents:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Documents not found' });
+    }
+    res.json(results);
+  });
+});
 
 // Endpoint to handle file uploads
-app.post('/api/uploadDocuments', upload.array('files'), (req, res) => {
-  const loanApplicationId = req.body.loanApplicationId;
-  const files = req.files;
+app.post('/api/uploadDocuments', upload.single('files'), (req, res) => {
+  const loanApplicationId = req.body.loan_application_id; // Corrected field name
+  const file = req.file;
 
-  files.forEach(file => {
-    const query = 'INSERT INTO loan_documents (loan_application_id, filename, path, size) VALUES (?, ?, ?, ?)';
-    db.query(query, [loanApplicationId, file.filename, file.path, file.size], (err, result) => {
-      if (err) throw err;
-    });
+  console.log('Received file upload request:', { loanApplicationId, file }); // Debugging output
+
+  if (!loanApplicationId) {
+    console.error('Missing loan application ID');
+    return res.status(400).json({ error: 'Missing loan application ID' });
+  }
+
+  if (!file) {
+    console.error('No file uploaded');
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  const query = 'INSERT INTO loan_documents (loan_application_id, filename, path, size) VALUES (?, ?, ?, ?)';
+  db.query(query, [loanApplicationId, file.filename, file.path, file.size], (err, result) => {
+    if (err) {
+      console.error('Error saving file to database:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.status(200).json({ message: 'Document uploaded successfully' });
   });
-
-  res.send('Documents uploaded successfully');
 });

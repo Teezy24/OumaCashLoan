@@ -18,6 +18,7 @@ export const UserProvider = ({ children }) => {
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch session:", error);
+        setUser(null); // Ensure user is set to null on error
       }
     };
 
