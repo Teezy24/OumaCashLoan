@@ -89,9 +89,9 @@ const LoanApplication = () => {
             placeholder="Search by name or email address"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
+            className="search1-input"
           />
-          <button className="search-button">
+          <button className="search1-button">
             <FaSearch />
           </button>
         </div>

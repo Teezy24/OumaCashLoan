@@ -13,17 +13,22 @@
 
 /* Update Content Container */
 .loan-content {
-  background: #cecef3;
-  border-radius: 12px;
-  padding: 24px;
-  max-width: 900px; /* Reduced from 1200px */
-  margin-left: 25%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-height: 100vh;
+  max-height: 100vh;
+  margin-left: 20%; /* Sidebar width */
+  padding: 20px;
+  background-color: var(--secondary-color);
+  overflow-y: auto;
+  background-color: #B2B3F4;
+  border-radius: 20px;
 }
 
 /* Dashboard Styles */
 .dashboard-container {
   flex: 1;
+  min-height: 100vh;
+  max-height: 100vh;
   margin-left: 20%; /* Sidebar width */
   padding: 20px;
   background-color: var(--secondary-color);
@@ -35,6 +40,7 @@
 .dashboard-cards {
   display: flex;
   gap: 20px;
+  height: 15rem;
   margin-bottom: 30px;
 }
 
@@ -99,7 +105,7 @@
 .search-box {
   display: flex;
   align-items: center;
-  background: white;
+  width: 50%;
   border-radius: 25px;
   padding: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -132,7 +138,13 @@
     border: 2px dashed #ccc;
     border-radius: 10px;
     padding: 20px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    z-index:50px ;
+    left: 18rem;
     text-align: center;
+    margin-top: 3rem;
     cursor: pointer;
     transition: border-color 0.3s ease;
   }
@@ -146,17 +158,21 @@
   }
   
   .upload-box .upload-icon {
-    font-size: 50px;
-    margin-bottom: 10px;
+    font-size: 100px;
+    margin-bottom: 50px;
+    margin-top: 50px;
   }
   
   .upload-box .upload-icon-svg {
     stroke-width: 1; /* Adjust the thickness of the icon */
+    height: 500px;
+    
+    
   }
   
   .upload-box p {
     margin: 0;
-    font-size: 16px;
+    font-size: 20px;
     color: #666;
   }
   
@@ -377,6 +393,7 @@
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-bottom: 20rem;
   gap: 20px;
 }
 
@@ -392,13 +409,14 @@
 }
 
 .form-group label {
-  font-size: 14px;
+  font-size: 20px;
   color: #333;
   font-weight: 500;
 }
 
 .form-input {
   width: 94%;
+  height: 1.5rem;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -524,6 +542,14 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   margin-bottom: 30px;
+}
+.loan-title{
+  color: white;
+  margin-left: 40%;
+}
+.loan-subtitle{
+  color: white;
+  margin-left: 38%;
 }
 
 .loan-type-btn {
