@@ -1,130 +1,64 @@
-.a-loan-settings-container {
+.loan-settings-content {
     display: flex;
+    flex-direction: column;
     background-color: #B2B3F4;
     min-height: 100vh;
-    margin-left: 20%;
     border-radius: 1rem;
-    width: 155vh;
-    height: 100vh;
     padding: 1rem;
+}
 
-  }
-  
-  .top-section {
-    background-color: #283593; 
-    color: white;
-    padding: 20px;
-    border-radius: 8px 8px 0 0; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .profile-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .avatar {
-    width: 40px;
-    height: 40px;
-    background-color: #fff; 
-    border-radius: 50%;
-    margin-right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #283593;
-    font-weight: bold;
-  }
-  
-  .buttons {
-    display: flex;
-    margin-bottom: 5%;
-  }
-
-  hr.line-border{
-    width: 210%;
-  }
-  
-  .verify-button:hover,
-  .incomplete-button:hover,
-  .view-documents:hover{
-    background-color: #a4a1d8;
-  }
-
-  .verify-button,
-  .incomplete-button{
-    border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  .incomplete-button {
-      background-color: #6766E8;
-      color: white;
-  }
-  .view-documents {
-      background-color: #6766E8;
-      color: white;
-      width: 50%;
-      margin-top: 10px;
-      border: none;
-        padding: 10px 20px;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        cursor: pointer;
-        border-radius: 5px;
-  }
-
-  .verify-button{
-    background-color: white;
-    color: rgb(129, 74, 218);
-  }
-
-  .details-section {
-    display: flex;
+.loan-settings-section {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-  }
-  
-  .personal-details,
-  .loan-details {
-    flex: 1; 
+    margin-bottom: 20px;
+}
+
+.horizontally-placed {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.loan-settings-input-group {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.loan-settings-input-group select,
+.loan-settings-input-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.ls-button {
     padding: 10px;
-  }
-  .section-header {
-      font-weight: bold;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-  }
-  .form-group {
-      margin-bottom: 10px;
-  }
-  label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-  }
- .details-section input[type="text"] {
-      width: calc(100% - 12px);
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
-      background-color: #eee;
-  }
-  .icon {
-      cursor: pointer;
-  }
- 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    color: white;
+    background-color: #0095ff;
+}
+
+.ls-button:hover {
+    background-color: #007acc;
+}
+
+.custom-selects {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fff;
+}

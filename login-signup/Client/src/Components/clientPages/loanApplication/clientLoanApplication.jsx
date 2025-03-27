@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom'; // 
 import { FaSearch, FaCheckCircle, FaClock, FaTimesCircle, FaTrash, FaEnvelope, FaEllipsisV } from "react-icons/fa";
 import ClientLoanForm from './clientLoanForm';
 import '../clientStyling/clientLoanApplication.css';
@@ -10,6 +11,7 @@ const LoanApplication = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loanApplications, setLoanApplications] = useState([]);
   const [view, setView] = useState('dashboard');
+  const navigate = useNavigate(); // 
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -20,11 +22,14 @@ const LoanApplication = () => {
       } catch (error) {
         console.error('Error fetching session:', error);
         setUser(null); // No session found
+        if (error.response && error.response.status === 401) {
+          navigate.push('/'); // Redirect  page if unauthorized
+        }
       }
     };
   
     fetchSession();
-  }, [setUser]);
+  }, [setUser, navigate]);
 
   useEffect(() => {
     const fetchLoanApplications = async () => {
@@ -167,6 +172,11 @@ const LoanApplication = () => {
                     <span className="ar-loan-update">Period: {loan.period} months</span>
                     <span className="ar-loan-update">Transfer Method: {loan.transfer_method}</span>
                     <span className="ar-loan-update">Description: {loan.description}</span>
+                    {loan.documents && loan.documents.map((document, index) => (
+                      <button key={index} onClick={() => window.open(`/uploads/${document.filename}`, '_blank')}>
+                        View Document
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>

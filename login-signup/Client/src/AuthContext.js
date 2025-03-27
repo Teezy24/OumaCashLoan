@@ -1,23 +1,29 @@
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from './axiosConfig'; // Import Axios instance
+import { logoutUser } from './authUtils'; // A function to handle logout (we will define it next)
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+export const useAuthContext = () => {
+  return useContext(AuthContext);
+};
+
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Added loading state
 
+  // Fetch user session on mount
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/api/auth/user', {
-          withCredentials: true, // Ensures session cookies are sent
-        });
+        const response = await api.get('/auth/session');
         setUser(response.data);
       } catch (error) {
-        console.error('Error fetching user:', error.response?.data || error.message);
-      } finally {
-        setLoading(false); // Mark loading as complete
+        console.error("Error fetching user:", error);
+        if (error.response && error.response.status === 401) {
+          logoutUser(); // Log out the user if session is expired
+        } else {
+          setUser(null); // Ensure user is set to null on other errors
+        }
       }
     };
 
@@ -25,10 +31,8 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export { AuthContext, AuthProvider };

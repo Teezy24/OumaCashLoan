@@ -19,7 +19,6 @@ const AdminLoanSettings = () => {
 
   return (
 
-        <div className="white-container large">
         <div className="loan-settings-content"> 
         <div className="loan-settings-section">
           <h3>Configure loan type</h3>
@@ -44,7 +43,7 @@ const AdminLoanSettings = () => {
     ))}
   </select>
           </div>
-          <button className="loan-settings-change-button-1">CHANGE</button>
+          <button className="ls-button">CHANGE</button>
           </div>
         </div>
 
@@ -55,7 +54,7 @@ const AdminLoanSettings = () => {
           <div className="loan-settings-input-group">
             <input type="number" id="eligibilityPercentage" value={eligibilityPercentage} onChange={handleEligibilityPercentageChange} />
           </div>
-          <button className="loan-settings-change-button-1">CHANGE</button>
+          <button className="ls-button">CHANGE</button>
         </div>
         </div>
 
@@ -80,7 +79,7 @@ const AdminLoanSettings = () => {
               <option value="">Select Time Interval</option>
             </select>
           </div>
-          <button className="loan-settings-change-button-1">CHANGE</button>
+          <button className="ls-button">CHANGE</button>
           </div>
         </div>
 
@@ -91,11 +90,10 @@ const AdminLoanSettings = () => {
           <div className="loan-settings-input-group">
             <input type="number" id="eligibilityPercentage" value={eligibilityPercentage} onChange={handleEligibilityPercentageChange} />
           </div>
-          <button className="loan-settings-change-button-1">CHANGE</button>
+          <button className="ls-button">CHANGE</button>
         </div>
           </div>
       </div>
-     </div>
   )
 }
 

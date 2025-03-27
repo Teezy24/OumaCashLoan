@@ -19,7 +19,7 @@ const AdminLoanReview = () => {
 
   const fetchLoans = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/loanApplications');
+      const response = await axios.get('/api/loanApplications');
       const loansWithDocuments = await Promise.all(response.data.map(async (loan) => {
         const documents = await fetchDocuments(loan.id);
         return { ...loan, documents };
@@ -36,7 +36,7 @@ const AdminLoanReview = () => {
 
   const fetchDocuments = async (loanId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/loanApplications/${loanId}/documents`);
+      const response = await axios.get(`/api/loanApplications/${loanId}/documents`);
       return response.data;
     } catch (error) {
       console.error('Error fetching documents:', error);
@@ -57,7 +57,7 @@ const AdminLoanReview = () => {
   const handleDelete = async () => {
     if (selectedLoan) {
       try {
-        await axios.delete(`http://localhost:5000/api/loanApplications/${selectedLoan.id}`);
+        await axios.delete(`/api/loanApplications/${selectedLoan.id}`);
         setLoans(loans.filter(loan => loan.id !== selectedLoan.id));
         closeModal();
       } catch (error) {
@@ -68,7 +68,7 @@ const AdminLoanReview = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/loanApplications/${id}/status`, { status });
+      await axios.put(`/api/loanApplications/${id}/status`, { status });
       setLoans(loans.map(loan => loan.id === id ? { ...loan, status } : loan));
     } catch (error) {
       console.error('Error updating loan application status:', error);

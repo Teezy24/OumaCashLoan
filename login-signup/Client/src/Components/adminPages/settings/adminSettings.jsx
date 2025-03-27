@@ -7,7 +7,7 @@ import AdminSecurity from './adminSecurity';
 import UserManagement from './adminUserManagement';
 
 const AdminSettings = () => {
-  const [activeTab, setActiveTab] = useState('loanSettings');
+  const [activeTab, setActiveTab] = useState('userManagement');
 
   return (
     <div className="a-settings">
@@ -82,10 +82,10 @@ const AdminSettings = () => {
 
         {/* Settings Detail Area */}
         <div className="a-settings__detail">
+          {activeTab === 'userManagement' && <UserManagement />}
           {activeTab === 'loanSettings' && <AdminLoanSettings />}
           {activeTab === 'payments' && <AdminPayments />}
           {activeTab === 'security' && <AdminSecurity />}
-          {activeTab === 'userManagement' && <UserManagement />}
         </div>
       </div>
     </div>

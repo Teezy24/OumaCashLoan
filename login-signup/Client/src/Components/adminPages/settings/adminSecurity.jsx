@@ -5,21 +5,12 @@ import '../adminStyling/adminSecurity.css';
 const AdminSecurity = () => {
   return (
     <div className="security-page">
-      <div className="security-privacy">
-        <div className="security-content">
-          <div className="top-section">
-            <h1 className="heading">Security Settings</h1>
-            <p className="section-title-1">Manage your security settings here.</p>
-          </div>
-          <div className="main-content">
-            <div className="left-side">
-              <h2>Security Options</h2>
-              <p>Configure your security options here.</p>
-            </div>
-            <div className="video-placeholder">
-              <span className="video-icon">Video</span>
-            </div>
-          </div>
+      <div className="as-sidebar"> 
+              <h1 className="heading">Security Settings</h1>
+      </div>
+      <div className="security-content">
+        <div className="security-content__item">
+          <h1>Page Under Maintanance</h1>
         </div>
       </div>
     </div>

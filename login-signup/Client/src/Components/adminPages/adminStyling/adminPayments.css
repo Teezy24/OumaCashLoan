@@ -7,10 +7,11 @@ body {
 .ap-container {
   display: flex;
   flex-direction: column;
-  background-color: #B2B3F4;
   min-height: 100vh;
   border-radius: 1rem;
   width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
 }
 
 /* Tabs Styles */
