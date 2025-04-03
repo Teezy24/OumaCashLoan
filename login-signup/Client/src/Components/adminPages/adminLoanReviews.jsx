@@ -97,7 +97,7 @@ const AdminLoanReview = () => {
 
   return (
     <div className="ar-main-container">
-      <div className="ar-loan-container" style={{ height: '500px', overflow: 'auto' }}>
+      <div className="ar-loan-container">
         <div className="ar-search-wrapper">
             <div className="ar-search-box">
               <input
