@@ -1,33 +1,33 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom'; // 
+import { Navigate, useNavigate } from 'react-router-dom';
 import { FaSearch, FaCheckCircle, FaClock, FaTimesCircle, FaTrash, FaEnvelope, FaEllipsisV } from "react-icons/fa";
 import ClientLoanForm from './clientLoanForm';
 import '../clientStyling/clientLoanApplication.css';
-import api from '../../../axiosConfig'; // Import the configured Axios instance
-import { UserContext } from '../../../UserContext'; // Import the UserContext
+import api from '../../../axiosConfig';
+import { UserContext } from '../../../UserContext';
 
 const LoanApplication = () => {
-  const { user, setUser } = useContext(UserContext); // Use the UserContext
+  const { user, setUser } = useContext(UserContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [loanApplications, setLoanApplications] = useState([]);
   const [view, setView] = useState('dashboard');
-  const navigate = useNavigate(); // 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSession = async () => {
       try {
         const response = await api.get('/auth/session');
         console.log('Session Data:', response.data);
-        setUser(response.data); // Update state with session data
+        setUser(response.data);
       } catch (error) {
         console.error('Error fetching session:', error);
-        setUser(null); // No session found
+        setUser(null);
         if (error.response && error.response.status === 401) {
-          navigate.push('/'); // Redirect  page if unauthorized
+          navigate.push('/');
         }
       }
     };
-  
+
     fetchSession();
   }, [setUser, navigate]);
 
@@ -36,12 +36,12 @@ const LoanApplication = () => {
       try {
         const response = await api.get('/user/loanApplications');
         console.log('Response data:', response.data);
-        
+
         if (Array.isArray(response.data)) {
           setLoanApplications(response.data);
         } else if (response.data.error) {
           console.error('API Error:', response.data.error);
-          setLoanApplications([]); // Handle authentication error
+          setLoanApplications([]);
         } else {
           console.error('Unexpected response format:', response.data);
           setLoanApplications([]);
@@ -51,15 +51,15 @@ const LoanApplication = () => {
         setLoanApplications([]);
       }
     };
-    
+
     fetchLoanApplications();
   }, [user]);
 
-  const filteredLoans = loanApplications
-    .filter(loan => 
+  const filteredLoans = loanApplications.filter(
+    loan =>
       (loan.full_name && loan.full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (loan.id && loan.id.toString().includes(searchTerm.toLowerCase()))
-    );
+  );
 
   const renderDashboard = () => (
     <div className="dashboard-container">
@@ -109,7 +109,7 @@ const LoanApplication = () => {
             <h3>Loans</h3>
           </div>
         </div>
-        
+
         <div className="ar-loan-cards-container">
           {filteredLoans.length > 0 ? (
             filteredLoans.map((loan) => (
@@ -127,57 +127,78 @@ const LoanApplication = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="ar-loan-card-body">
                   <div className="ar-loan-detail-row">
                     <div className="ar-detail-icon">
                       <FaCheckCircle className="ar-icon-circle" />
                     </div>
                     <div className="ar-detail-info">
-                      <span className="ar-label">Phone Number: {loan.phone_number}</span>
+                      <span className="ar-label">Phone: {loan.phone_number}</span>
                     </div>
-                  </div>
-                  
-                  <div className="ar-loan-detail-row">
-                    <div className="ar-detail-icon">
-                      <FaClock className="ar-icon-circle" />
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaEnvelope className="ar-icon-circle" />
                     </div>
                     <div className="ar-detail-info">
                       <span className="ar-label">Email: {loan.email}</span>
                     </div>
-                  </div>
-                  
-                  <div className="ar-loan-detail-row">
-                    <div className="ar-detail-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ar-icon-circle">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                        <path d="M12.5 7.5v5l3.5 3.5"/>
-                      </svg>
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaCheckCircle className="ar-icon-circle" />
                     </div>
                     <div className="ar-detail-info">
-                      <span className="ar-label">Postal Address: {loan.postal_address}</span>
+                      <span className="ar-label">ID: {loan.national_id}</span>
+                    </div>
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaCheckCircle className="ar-icon-circle" />
+                    </div>
+                    <div className="ar-detail-info">
+                      <span className="ar-label">Salary: ${loan.net_salary}</span>
+                    </div>
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaCheckCircle className="ar-icon-circle" />
+                    </div>
+                    <div className="ar-detail-info">
+                      <span className="ar-label">Amount: ${loan.loan_amount}</span>
+                    </div>
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaCheckCircle className="ar-icon-circle" />
+                    </div>
+                    <div className="ar-detail-info">
+                      <span className="ar-label">Period: {loan.period} mo</span>
+                    </div>
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaCheckCircle className="ar-icon-circle" />
+                    </div>
+                    <div className="ar-detail-info">
+                      <span className="ar-label">Method: {loan.transfer_method}</span>
+                    </div>
+
+                    <div className="ar-detail-icon" style={{ marginLeft: '12px' }}>
+                      <FaCheckCircle className="ar-icon-circle" />
+                    </div>
+                    <div className="ar-detail-info">
+                      {loan.documents && (
+                        <button onClick={() => window.open(`/uploads/${loan.documents[0]?.filename}`, '_blank')}>
+                          View Doc
+                        </button>
+                      )}
                     </div>
                   </div>
-                  
-                  <div className="ar-loan-type-row">
-                    <div className="ar-loan-type-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                      </svg>
+
+                  {/* Optional: description could be collapsible or shown on demand */}
+                  {loan.description && (
+                    <div className="ar-description" style={{ fontSize: '11px', color: '#666', marginTop: '4px' }}>
+                      {loan.description.length > 60
+                        ? `${loan.description.substring(0, 60)}...`
+                        : loan.description}
                     </div>
-                    <span>National ID: {loan.national_id}</span>
-                    <span className="ar-loan-update">Net Salary: {loan.net_salary}</span>
-                    <span className="ar-loan-update">Loan Amount: {loan.loan_amount}</span>
-                    <span className="ar-loan-update">Period: {loan.period} months</span>
-                    <span className="ar-loan-update">Transfer Method: {loan.transfer_method}</span>
-                    <span className="ar-loan-update">Description: {loan.description}</span>
-                    {loan.documents && loan.documents.map((document, index) => (
-                      <button key={index} onClick={() => window.open(`/uploads/${document.filename}`, '_blank')}>
-                        View Document
-                      </button>
-                    ))}
-                  </div>
+                  )}
                 </div>
               </div>
             ))

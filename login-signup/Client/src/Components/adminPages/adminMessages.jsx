@@ -86,25 +86,25 @@ const AdminMessages = () => {
   };
 
   return (
-    <div className="c-messages">
-      <div className="cm-sidebar">
-        <div className="cm-sidebar__header">
+    <div className="a-messages">
+      <div className="am-sidebar">
+        <div className="am-sidebar__header">
           <h2>Clients</h2>
         </div>
-        <div className="cm-sidebar__clients">
+        <div className="am-sidebar__clients">
           {clients.map((client) => (
             <button
               key={client.user_id}
               onClick={() => startChat(client.user_id)}
-              className={`cm-sidebar__button ${
-                activeChat?.client_id === client.user_id ? 'cm-sidebar__button--active' : ''
+              className={`am-sidebar__button ${
+                activeChat?.client_id === client.user_id ? 'am-sidebar__button--active' : ''
               }`}
             >
-              <div className="cm-sidebar__button-content">
+              <div className="am-sidebar__button-content">
                 <Users size={20} />
-                <div className="cm-sidebar__text">
-                  <span className="cm-sidebar__title">{client.full_name}</span>
-                  <span className="cm-sidebar__subtitle">{client.email}</span>
+                <div className="am-sidebar__text">
+                  <span className="am-sidebar__title">{client.full_name}</span>
+                  <span className="am-sidebar__subtitle">{client.email}</span>
                 </div>
               </div>
             </button>
@@ -112,23 +112,23 @@ const AdminMessages = () => {
         </div>
       </div>
 
-      <div className="c-messages__content">
-        {error && <div className="c-messages__error">{error}</div>}
+      <div className="a-messages__content">
+        {error && <div className="a-messages__error">{error}</div>}
         {activeChat ? (
           <>
-            <div className="c-messages__header">
+            <div className="a-messages__header">
               <h2>{activeChat.client_name}</h2>
             </div>
 
-            <div className="c-messages__chat">
-              <div className="c-messages__chat-container">
+            <div className="a-messages__chat">
+              <div className="a-messages__chat-container">
                 {messages.map((message) => (
                   <div
                     key={message.message_id}
-                    className={`c-messages__message ${
+                    className={`a-messages__message ${
                       message.sender_id === user.user_id 
-                        ? 'c-messages__message--sent' 
-                        : 'c-messages__message--received'
+                        ? 'a-messages__message--sent' 
+                        : 'a-messages__message--received'
                     }`}
                   >
                     <p>{message.message_text}</p>
@@ -137,21 +137,21 @@ const AdminMessages = () => {
                 ))}
               </div>
 
-              <form className="c-messages__input" onSubmit={handleSendMessage}>
+              <form className="a-messages__input" onSubmit={handleSendMessage}>
                 <input
                   type="text"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type your message..."
                 />
-                <button type="submit" className="c-messages__input-btn">
+                <button type="submit" className="a-messages__input-btn">
                   <Send size={20} />
                 </button>
               </form>
             </div>
           </>
         ) : (
-          <div className="c-messages__empty">
+          <div className="a-messages__empty">
             Select a client to start messaging
           </div>
         )}
